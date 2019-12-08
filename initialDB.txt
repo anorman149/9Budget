@@ -1,0 +1,137 @@
+CREATE SCHEMA `budget` ;
+
+CREATE TABLE `budget`.`Credential`
+(
+ `id`       int NOT NULL AUTO_INCREMENT,
+ `username` VARCHAR(50) NOT NULL UNIQUE ,
+ `password` VARCHAR(60) NOT NULL ,
+ `custom`   text NOT NULL ,
+
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `budget`.`User`
+(
+ `id`         int NOT NULL AUTO_INCREMENT,
+ `firstName`  VARCHAR(100) NOT NULL ,
+ `lastName`   VARCHAR(100) NOT NULL ,
+ `email`      VARCHAR(100) NOT NULL ,
+ `phone`      VARCHAR(100) NULL ,
+ `active`     boolean NOT NULL ,
+ `credential` int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_43` (`credential`),
+CONSTRAINT `FK_43` FOREIGN KEY `fkIdx_43` (`credential`) REFERENCES `budget`.`Credential` (`id`)
+);
+
+CREATE TABLE `budget`.`Account`
+(
+ `id`          int NOT NULL AUTO_INCREMENT,
+ `active`      boolean NOT NULL ,
+ `primaryUser` int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_20` (`primaryUser`),
+CONSTRAINT `FK_20` FOREIGN KEY `fkIdx_20` (`primaryUser`) REFERENCES `budget`.`User` (`id`)
+);
+
+CREATE TABLE `budget`.`Account_User`
+(
+ `id`      int NOT NULL AUTO_INCREMENT,
+ `user`    int NOT NULL ,
+ `account` int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_28` (`user`),
+CONSTRAINT `FK_28` FOREIGN KEY `fkIdx_28` (`user`) REFERENCES `budget`.`User` (`id`),
+KEY `fkIdx_31` (`account`),
+CONSTRAINT `FK_31` FOREIGN KEY `fkIdx_31` (`account`) REFERENCES `budget`.`Account` (`id`)
+);
+
+CREATE TABLE `budget`.`SubCategory`
+(
+ `id`   int NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(100) NOT NULL UNIQUE ,
+
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `budget`.`Category`
+(
+ `id`           int NOT NULL AUTO_INCREMENT,
+ `categoryType` VARCHAR(100) NOT NULL ,
+ `name`         VARCHAR(100) NOT NULL ,
+ `active`       boolean NOT NULL ,
+ `subCategory`  int NOT NULL ,
+ `account`      int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_56` (`subCategory`),
+CONSTRAINT `FK_56` FOREIGN KEY `fkIdx_56` (`subCategory`) REFERENCES `budget`.`SubCategory` (`id`),
+KEY `fkIdx_59` (`account`),
+CONSTRAINT `FK_59` FOREIGN KEY `fkIdx_59` (`account`) REFERENCES `budget`.`Account` (`id`)
+);
+
+CREATE TABLE `budget`.`Budget`
+(
+ `id`       int NOT NULL AUTO_INCREMENT,
+ `name`     VARCHAR(100) NOT NULL UNIQUE,
+ `amount`   decimal NOT NULL ,
+ `active`   boolean NOT NULL ,
+ `timing`   VARCHAR(100) NOT NULL ,
+ `leftOver` boolean NOT NULL ,
+ `account`  int NOT NULL ,
+ `category` int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_87` (`account`),
+CONSTRAINT `FK_87` FOREIGN KEY `fkIdx_87` (`account`) REFERENCES `budget`.`Account` (`id`),
+KEY `fkIdx_90` (`category`),
+CONSTRAINT `FK_90` FOREIGN KEY `fkIdx_90` (`category`) REFERENCES `budget`.`Category` (`id`)
+);
+
+CREATE TABLE `budget`.`Institution`
+(
+ `id`         int NOT NULL AUTO_INCREMENT,
+ `name`       VARCHAR(100) NOT NULL UNIQUE ,
+ `balance`    decimal NOT NULL ,
+ `active`     boolean NOT NULL ,
+ `type`       VARCHAR(100) NOT NULL ,
+ `account`    int NOT NULL ,
+ `credential` int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_100` (`account`),
+CONSTRAINT `FK_100` FOREIGN KEY `fkIdx_100` (`account`) REFERENCES `budget`.`Account` (`id`),
+KEY `fkIdx_103` (`credential`),
+CONSTRAINT `FK_103` FOREIGN KEY `fkIdx_103` (`credential`) REFERENCES `budget`.`Credential` (`id`)
+);
+
+CREATE TABLE `budget`.`Transaction`
+(
+ `id`          int NOT NULL AUTO_INCREMENT,
+ `date`        datetime NOT NULL ,
+ `description` text NOT NULL ,
+ `amount`      decimal NOT NULL ,
+ `category`    int NOT NULL ,
+ `institution` int NOT NULL ,
+
+PRIMARY KEY (`id`),
+KEY `fkIdx_106` (`institution`),
+CONSTRAINT `FK_106` FOREIGN KEY `fkIdx_106` (`institution`) REFERENCES `budget`.`Institution` (`id`),
+KEY `fkIdx_68` (`category`),
+CONSTRAINT `FK_68` FOREIGN KEY `fkIdx_68` (`category`) REFERENCES `budget`.`Category` (`id`)
+);
+
+CREATE TABLE `budget`.`Buget_Transaction`
+(
+ `id`      int NOT NULL AUTO_INCREMENT,
+ `budget`      int NOT NULL ,
+ `transaction` int NOT NULL ,
+
+KEY `fkIdx_81` (`id`),
+CONSTRAINT `FK_81` FOREIGN KEY `fkIdx_81` (`budget`) REFERENCES `budget`.`Budget` (`id`),
+KEY `fkIdx_84` (`transaction`),
+CONSTRAINT `FK_84` FOREIGN KEY `fkIdx_84` (`transaction`) REFERENCES `budget`.`Transaction` (`id`)
+);

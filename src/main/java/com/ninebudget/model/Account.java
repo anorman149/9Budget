@@ -8,6 +8,13 @@ public class Account {
     private User primaryUser;
     private boolean active;
 
+    public Account() {
+    }
+
+    public Account(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

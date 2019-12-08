@@ -1,27 +1,35 @@
 package com.ninebudget.component;
 
-import com.ninebudget.model.Budget;
-import com.ninebudget.model.Component;
-import com.ninebudget.model.ComponentException;
+import com.ninebudget.dao.BudgetDAO;
+import com.ninebudget.model.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class BudgetComponent implements Component<Budget> {
+    protected static final Logger log = LogManager.getLogger(BudgetComponent.class);
+
+    @Autowired
+    private BudgetDAO budgetDAO;
+
     @Override
-    public Budget get(Budget object) throws ComponentException {
+    public Budget get(Budget budget) throws ComponentException {
+        try {
+            return budgetDAO.get(budget);
+        } catch (DAOException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
     @Override
-    public void update(Budget object) throws ComponentException {
+    public void update(Budget budget) throws ComponentException {
 
     }
 
     @Override
-    public void create(Budget object) throws ComponentException {
-
-    }
-
-    @Override
-    public void deactivate(Budget object) throws ComponentException {
+    public void create(Budget budget) throws ComponentException {
 
     }
 }

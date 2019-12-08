@@ -1,7 +1,12 @@
 package com.ninebudget.controller;
 
+import com.ninebudget.component.BudgetComponent;
 import com.ninebudget.model.Budget;
 import com.ninebudget.model.BudgetOperations;
+import com.ninebudget.model.ComponentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,6 +14,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/budgets")
 public class BudgetController implements BudgetOperations {
+    private static final Logger log = LogManager.getLogger(BudgetController.class);
+
+    @Autowired
+    private BudgetComponent budgetComponent;
 
     @Override
     public List<Budget> getAll() {
@@ -17,10 +26,13 @@ public class BudgetController implements BudgetOperations {
 
     @Override
     public Budget get(int id) {
-        Budget budget = new Budget();
-        budget.setId(id);
-        budget.setName("BudgetDemo");
-        return budget;
+        try {
+            return budgetComponent.get(new Budget(id));
+        } catch (ComponentException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override

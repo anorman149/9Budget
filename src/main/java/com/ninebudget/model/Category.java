@@ -8,6 +8,13 @@ public class Category {
     private String name;
     private boolean active;
 
+    public Category() {
+    }
+
+    public Category(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

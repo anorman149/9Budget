@@ -14,6 +14,13 @@ public class Budget {
     private boolean active;
     private List<Transaction> transactions;
 
+    public Budget() {
+    }
+
+    public Budget(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
