@@ -29,7 +29,7 @@ public class BudgetController implements BudgetOperations {
         try {
             return budgetComponent.get(new Budget(id));
         } catch (ComponentException e) {
-            e.printStackTrace();
+            log.error(e);
         }
 
         return null;

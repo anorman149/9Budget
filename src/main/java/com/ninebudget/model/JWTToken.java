@@ -1,7 +1,9 @@
 package com.ninebudget.model;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
+import java.security.PublicKey;
 import java.util.Date;
 
 public class JWTToken implements Token<String> {
@@ -38,12 +40,7 @@ public class JWTToken implements Token<String> {
     }
 
     @Override
-    public void extractProperties() {
-        //Extract Custom Props
-    }
-
-    @Override
-    public void verify() throws Exception {
-        //Verify Signature
+    public void verify(PublicKey publicKey) throws Exception {
+        this.claims = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
     }
 }

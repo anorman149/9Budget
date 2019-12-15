@@ -1,6 +1,8 @@
 package com.ninebudget.model;
 
 public class DAOException extends Exception {
+    static final long serialVersionUID = -3387516993124229948L;
+
     public DAOException(String errorMessage) {
         super(errorMessage);
     }

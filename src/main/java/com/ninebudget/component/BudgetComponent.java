@@ -17,7 +17,7 @@ public class BudgetComponent implements Component<Budget> {
         try {
             return budgetDAO.get(budget);
         } catch (DAOException e) {
-            e.printStackTrace();
+            log.error(e);
         }
 
         return null;

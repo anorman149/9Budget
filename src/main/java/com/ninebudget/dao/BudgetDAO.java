@@ -13,15 +13,24 @@ public class BudgetDAO extends DAO<Budget> {
     private static final String GET = "select * from budget where id = ? and active = 1";
 
     public Budget get(Budget budget) throws DAOException {
-        Budget loadedBudget;
-        try {
-            PreparedStatement stmt = dataSource.getConnection().prepareStatement(GET);
-            stmt.setInt(1, 1);
+        Budget loadedBudget = null;
 
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            loadedBudget = createBudget(rs);
+        try(PreparedStatement stmt = dataSource.getConnection().prepareStatement(GET)) {
+            stmt.setInt(1, budget.getId());
+
+            try(ResultSet rs = stmt.executeQuery()){
+                boolean hasItems = false;
+                if(rs.isBeforeFirst()){
+                    hasItems = rs.next();
+                }
+
+                if(hasItems){
+                    loadedBudget = createBudget(rs);
+                }
+            }
         } catch (SQLException e) {
+            log.error("");
+
             throw new DAOException(e);
         }
 
