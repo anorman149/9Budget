@@ -1,0 +1,29 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      <clr-icon size="26" shape="coin-bag"></clr-icon>
+      9Budget
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <label class="clr-sr-only">Username</label>
+        <input type="text" name="username" clrInput placeholder="Username" formControlName="username" required/>
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Password</label>
+        <input type="password" name="password" clrPassword placeholder="Password" formControlName="password" minlength="8"
+               required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'">Password must be at least 8 characters</clr-control-error>
+        <clr-control-helper>Password must be 8 characters</clr-control-helper>
+      </clr-password-container>
+      <div class="error {{errorActive}}" >
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
+      <a href="#" class="signup">Sign up</a><!-- TODO add RouterLink -->
+      <a href="#" class="signup">Forgot Password?</a><!-- TODO add RouterLink -->
+    </div>
+  </form>
+</div>

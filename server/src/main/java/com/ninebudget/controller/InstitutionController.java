@@ -2,40 +2,39 @@ package com.ninebudget.controller;
 
 import com.ninebudget.model.Institution;
 import com.ninebudget.model.InstitutionOperations;
+import com.ninebudget.model.ServiceException;
+import com.ninebudget.model.V1APIController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/institutions")
+@V1APIController
 public class InstitutionController implements InstitutionOperations {
     private static final Logger log = LogManager.getLogger(InstitutionController.class);
 
     @Override
-    public List<Institution> getAll() {
+    public List<Institution> getAll() throws ServiceException {
         return null;
     }
 
     @Override
-    public Institution get(int id) {
+    public Institution get(int id) throws ServiceException {
         return null;
     }
 
     @Override
-    public void update(Institution institution, int id) {
+    public void update(Institution institution, int id) throws ServiceException {
 
     }
 
     @Override
-    public void create(Institution institution, int id) {
+    public void create(Institution institution, int id) throws ServiceException {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws ServiceException {
 
     }
 }

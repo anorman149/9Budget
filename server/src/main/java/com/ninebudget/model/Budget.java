@@ -1,9 +1,12 @@
 package com.ninebudget.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Budget {
+public class Budget implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private int id;
     private String name;
     private Category category;

@@ -8,35 +8,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@RequestMapping("/default")
 public interface InstitutionOperations {
-    @RequestMapping(value = "/",
+    @RequestMapping(value = "/institutions",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    List<Institution> getAll();
+    List<Institution> getAll() throws ServiceException;
 
-    @RequestMapping(value = "/{id}",
+    @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    Institution get(@PathVariable int id);
+    Institution get(@PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/{id}",
+    @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void update(@RequestBody Institution institution, @PathVariable int id);
+    void update(@RequestBody Institution institution, @PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/{id}",
+    @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void create(@RequestBody Institution institution, @PathVariable int id);
+    void create(@RequestBody Institution institution, @PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/{id}",
+    @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void delete(@PathVariable int id);
+    void delete(@PathVariable int id) throws ServiceException;
 }

@@ -19,6 +19,7 @@ CREATE TABLE `budget`.`User`
  `phone`      VARCHAR(100) NULL ,
  `active`     boolean NOT NULL ,
  `credential` int NOT NULL ,
+ 'locked'      boolean NOT NULL
 
 PRIMARY KEY (`id`),
 KEY `fkIdx_43` (`credential`),
@@ -29,7 +30,7 @@ CREATE TABLE `budget`.`Account`
 (
  `id`          int NOT NULL AUTO_INCREMENT,
  `active`      boolean NOT NULL ,
- `primaryUser` int NOT NULL ,
+ `primaryUser` int NOT NULL
 
 PRIMARY KEY (`id`),
 KEY `fkIdx_20` (`primaryUser`),

@@ -1,20 +1,17 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/budgets" class="btn btn-info">List Budgets</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/accounts" class="btn btn-info">List Accounts</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
+<!--For Toast Messages -->
+<p-toast position="top-right"></p-toast>
+
+<!--For Idle Messages -->
+<p-dialog [(visible)]="display" [modal]="true" [blockScroll]="true"
+          [closeOnEscape]="false" [closable]="false">
+  <p-header>
+    You will be logged out for being idle
+  </p-header>
+  {{idleState}}
+  <p-footer>
+    <p-button label="Stay" iconPos="left" class="ui-button-raised" styleClass="ui-button-success" (onClick)="stay()"></p-button>
+    <p-button label="Logout" iconPos="right" class="ui-button-raised" styleClass="ui-button-danger" (onClick)="logout()"></p-button>
+  </p-footer>
+</p-dialog>
+
+<router-outlet></router-outlet>

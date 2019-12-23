@@ -1,9 +1,12 @@
 package com.ninebudget.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Clock;
 
-public class Transaction {
+public class Transaction implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private Clock date;
     private String description;

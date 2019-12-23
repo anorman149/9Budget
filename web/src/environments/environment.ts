@@ -14,3 +14,36 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+const budgetAPI = {
+  url: "/budgets"
+};
+
+const accountAPI = {
+  url: "/accounts"
+};
+
+const homeAPI = {
+  url: "/home"
+};
+
+const authAPI = {
+  urlAuth: "/oauth/token",
+  urlLogin: "/login"
+};
+
+export const authentication = {
+  idleTimeout: 90, //3 Minutes
+  idleTime: 90, //3 Minutes
+};
+
+export const api = {
+  url: "/9budget/api/v1",
+  budget: budgetAPI,
+  account: accountAPI,
+  auth: authAPI,
+  home: homeAPI
+};
+
+export const storage = {
+  name: "authUser",
+};

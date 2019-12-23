@@ -1,6 +1,10 @@
 package com.ninebudget.model;
 
-public class Credential {
+import java.io.Serializable;
+
+public class Credential implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String username;
     private String password;

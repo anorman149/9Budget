@@ -1,6 +1,10 @@
 package com.ninebudget.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String firstName;
     private String lastName;
@@ -8,6 +12,7 @@ public class User {
     private String phone;
     private Credential credential;
     private boolean active;
+    private boolean locked;
 
     public User() {
     }
@@ -70,5 +75,13 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

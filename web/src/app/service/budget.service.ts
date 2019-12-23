@@ -1,32 +1,29 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Budget} from "../model/budget";
+import {PrimaryService} from "../model/primary-service";
+import {api} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class BudgetService {
-  private readonly budgetUrl: string;
+export class BudgetService implements PrimaryService{
 
-  constructor(private http: HttpClient) {
-    this.budgetUrl = 'http://localhost:8080/9budget/budgets';
-  }
+  constructor(private http: HttpClient) {}
 
-  public save(budget: Budget) {
-    return this.http.post<Budget>(this.budgetUrl + "/" + budget.id, budget);
-  }
-
-  public getAll(budget: Budget) {
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json");
-
-    return this.http.get<Budget[]>(this.budgetUrl + "/" + budget.id, {headers});
+  public getAll() {
+    return this.http.get<Budget[]>(api.url + api.budget.url );
   }
 
   public get(budget: Budget) {
-    const headers = new HttpHeaders()
-      .set("Content-Type", "application/json");
+    return this.http.get<Budget>(api.url + api.budget.url + "/" + budget.id);
+  }
 
-    return this.http.get<Budget>(this.budgetUrl + "/" + budget.id, {headers});
+  create(budget: Budget): any {
+    return this.http.post<Budget>(api.url + api.budget.url  + "/" + budget.id, budget);
+  }
+
+  update(budget: Budget): any {
+    return this.http.put<Budget>(api.url + api.budget.url  + "/" + budget.id, budget);
   }
 }
