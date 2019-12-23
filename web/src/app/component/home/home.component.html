@@ -14,6 +14,7 @@
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <a href="#" clrDropdownItem>About</a><!--TODO-->
+          <a href="#" clrDropdownItem (click)="hideAll(); showAPI = true;">API</a><!--TODO-->
           <a href="#" clrDropdownItem>Preferences</a><!--TODO-->
           <a href="#" (click)="logout()" clrDropdownItem>Log out</a>
         </clr-dropdown-menu>
@@ -46,25 +47,30 @@
       <div *ngIf="showSettings">
 
       </div>
+
+      <!--API Section-->
+      <div *ngIf="showAPI">
+        <app-swagger></app-swagger>
+      </div>
     </div>
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed">
-      <a clrVerticalNavLink href="#" (click)="showDashboard = !showDashboard">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showDashboard = true;">
         <clr-icon class="is-highlight" clrVerticalNavIcon shape="home"></clr-icon>
         Dashboard
       </a>
-      <a clrVerticalNavLink href="#" (click)="showBudgets = !showBudgets">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showBudgets = true;">
         <clr-icon class="is-success" clrVerticalNavIcon shape="dollar"></clr-icon>
         Budgets
       </a>
-      <a clrVerticalNavLink href="#" (click)="showTransactions = !showTransactions">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showTransactions = true;">
         <clr-icon class="is-warning" clrVerticalNavIcon shape="bank"></clr-icon>
         Transactions
       </a>
-      <a clrVerticalNavLink href="#" (click)="showAccount = !showAccount">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showAccount = true;">
         <clr-icon class="is-error" clrVerticalNavIcon shape="user"></clr-icon>
         Account
       </a>
-      <a clrVerticalNavLink href="#" (click)="showSettings = !showSettings">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showSettings = true;">
         <clr-icon class="is-info" clrVerticalNavIcon shape="cog"></clr-icon>
         Settings
       </a>

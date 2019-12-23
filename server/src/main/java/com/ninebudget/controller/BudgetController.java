@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +45,12 @@ public class BudgetController implements BudgetOperations {
     }
 
     @Override
-    public void update(Budget budget, int id) throws ServiceException {
+    public void update(@Valid Budget budget, int id) throws ServiceException {
 
     }
 
     @Override
-    public void create(Budget budget, int id) throws ServiceException {
+    public void create(@Valid Budget budget, int id) throws ServiceException {
 
     }
 

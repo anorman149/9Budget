@@ -30,6 +30,7 @@ import { SettingsComponent } from './component/settings/settings.component';
 import { TransactionComponent } from './component/transaction/transaction.component';
 import { InstitutionComponent } from './component/institution/institution.component';
 import { InstitutionCreateComponent } from './component/institution-create/institution-create.component';
+import { SwaggerComponent } from './component/swagger/swagger.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { InstitutionCreateComponent } from './component/institution-create/insti
     SettingsComponent,
     TransactionComponent,
     InstitutionComponent,
-    InstitutionCreateComponent
+    InstitutionCreateComponent,
+    SwaggerComponent
   ],
   imports: [
     BrowserModule,

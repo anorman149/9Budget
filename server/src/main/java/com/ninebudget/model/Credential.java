@@ -1,13 +1,19 @@
 package com.ninebudget.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class Credential implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
+
+    @NotNull
     private String username;
+
+    @NotNull
     private String password;
+
     private String custom;
 
     public int getId() {

@@ -1,18 +1,31 @@
 package com.ninebudget.model;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
+
+    @Size(max = 50)
     private String firstName;
+
+    @Size(max = 50)
     private String lastName;
+
+    @Email
+    @Size(min = 5, max = 254)
     private String email;
+
+    @NotNull
+    private boolean active;
+
+    private boolean locked;
     private String phone;
     private Credential credential;
-    private boolean active;
-    private boolean locked;
 
     public User() {
     }

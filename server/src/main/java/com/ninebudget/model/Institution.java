@@ -1,5 +1,6 @@
 package com.ninebudget.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,12 +9,23 @@ public class Institution implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private InstitutionType type;
+
     private BigDecimal balance;
+
     private Credential credential;
+
+    @NotNull
     private Account account;
+
+    @NotNull
     private boolean active;
+
     private List<Transaction> transactions;
 
     public int getId() {

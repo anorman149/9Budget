@@ -1,5 +1,6 @@
 package com.ninebudget.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class Category implements Serializable {
@@ -7,10 +8,15 @@ public class Category implements Serializable {
 
     private int id;
     private int accountID;
+
+    @NotNull
     private CategoryType type;
+
+    @NotNull
+    private boolean active;
+
     private SubCategory subCategory;
     private String name;
-    private boolean active;
 
     public Category() {
     }

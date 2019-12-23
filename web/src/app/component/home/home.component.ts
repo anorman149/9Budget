@@ -10,10 +10,11 @@ import {MessageService} from "primeng/api";
 export class HomeComponent implements OnInit {
   private collapsed: boolean = true; //Start collapsed Navigation
   private showBudgets: boolean = false;
-  private showDashboard: boolean = false;
-  private showTransactions: boolean = true; //Default View
+  private showDashboard: boolean = true; //Default View
+  private showTransactions: boolean = false;
   private showAccount: boolean = false;
   private showSettings: boolean = false;
+  private showAPI: boolean = false;
 
   constructor(private authenticationService: AuthenticationService,
               private messageService: MessageService) {
@@ -22,6 +23,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  hideAll(){
+    this.showBudgets = false;
+    this.showDashboard = false;
+    this.showTransactions = false;
+    this.showAccount = false;
+    this.showSettings = false;
+    this.showAPI = false;
   }
 
   logout(){

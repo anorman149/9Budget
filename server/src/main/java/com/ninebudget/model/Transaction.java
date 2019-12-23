@@ -1,17 +1,27 @@
 package com.ninebudget.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Clock;
+import java.time.ZonedDateTime;
 
 public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private Clock date;
+
+    @NotNull
+    private ZonedDateTime date;
+
     private String description;
+
+    @NotNull
     private Category category;
+
+    @NotNull
     private BigDecimal amount;
+
+    @NotNull
     private Institution institution;
 
     public int getId() {
@@ -22,11 +32,11 @@ public class Transaction implements Serializable {
         this.id = id;
     }
 
-    public Clock getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Clock date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

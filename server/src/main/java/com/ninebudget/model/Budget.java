@@ -1,5 +1,6 @@
 package com.ninebudget.model;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,13 +9,28 @@ public class Budget implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private int id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private Category category;
+
+    @NotNull
     private BigDecimal amount;
+
+    @NotNull
     private BudgetTiming timing;
+
+    @NotNull
     private boolean useLeftOver;
+
     private Account account;
+
+    @NotNull
     private boolean active;
+
+
     private List<Transaction> transactions;
 
     public Budget() {

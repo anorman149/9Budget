@@ -7,6 +7,7 @@ import com.ninebudget.model.V1APIController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @V1APIController
@@ -24,12 +25,12 @@ public class CategoryController implements CategoryOperations {
     }
 
     @Override
-    public void update(Category category, int id) throws ServiceException {
+    public void update(@Valid Category category, int id) throws ServiceException {
 
     }
 
     @Override
-    public void create(Category category, int id) throws ServiceException {
+    public void create(@Valid Category category, int id) throws ServiceException {
 
     }
 

@@ -31,6 +31,10 @@ const authAPI = {
   urlLogin: "/login"
 };
 
+const swagger = {
+  url: '/9budget/v2/api-docs?group=public-api'
+};
+
 export const authentication = {
   idleTimeout: 90, //3 Minutes
   idleTime: 90, //3 Minutes
@@ -41,7 +45,8 @@ export const api = {
   budget: budgetAPI,
   account: accountAPI,
   auth: authAPI,
-  home: homeAPI
+  home: homeAPI,
+  swagger: swagger.url
 };
 
 export const storage = {
