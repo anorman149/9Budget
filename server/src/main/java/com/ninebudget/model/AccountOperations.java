@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface AccountOperations {
@@ -21,17 +22,17 @@ public interface AccountOperations {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     Account get(@PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/accounts/{id}",
+    @RequestMapping(value = "/accounts",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void update(@RequestBody Account account, @PathVariable int id) throws ServiceException;
+    void update(@Valid @RequestBody Account account) throws ServiceException;
 
-    @RequestMapping(value = "/accounts/{id}",
+    @RequestMapping(value = "/accounts",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void create(@RequestBody Account account, @PathVariable int id) throws ServiceException;
+    void create(@Valid @RequestBody Account account) throws ServiceException;
 
     @RequestMapping(value = "/accounts/{id}",
             method = RequestMethod.DELETE,

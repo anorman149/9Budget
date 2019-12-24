@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +44,12 @@ public class AccountController implements AccountOperations {
     }
 
     @Override
-    public void update(@Valid Account account, int id) throws ServiceException {
+    public void update(Account account) throws ServiceException {
 
     }
 
     @Override
-    public void create(@Valid Account account, int id) throws ServiceException {
+    public void create(Account account) throws ServiceException {
 
     }
 

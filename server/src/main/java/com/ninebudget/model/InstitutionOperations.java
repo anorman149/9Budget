@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface InstitutionOperations {
@@ -21,17 +22,17 @@ public interface InstitutionOperations {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     Institution get(@PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/institutions/{id}",
+    @RequestMapping(value = "/institutions",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void update(@RequestBody Institution institution, @PathVariable int id) throws ServiceException;
+    void update(@Valid @RequestBody Institution institution) throws ServiceException;
 
-    @RequestMapping(value = "/institutions/{id}",
+    @RequestMapping(value = "/institutions",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void create(@RequestBody Institution institution, @PathVariable int id) throws ServiceException;
+    void create(@Valid @RequestBody Institution institution) throws ServiceException;
 
     @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.DELETE,

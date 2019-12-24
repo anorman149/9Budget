@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface CategoryOperations {
@@ -21,17 +22,17 @@ public interface CategoryOperations {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     Category get(@PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/categories/{id}",
+    @RequestMapping(value = "/categories",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void update(@RequestBody Category category, @PathVariable int id) throws ServiceException;
+    void update(@Valid @RequestBody Category category) throws ServiceException;
 
-    @RequestMapping(value = "/categories/{id}",
+    @RequestMapping(value = "/categories",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void create(@RequestBody Category category, @PathVariable int id) throws ServiceException;
+    void create(@Valid @RequestBody Category category) throws ServiceException;
 
     @RequestMapping(value = "/categories/{id}",
             method = RequestMethod.DELETE,

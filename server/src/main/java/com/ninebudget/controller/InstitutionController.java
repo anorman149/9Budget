@@ -7,7 +7,6 @@ import com.ninebudget.model.V1APIController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @V1APIController
@@ -25,12 +24,12 @@ public class InstitutionController implements InstitutionOperations {
     }
 
     @Override
-    public void update(@Valid Institution institution, int id) throws ServiceException {
+    public void update(Institution institution) throws ServiceException {
 
     }
 
     @Override
-    public void create(@Valid Institution institution, int id) throws ServiceException {
+    public void create(Institution institution) throws ServiceException {
 
     }
 

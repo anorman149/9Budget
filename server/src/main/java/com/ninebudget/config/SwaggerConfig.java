@@ -31,7 +31,8 @@ public class SwaggerConfig {
                 regex("/api/v1/budgets.*"),
                 regex("/api/v1/accounts.*"),
                 regex("/api/v1/categories.*"),
-                regex("/api/v1/institutions.*")
+                regex("/api/v1/institutions.*"),
+                regex("/api/v1/oauth.*")
         );
     }
 

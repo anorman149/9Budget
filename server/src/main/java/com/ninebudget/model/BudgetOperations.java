@@ -3,6 +3,7 @@ package com.ninebudget.model;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface BudgetOperations {
@@ -18,17 +19,17 @@ public interface BudgetOperations {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     Budget get(@PathVariable int id) throws ServiceException;
 
-    @RequestMapping(value = "/budgets/{id}",
+    @RequestMapping(value = "/budgets",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void update(@RequestBody Budget budget, @PathVariable int id) throws ServiceException;
+    void update(@Valid @RequestBody Budget budget) throws ServiceException;
 
-    @RequestMapping(value = "/budgets/{id}",
+    @RequestMapping(value = "/budgets",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void create(@RequestBody Budget budget, @PathVariable int id) throws ServiceException;
+    void create(@Valid @RequestBody Budget budget) throws ServiceException;
 
     @RequestMapping(value = "/budgets/{id}",
             method = RequestMethod.DELETE,
