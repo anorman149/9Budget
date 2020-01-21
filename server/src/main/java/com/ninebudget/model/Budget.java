@@ -30,7 +30,6 @@ public class Budget implements Serializable {
     @NotNull
     private boolean active;
 
-
     private List<Transaction> transactions;
 
     public Budget() {

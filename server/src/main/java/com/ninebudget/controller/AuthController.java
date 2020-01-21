@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-@V1APIController
+@APIController
 public class AuthController implements AuthOperations {
     private static final Logger log = LogManager.getLogger(BudgetController.class);
 

@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @RestController
 @RequestMapping(value = "/api/v1")
-public @interface V1APIController {
+public @interface APIController {
     @AliasFor(annotation = RestController.class)
     String value() default "";
 }

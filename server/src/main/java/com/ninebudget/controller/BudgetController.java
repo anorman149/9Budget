@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-@V1APIController
+@APIController
 public class BudgetController implements BudgetOperations {
     private static final Logger log = LogManager.getLogger(BudgetController.class);
 

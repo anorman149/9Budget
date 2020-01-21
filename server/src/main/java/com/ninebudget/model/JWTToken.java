@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.security.cert.Certificate;
 import java.util.Date;
 
 @Component
+@PropertySource("classpath:store.properties")
 public class JWTToken implements Token<String> {
     private static final long AUTH_TOKEN_EXPIRE_TIME = 5 * 60 * 18 * 1000; //90 Minutes
 
