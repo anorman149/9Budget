@@ -17,9 +17,9 @@ import java.util.Locale;
  * A user.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "application_user")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractAuditingEntity implements Serializable {
+public class ApplicationUser extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -166,10 +166,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof User)) {
+        if (!(o instanceof ApplicationUser)) {
             return false;
         }
-        return id != null && id.equals(((User) o).id);
+        return id != null && id.equals(((ApplicationUser) o).id);
     }
 
     @Override

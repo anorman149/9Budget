@@ -32,7 +32,7 @@ public class Account implements Serializable {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<User> users;
+    private Set<ApplicationUser> applicationUsers;
 
     @ManyToMany
     @JsonIgnore
@@ -83,29 +83,29 @@ public class Account implements Serializable {
         this.active = active;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<ApplicationUser> getApplicationUsers() {
+        return applicationUsers;
     }
 
-    public Account users(Set<User> users) {
-        this.users = users;
+    public Account users(Set<ApplicationUser> applicationUsers) {
+        this.applicationUsers = applicationUsers;
         return this;
     }
 
-    public Account addUser(User user) {
-        this.users.add(user);
-        user.setAccount(this);
+    public Account addUser(ApplicationUser applicationUser) {
+        this.applicationUsers.add(applicationUser);
+        applicationUser.setAccount(this);
         return this;
     }
 
-    public Account removeUser(User user) {
-        this.users.remove(user);
-        user.setAccount(null);
+    public Account removeUser(ApplicationUser applicationUser) {
+        this.applicationUsers.remove(applicationUser);
+        applicationUser.setAccount(null);
         return this;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setApplicationUsers(Set<ApplicationUser> applicationUsers) {
+        this.applicationUsers = applicationUsers;
     }
 
     public List<Category> getCategory() {

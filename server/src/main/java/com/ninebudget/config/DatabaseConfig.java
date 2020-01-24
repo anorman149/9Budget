@@ -22,7 +22,9 @@ import java.util.Properties;
 @EnableJpaRepositories("com.ninebudget.repository")
 @EnableTransactionManagement
 public class DatabaseConfig {
-    private static final String DATASOURCE_CONTEXT = "java:/DemoDS";
+    private static final String DATASOURCE_CONTEXT = "java:/BudgetDS";
+    private static final String PERSISTENCE_NAME = "BudgetDS";
+    private static final String DEFAULT_SCHEMA = "ninebudget";
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
@@ -33,13 +35,13 @@ public class DatabaseConfig {
         factory.setJpaVendorAdapter(vendorAdapter);
         //Add package to scan for entities.
         factory.setPackagesToScan(Account.class.getPackage().getName());
-        factory.setPersistenceUnitName("DemoDS");
+        factory.setPersistenceUnitName(PERSISTENCE_NAME);
         Properties props = new Properties();
-        props.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+        props.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        props.put("hibernate.connection.driver_class", "org.postgresql.Driver");
         props.put("hibernate.hbm2ddl.auto", "update");
         props.put("hibernate.ddl-auto", "update");
-        props.put("hibernate.default_schema", "demo123"); //TODO Change
-        props.put("hibernate.show_sql", "true"); //TODO turn off
+        props.put("hibernate.default_schema", DEFAULT_SCHEMA);
         props.put("hibernate.cache.use_second_level_cache", "true");
         props.put("hibernate.cache.ehcache.missing_cache_strategy", "create");
         props.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");

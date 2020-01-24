@@ -1,7 +1,7 @@
 package com.ninebudget.controller;
 
 import com.ninebudget.model.*;
-import com.ninebudget.model.dto.UserDto;
+import com.ninebudget.model.dto.ApplicationUserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class AuthController implements AuthOperations {
     private JWTToken jwtToken;
 
     @Override
-    public OAuthToken login(UserDto user) throws ServiceException {
+    public OAuthToken login(ApplicationUserDto user) throws ServiceException {
         //TODO For now return a token without checking DB
         OAuthToken authToken = new OAuthToken(user);
 

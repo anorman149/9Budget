@@ -1,11 +1,11 @@
 package com.ninebudget.service;
 
+import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.EmailAlreadyUsedException;
 import com.ninebudget.model.InvalidPasswordException;
-import com.ninebudget.model.User;
 import com.ninebudget.model.UsernameAlreadyUsedException;
-import com.ninebudget.model.dto.UserDto;
-import com.ninebudget.repository.UserRepository;
+import com.ninebudget.model.dto.ApplicationUserDto;
+import com.ninebudget.repository.ApplicationUserRepository;
 import com.ninebudget.util.RandomUtil;
 import com.ninebudget.util.SecurityUtils;
 import org.slf4j.Logger;
@@ -25,17 +25,17 @@ import java.util.Optional;
 public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final UserRepository userRepository;
+    private final ApplicationUserRepository applicationUserRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public UserService(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder) {
+        this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<User> activateRegistration(String key) {
+    public Optional<ApplicationUser> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
-        return userRepository.findOneByActivationKey(key)
+        return applicationUserRepository.findOneByActivationKey(key)
             .map(user -> {
                 // activate given user for the registration key.
                 user.setActivated(true);
@@ -45,9 +45,9 @@ public class UserService {
             });
     }
 
-    public Optional<User> completePasswordReset(String newPassword, String key) {
+    public Optional<ApplicationUser> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
-        return userRepository.findOneByResetKey(key)
+        return applicationUserRepository.findOneByResetKey(key)
             .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
             .map(user -> {
                 user.setPassword(passwordEncoder.encode(newPassword));
@@ -57,9 +57,9 @@ public class UserService {
             });
     }
 
-    public Optional<User> requestPasswordReset(String mail) {
-        return userRepository.findOneByEmailIgnoreCase(mail)
-            .filter(User::getActivated)
+    public Optional<ApplicationUser> requestPasswordReset(String mail) {
+        return applicationUserRepository.findOneByEmailIgnoreCase(mail)
+            .filter(ApplicationUser::getActivated)
             .map(user -> {
                 user.setResetKey(RandomUtil.generateResetKey());
                 user.setResetDate(Instant.now());
@@ -67,67 +67,67 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDto userDTO, String password) {
-        userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
+    public ApplicationUser registerUser(ApplicationUserDto applicationUserDTO, String password) {
+        applicationUserRepository.findOneByLogin(applicationUserDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new UsernameAlreadyUsedException();
             }
         });
-        userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
+        applicationUserRepository.findOneByEmailIgnoreCase(applicationUserDTO.getEmail()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new EmailAlreadyUsedException();
             }
         });
-        User newUser = new User();
+        ApplicationUser newApplicationUser = new ApplicationUser();
         String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        newApplicationUser.setLogin(applicationUserDTO.getLogin().toLowerCase());
         // new user gets initially a generated password
-        newUser.setPassword(encryptedPassword);
-        newUser.setFirstName(userDTO.getFirstName());
-        newUser.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            newUser.setEmail(userDTO.getEmail().toLowerCase());
+        newApplicationUser.setPassword(encryptedPassword);
+        newApplicationUser.setFirstName(applicationUserDTO.getFirstName());
+        newApplicationUser.setLastName(applicationUserDTO.getLastName());
+        if (applicationUserDTO.getEmail() != null) {
+            newApplicationUser.setEmail(applicationUserDTO.getEmail().toLowerCase());
         }
         // new user is not active
-        newUser.setActivated(false);
+        newApplicationUser.setActivated(false);
         // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
-        userRepository.save(newUser);
-        log.debug("Created Information for User: {}", newUser);
-        return newUser;
+        newApplicationUser.setActivationKey(RandomUtil.generateActivationKey());
+        applicationUserRepository.save(newApplicationUser);
+        log.debug("Created Information for User: {}", newApplicationUser);
+        return newApplicationUser;
     }
 
-    private boolean removeNonActivatedUser(User existingUser){
-        if (existingUser.getActivated()) {
+    private boolean removeNonActivatedUser(ApplicationUser existingApplicationUser){
+        if (existingApplicationUser.getActivated()) {
              return false;
         }
-        userRepository.delete(existingUser);
-        userRepository.flush();
+        applicationUserRepository.delete(existingApplicationUser);
+        applicationUserRepository.flush();
         return true;
     }
 
-    public User createUser(UserDto userDTO) {
-        User user = new User();
-        user.setLogin(userDTO.getLogin().toLowerCase());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        if (userDTO.getEmail() != null) {
-            user.setEmail(userDTO.getEmail().toLowerCase());
+    public ApplicationUser createUser(ApplicationUserDto applicationUserDTO) {
+        ApplicationUser applicationUser = new ApplicationUser();
+        applicationUser.setLogin(applicationUserDTO.getLogin().toLowerCase());
+        applicationUser.setFirstName(applicationUserDTO.getFirstName());
+        applicationUser.setLastName(applicationUserDTO.getLastName());
+        if (applicationUserDTO.getEmail() != null) {
+            applicationUser.setEmail(applicationUserDTO.getEmail().toLowerCase());
         }
 
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
-        user.setPassword(encryptedPassword);
+        applicationUser.setPassword(encryptedPassword);
 
-        user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(Instant.now());
-        user.setActivated(true);
+        applicationUser.setResetKey(RandomUtil.generateResetKey());
+        applicationUser.setResetDate(Instant.now());
+        applicationUser.setActivated(true);
 
-        userRepository.save(user);
-        log.debug("Created Information for User: {}", user);
+        applicationUserRepository.save(applicationUser);
+        log.debug("Created Information for User: {}", applicationUser);
 
-        return user;
+        return applicationUser;
     }
 
     /**
@@ -141,7 +141,7 @@ public class UserService {
      */
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         SecurityUtils.getCurrentUserLogin()
-            .flatMap(userRepository::findOneByLogin)
+            .flatMap(applicationUserRepository::findOneByLogin)
             .ifPresent(user -> {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
@@ -156,42 +156,42 @@ public class UserService {
     /**
      * Update all information for a specific user, and return the modified user.
      *
-     * @param userDTO user to update.
+     * @param applicationUserDTO user to update.
      * @return updated user.
      */
-    public Optional<UserDto> updateUser(UserDto userDTO) {
-        return Optional.of(userRepository
-            .findById(userDTO.getId()))
+    public Optional<ApplicationUserDto> updateUser(ApplicationUserDto applicationUserDTO) {
+        return Optional.of(applicationUserRepository
+            .findById(applicationUserDTO.getId()))
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
-                user.setLogin(userDTO.getLogin().toLowerCase());
-                user.setFirstName(userDTO.getFirstName());
-                user.setLastName(userDTO.getLastName());
+                user.setLogin(applicationUserDTO.getLogin().toLowerCase());
+                user.setFirstName(applicationUserDTO.getFirstName());
+                user.setLastName(applicationUserDTO.getLastName());
 
-                if (userDTO.getEmail() != null) {
-                    user.setEmail(userDTO.getEmail().toLowerCase());
+                if (applicationUserDTO.getEmail() != null) {
+                    user.setEmail(applicationUserDTO.getEmail().toLowerCase());
                 }
 
-                user.setActivated(userDTO.isActivated());
+                user.setActivated(applicationUserDTO.isActivated());
 
                 log.debug("Changed Information for User: {}", user);
 
                 return user;
             })
-            .map(UserDto::new);
+            .map(ApplicationUserDto::new);
     }
 
     public void deleteUser(String login) {
-        userRepository.findOneByLogin(login).ifPresent(user -> {
-            userRepository.delete(user);
+        applicationUserRepository.findOneByLogin(login).ifPresent(user -> {
+            applicationUserRepository.delete(user);
             log.debug("Deleted User: {}", user);
         });
     }
 
     public void changePassword(String currentClearTextPassword, String newPassword) {
         SecurityUtils.getCurrentUserLogin()
-            .flatMap(userRepository::findOneByLogin)
+            .flatMap(applicationUserRepository::findOneByLogin)
             .ifPresent(user -> {
                 String currentEncryptedPassword = user.getPassword();
                 if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {

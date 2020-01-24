@@ -1,7 +1,7 @@
 package com.ninebudget.model.dto;
 
+import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.Constants;
-import com.ninebudget.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 
-public class UserDto implements Serializable {
+public class ApplicationUserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final int PASSWORD_MIN_LENGTH = 8;
@@ -46,22 +46,22 @@ public class UserDto implements Serializable {
 
     private Instant lastModifiedDate;
 
-    public UserDto() {
+    public ApplicationUserDto() {
         // Empty constructor needed for Jackson.
     }
 
-    public UserDto(User user) {
-        this.id = user.getId();
-        this.login = user.getLogin();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.email = user.getEmail();
-        this.activated = user.getActivated();
-        this.createdBy = user.getCreatedBy();
-        this.createdDate = user.getCreatedDate();
-        this.lastModifiedBy = user.getLastModifiedBy();
-        this.lastModifiedDate = user.getLastModifiedDate();
-        this.password = user.getPassword();
+    public ApplicationUserDto(ApplicationUser applicationUser) {
+        this.id = applicationUser.getId();
+        this.login = applicationUser.getLogin();
+        this.firstName = applicationUser.getFirstName();
+        this.lastName = applicationUser.getLastName();
+        this.email = applicationUser.getEmail();
+        this.activated = applicationUser.getActivated();
+        this.createdBy = applicationUser.getCreatedBy();
+        this.createdDate = applicationUser.getCreatedDate();
+        this.lastModifiedBy = applicationUser.getLastModifiedBy();
+        this.lastModifiedDate = applicationUser.getLastModifiedDate();
+        this.password = applicationUser.getPassword();
     }
 
     public Long getId() {

@@ -1,6 +1,6 @@
 package com.ninebudget.model;
 
-import com.ninebudget.model.dto.UserDto;
+import com.ninebudget.model.dto.ApplicationUserDto;
 
 import java.io.Serializable;
 
@@ -8,12 +8,12 @@ public class OAuthToken implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String token;
-    private UserDto user;
+    private ApplicationUserDto user;
 
     public OAuthToken() {
     }
 
-    public OAuthToken(UserDto user) {
+    public OAuthToken(ApplicationUserDto user) {
         this.user = user;
     }
 
@@ -25,11 +25,11 @@ public class OAuthToken implements Serializable {
         this.token = token;
     }
 
-    public UserDto getUser() {
+    public ApplicationUserDto getUser() {
         return user;
     }
 
-    public void setUser(UserDto user) {
+    public void setUser(ApplicationUserDto user) {
         this.user = user;
     }
 }
