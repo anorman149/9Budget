@@ -1,33 +1,17 @@
 package com.ninebudget.config;
 
-import com.ninebudget.component.AccountComponent;
-import com.ninebudget.component.BudgetComponent;
 import com.ninebudget.filter.AuthFilter;
-import com.ninebudget.model.CacheVendor;
 import com.ninebudget.model.JWTToken;
-import com.ninebudget.vendor.Redis;
+import com.ninebudget.model.Token;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 
 public class AppConfig {
-    @Bean
-    public BudgetComponent budgetComponent(){
-        return new BudgetComponent();
-    }
-
-    @Bean
-    public AccountComponent accountComponent(){
-        return new AccountComponent();
-    }
-
-    @Bean
-    public CacheVendor cacheVendor(){
-        return new Redis();
-    }
-
     @Bean
     public AuthFilter authFilter(){
         return new AuthFilter();
@@ -35,7 +19,12 @@ public class AppConfig {
 
     @Bean
     @Scope("prototype")
-    public JWTToken jwtToken(){
+    public Token jwtToken(){
         return new JWTToken();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

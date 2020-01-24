@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SwaggerUIBundle } from "swagger-ui-dist"
-import {api} from "../../../environments/environment";
+import { SwaggerUIBundle } from 'swagger-ui-dist';
+import {api} from '../../../environments/environment';
 
 @Component({
   selector: 'app-swagger',

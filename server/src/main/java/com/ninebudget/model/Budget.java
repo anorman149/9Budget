@@ -1,49 +1,65 @@
 package com.ninebudget.model;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
+/**
+ * A Budget.
+ */
+@Entity
+@Table(name = "budget")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Budget implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
-    private Category category;
-
-    @NotNull
+    @Column(name = "amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal amount;
 
     @NotNull
-    private BudgetTiming timing;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "budget_timing", nullable = false)
+    private BudgetTiming budgetTiming;
 
     @NotNull
-    private boolean useLeftOver;
+    @Column(name = "use_left_over", nullable = false)
+    private Boolean useLeftOver;
 
+    @NotNull
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn()
     private Account account;
 
-    @NotNull
-    private boolean active;
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Transaction> transactions;
 
-    private List<Transaction> transactions;
+    @ManyToOne
+    @JoinColumn()
+    private Category category;
 
-    public Budget() {
-    }
-
-    public Budget(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,40 +67,65 @@ public class Budget implements Serializable {
         return name;
     }
 
+    public Budget name(String name) {
+        this.name = name;
+        return this;
+    }
+
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 
     public BigDecimal getAmount() {
         return amount;
     }
 
+    public Budget amount(BigDecimal amount) {
+        this.amount = amount;
+        return this;
+    }
+
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public BudgetTiming getTiming() {
-        return timing;
+    public BudgetTiming getBudgetTiming() {
+        return budgetTiming;
     }
 
-    public void setTiming(BudgetTiming timing) {
-        this.timing = timing;
+    public Budget budgetTiming(BudgetTiming budgetTiming) {
+        this.budgetTiming = budgetTiming;
+        return this;
     }
 
-    public boolean isUseLeftOver() {
+    public void setBudgetTiming(BudgetTiming budgetTiming) {
+        this.budgetTiming = budgetTiming;
+    }
+
+    public Boolean isUseLeftOver() {
         return useLeftOver;
     }
 
-    public void setUseLeftOver(boolean useLeftOver) {
+    public Budget useLeftOver(Boolean useLeftOver) {
         this.useLeftOver = useLeftOver;
+        return this;
+    }
+
+    public void setUseLeftOver(Boolean useLeftOver) {
+        this.useLeftOver = useLeftOver;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public Budget active(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Account getAccount() {
@@ -95,19 +136,69 @@ public class Budget implements Serializable {
         this.account = account;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public List<Transaction> getTransactions() {
+    public Set<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public Budget transactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+        return this;
+    }
+
+    public Budget addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
+        transaction.setBudget(this);
+        return this;
+    }
+
+    public Budget removeTransaction(Transaction transaction) {
+        this.transactions.remove(transaction);
+        transaction.setBudget(null);
+        return this;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public Budget category(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Budget)) {
+            return false;
+        }
+        return id != null && id.equals(((Budget) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    @Override
+    public String toString() {
+        return "Budget{" +
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", amount=" + getAmount() +
+            ", budgetTiming='" + getBudgetTiming() + "'" +
+            ", useLeftOver='" + isUseLeftOver() + "'" +
+            ", active='" + isActive() + "'" +
+            "}";
     }
 }

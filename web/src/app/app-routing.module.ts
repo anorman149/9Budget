@@ -1,14 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {BudgetComponent} from "./component/budget/budget.component";
-import {AccountComponent} from "./component/account/account.component";
-import {AuthGuard} from "./security/auth-guard";
-import {HomeComponent} from "./component/home/home.component";
-import {LoginComponent} from "./component/login/login.component";
+import {BudgetComponent} from './component/budget/budget.component';
+import {AccountComponent} from './component/account/account.component';
+import {AuthGuard} from './security/auth-guard';
+import {HomeComponent} from './component/home/home.component';
+import {LoginComponent} from './component/login/login.component';
+import {SwaggerComponent} from './component/swagger/swagger.component';
+import {BudgetNewComponent} from './component/budget-new/budget-new.component';
+import {AppComponent} from './app.component';
 
 const routes: Routes = [
   { path: 'budgets',
     component: BudgetComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'budgets/new',
+    component: BudgetNewComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'api',
+    component: SwaggerComponent,
     canActivate: [AuthGuard]
   },
   { path: 'accounts',
@@ -16,12 +27,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: '',
-    component: HomeComponent,
+    component: AppComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'home',
-    component: HomeComponent,
+    component: AppComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -29,7 +40,7 @@ const routes: Routes = [
     component: LoginComponent
   },
 
-  //Otherwise redirect to Home
+  // Otherwise redirect to Home
   {
     path: '**',
     redirectTo: ''

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Account} from "../../model/account";
-import {AccountService} from "../../service/account.service";
-import {PrimaryComponent} from "../../model/primary-component";
+import {Account} from '../../model/account';
+import {AccountService} from '../../service/account.service';
+import {PrimaryComponent} from '../../model/primary-component';
 
 @Component({
   selector: 'app-account',
@@ -14,7 +14,7 @@ export class AccountComponent implements OnInit, PrimaryComponent {
   constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    let account: Account = new Account();
+    const account: Account = new Account();
     account.id = 2;
 
     this.accountService.get(account).subscribe(data => {

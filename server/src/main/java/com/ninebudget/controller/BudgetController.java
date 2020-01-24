@@ -1,60 +1,84 @@
 package com.ninebudget.controller;
 
-import com.ninebudget.component.BudgetComponent;
-import com.ninebudget.model.*;
+import com.ninebudget.model.APIController;
+import com.ninebudget.model.BudgetOperations;
+import com.ninebudget.model.ServiceException;
+import com.ninebudget.model.dto.BudgetDto;
+import com.ninebudget.service.BudgetService;
+import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @APIController
 public class BudgetController implements BudgetOperations {
     private static final Logger log = LogManager.getLogger(BudgetController.class);
 
     @Autowired
-    private BudgetComponent budgetComponent;
+    private BudgetService budgetService;
 
     @Override
-    public List<Budget> getAll() throws ServiceException {
-        log.info("Retrieving Budget: " + 4);
-        List<Budget> budgets = new ArrayList<>();
+    public ResponseEntity<List<BudgetDto>> getAll() throws ServiceException {
+        log.debug("REST request to get all Budgets");
 
-        try {
-            budgets.add(budgetComponent.get(new Budget(4)));
-        } catch (ComponentException e) {
-            log.error(e);//TODO add more
+        List<BudgetDto> page = budgetService.findAll();
+
+        return ResponseEntity.ok().body(page);
+    }
+
+    @Override
+    public ResponseEntity<BudgetDto> get(long id) throws ServiceException {
+        log.debug("REST request to get Budget : {}", id);
+
+        Optional<BudgetDto> budgetDto = budgetService.findOne(id);
+
+        return ResponseUtil.wrapOrNotFound(budgetDto);
+    }
+
+    @Override
+    public ResponseEntity<BudgetDto> update(BudgetDto budget) throws ServiceException {
+        log.debug("REST request to update Budget : {}", budget);
+
+        BudgetDto result = budgetService.save(budget);
+
+        URI uri;
+        try{
+            uri = new URI(String.valueOf(result.getId()));
+        } catch (URISyntaxException e) {
+            throw new ServiceException(e);
         }
 
-        return budgets;
+        return ResponseEntity.created(uri).body(result);
     }
 
     @Override
-    public Budget get(int id) throws ServiceException {
-        log.info("Retrieving Budget: " + id);
+    public ResponseEntity<BudgetDto> create(BudgetDto budget) throws ServiceException {
+        log.debug("REST request to create Budget : {}", budget);
 
-        try {
-            return budgetComponent.get(new Budget(id));
-        } catch (ComponentException e) {
-            log.error(e);//TODO add more
+        BudgetDto result = budgetService.save(budget);
+
+        URI uri;
+        try{
+            uri = new URI(String.valueOf(result.getId()));
+        } catch (URISyntaxException e) {
+            throw new ServiceException(e);
         }
 
-        return null;
+        return ResponseEntity.created(uri).body(result);
     }
 
     @Override
-    public void update(Budget budget) throws ServiceException {
+    public ResponseEntity<Void> delete(long id) throws ServiceException {
+        log.debug("REST request to delete Budget : {}", id);
 
-    }
+        budgetService.delete(id);
 
-    @Override
-    public void create(Budget budget) throws ServiceException {
-
-    }
-
-    @Override
-    public void delete(int id) throws ServiceException {
-
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,43 +1,70 @@
 package com.ninebudget.model;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * A Institution.
+ */
+@Entity
+@Table(name = "institution")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Institution implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private InstitutionType type;
 
+    @NotNull
+    @Column(name = "balance", precision = 21, scale = 2, nullable = false)
     private BigDecimal balance;
 
-    private Credential credential;
-
     @NotNull
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
+    @OneToOne
+    @JoinColumn(unique = true)
     private Account account;
 
-    @NotNull
-    private boolean active;
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Credential credential;
 
-    private List<Transaction> transactions;
+    @OneToMany(mappedBy = "institution")
+    private Set<Transaction> transactions = new HashSet<>();
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Institution name(String name) {
+        this.name = name;
+        return this;
     }
 
     public void setName(String name) {
@@ -48,6 +75,11 @@ public class Institution implements Serializable {
         return type;
     }
 
+    public Institution type(InstitutionType type) {
+        this.type = type;
+        return this;
+    }
+
     public void setType(InstitutionType type) {
         this.type = type;
     }
@@ -56,16 +88,26 @@ public class Institution implements Serializable {
         return balance;
     }
 
+    public Institution balance(BigDecimal balance) {
+        this.balance = balance;
+        return this;
+    }
+
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public Credential getCredential() {
-        return credential;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setCredential(Credential credential) {
-        this.credential = credential;
+    public Institution active(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Account getAccount() {
@@ -76,19 +118,68 @@ public class Institution implements Serializable {
         this.account = account;
     }
 
-    public boolean isActive() {
-        return active;
+    public Credential getCredential() {
+        return credential;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public Institution credential(Credential credential) {
+        this.credential = credential;
+        return this;
     }
 
-    public List<Transaction> getTransactions() {
+    public void setCredential(Credential credential) {
+        this.credential = credential;
+    }
+
+    public Set<Transaction> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public Institution transactions(Set<Transaction> transactions) {
         this.transactions = transactions;
+        return this;
+    }
+
+    public Institution addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
+        transaction.setInstitution(this);
+        return this;
+    }
+
+    public Institution removeTransaction(Transaction transaction) {
+        this.transactions.remove(transaction);
+        transaction.setInstitution(null);
+        return this;
+    }
+
+    public void setTransactions(Set<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Institution)) {
+            return false;
+        }
+        return id != null && id.equals(((Institution) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    @Override
+    public String toString() {
+        return "Institution{" +
+            "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", type='" + getType() + "'" +
+            ", balance=" + getBalance() +
+            ", active='" + isActive() + "'" +
+            "}";
     }
 }

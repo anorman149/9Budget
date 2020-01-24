@@ -8,10 +8,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.PublicKey;
+import java.io.IOException;
+import java.security.*;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
 import java.util.Date;
 
 @Component
@@ -50,6 +50,7 @@ public class JWTToken implements Token<String> {
         return claims.getIssuer();
     }
 
+    @Override
     public void setToken(String token) {
         this.token = token;
     }
@@ -60,16 +61,21 @@ public class JWTToken implements Token<String> {
     }
 
     @Override
-    public void verify(PublicKey publicKey) throws Exception {
+    public void verify(PublicKey publicKey) {
         this.claims = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
     }
 
     @Override
-    public String provide(OAuthToken oAuthToken) throws Exception {
+    public String provide(OAuthToken oAuthToken) throws TokenException {
         //Load Key
-        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        ks.load(new FileInputStream(keyFileLocation), keyPass.toCharArray());
-        Key key = ks.getKey(keyAlias, keyPass.toCharArray());
+        Key key;
+        try {
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            ks.load(new FileInputStream(keyFileLocation), keyPass.toCharArray());
+            key = ks.getKey(keyAlias, keyPass.toCharArray());
+        } catch (KeyStoreException | UnrecoverableKeyException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            throw new TokenException("Error Loading Keystore");
+        }
 
         //Create JWT Token
         return Jwts.builder()
@@ -83,11 +89,16 @@ public class JWTToken implements Token<String> {
     }
 
     @Override
-    public void authenticate() throws Exception {
-        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        ks.load(new FileInputStream(keyFileLocation), keyPass.toCharArray());
-        Certificate cert = ks.getCertificate(keyAlias);
-        PublicKey publicKey = cert.getPublicKey();
+    public void authenticate() throws TokenException {
+        PublicKey publicKey;
+        try {
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            ks.load(new FileInputStream(keyFileLocation), keyPass.toCharArray());
+            Certificate cert = ks.getCertificate(keyAlias);
+            publicKey = cert.getPublicKey();
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            throw new TokenException("Error Loading Keystore");
+        }
 
         //Decode and grab all information from the Token
         verify(publicKey);

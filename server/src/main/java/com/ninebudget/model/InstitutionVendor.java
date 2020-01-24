@@ -1,6 +1,5 @@
 package com.ninebudget.model;
 
-@Vendor
-public interface InstitutionVendor{
+public interface InstitutionVendor extends Vendor {
 
 }

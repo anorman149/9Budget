@@ -8,6 +8,10 @@ public class ServiceException extends Exception{
     public ServiceException() {
     }
 
+    public ServiceException(Throwable cause) {
+        super(cause);
+    }
+
     public ServiceException(String type, String severity, String description) {
         this.type = type;
         this.severity = severity;

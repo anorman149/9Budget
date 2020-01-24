@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Budget} from "../../model/budget";
-import {BudgetService} from "../../service/budget.service";
-import {PrimaryComponent} from "../../model/primary-component";
+import {Budget} from '../../model/budget';
+import {BudgetService} from '../../service/budget.service';
+import {PrimaryComponent} from '../../model/primary-component';
+import {BudgetTiming} from '../../model/budget-timing.model';
 
 @Component({
   selector: 'app-budget',
@@ -14,8 +15,12 @@ export class BudgetComponent implements OnInit, PrimaryComponent {
   constructor(private budgetService: BudgetService) {}
 
   ngOnInit() {
-    let budget: Budget = new Budget();
-    budget.id = 4;
+    const budget: Budget = new Budget();
+    budget.name = 'a';
+    budget.amount = 12;
+    budget.budgetTiming = BudgetTiming.BIWEEKLY;
+    budget.useLeftOver = false;
+    budget.active = true;
 
     this.budgetService.get(budget).subscribe(data => {
       this.budget = data;

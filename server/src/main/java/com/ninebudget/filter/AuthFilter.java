@@ -1,8 +1,8 @@
 package com.ninebudget.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ninebudget.model.JWTToken;
 import com.ninebudget.model.ServiceException;
+import com.ninebudget.model.Token;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class AuthFilter extends OncePerRequestFilter {
     protected static final Logger log = LogManager.getLogger(AuthFilter.class);
 
     @Autowired
-    private JWTToken jwtToken;
+    private Token<String> jwtToken;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

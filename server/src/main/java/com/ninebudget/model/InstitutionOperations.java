@@ -1,10 +1,10 @@
 package com.ninebudget.model;
 
+import com.ninebudget.model.dto.InstitutionDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -14,29 +14,29 @@ public interface InstitutionOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    List<Institution> getAll() throws ServiceException;
+    ResponseEntity<List<InstitutionDto>> getAll(Pageable pageable, @RequestParam(required = false) String filter) throws ServiceException;
 
     @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    Institution get(@PathVariable int id) throws ServiceException;
+    ResponseEntity<InstitutionDto> get(@PathVariable long id) throws ServiceException;
 
     @RequestMapping(value = "/institutions",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void update(@Valid @RequestBody Institution institution) throws ServiceException;
+    ResponseEntity<InstitutionDto> update(@Valid @RequestBody InstitutionDto institution) throws ServiceException;
 
     @RequestMapping(value = "/institutions",
             method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void create(@Valid @RequestBody Institution institution) throws ServiceException;
+    ResponseEntity<InstitutionDto> create(@Valid @RequestBody InstitutionDto institution) throws ServiceException;
 
     @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void delete(@PathVariable int id) throws ServiceException;
+    ResponseEntity<Void> delete(@PathVariable long id) throws ServiceException;
 }

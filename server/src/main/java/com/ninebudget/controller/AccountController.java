@@ -1,60 +1,106 @@
 package com.ninebudget.controller;
 
-import com.ninebudget.component.AccountComponent;
-import com.ninebudget.model.*;
+import com.ninebudget.model.APIController;
+import com.ninebudget.model.AccountOperations;
+import com.ninebudget.model.ServiceException;
+import com.ninebudget.model.dto.AccountDto;
+import com.ninebudget.service.AccountService;
+import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @APIController
 public class AccountController implements AccountOperations {
     private static final Logger log = LogManager.getLogger(AccountController.class);
 
     @Autowired
-    private AccountComponent accountComponent;
+    private AccountService accountService;
 
     @Override
-    public List<Account> getAll() throws ServiceException {
-        log.info("Retrieving Account: " + 2);
-        List<Account> accounts = new ArrayList<>();
-
-        try {
-            accounts.add(accountComponent.get(new Account(2)));
-        } catch (ComponentException e) {
-            log.error(e);//TODO add more
+    public ResponseEntity<List<AccountDto>> getAll(Pageable pageable, @RequestParam(required = false) String filter) throws ServiceException {
+        if ("category-is-null".equals(filter)) {
+            log.debug("REST request to get all SystemAccounts where category is null");
+            return new ResponseEntity<>(accountService.findAllWhereCategoryIsNull(),
+                    HttpStatus.OK);
         }
 
-        return accounts;
-    }
-
-    @Override
-    public Account get(int id) throws ServiceException {
-        log.info("Retrieving Account: " + id);
-
-        try {
-            return accountComponent.get(new Account(id));
-        } catch (ComponentException e) {
-            log.error(e);//TODO add more
+        if ("budget-is-null".equals(filter)) {
+            log.debug("REST request to get all SystemAccounts where budget is null");
+            return new ResponseEntity<>(accountService.findAllWhereBudgetIsNull(),
+                    HttpStatus.OK);
         }
 
-        return null;
+        if ("institution-is-null".equals(filter)) {
+            log.debug("REST request to get all SystemAccounts where institution is null");
+            return new ResponseEntity<>(accountService.findAllWhereInstitutionIsNull(),
+                    HttpStatus.OK);
+        }
+
+        log.debug("REST request to get a page of SystemAccounts");
+
+        Page<AccountDto> page = accountService.findAll(pageable);
+        return ResponseEntity.ok().body(page.getContent());
     }
 
     @Override
-    public void update(Account account) throws ServiceException {
+    public ResponseEntity<AccountDto> get(long id) throws ServiceException {
+        log.debug("REST request to get SystemAccount : {}", id);
 
+        Optional<AccountDto> systemAccountDto = accountService.findOne(id);
+
+        return ResponseUtil.wrapOrNotFound(systemAccountDto);
     }
 
     @Override
-    public void create(Account account) throws ServiceException {
+    public ResponseEntity<AccountDto> update(@Valid AccountDto accountDto) throws ServiceException {
+        log.debug("REST request to update SystemAccount : {}", accountDto);
 
+        AccountDto result = accountService.save(accountDto);
+
+        URI uri;
+        try{
+            uri = new URI(String.valueOf(result.getId()));
+        } catch (URISyntaxException e) {
+            throw new ServiceException(e);
+        }
+
+        return ResponseEntity.created(uri).body(result);
     }
 
     @Override
-    public void delete(int id) throws ServiceException {
+    public ResponseEntity<AccountDto> create(@Valid AccountDto accountDto) throws ServiceException {
+        log.debug("REST request to create SystemAccount : {}", accountDto);
 
+        AccountDto result = accountService.save(accountDto);
+
+        URI uri;
+        try{
+            uri = new URI(String.valueOf(result.getId()));
+        } catch (URISyntaxException e) {
+           throw new ServiceException(e);
+        }
+
+        return ResponseEntity.created(uri).body(result);
+    }
+
+    @Override
+    public ResponseEntity<Void> delete(long id) throws ServiceException {
+        log.debug("REST request to delete SystemAccount : {}", id);
+
+        accountService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

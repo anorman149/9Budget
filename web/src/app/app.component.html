@@ -14,4 +14,7 @@
   </p-footer>
 </p-dialog>
 
+<div *ngIf="isLoggedIn">
+  <app-home></app-home>
+</div>
 <router-outlet></router-outlet>

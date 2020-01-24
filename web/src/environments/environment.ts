@@ -14,34 +14,38 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+const defaultURL = {
+  url: 'http://localhost:8080/9budget'
+};
+
 const budgetAPI = {
-  url: "/budgets"
+  url: '/budgets'
 };
 
 const accountAPI = {
-  url: "/accounts"
+  url: '/accounts'
 };
 
 const homeAPI = {
-  url: "/home"
+  url: '/home'
 };
 
 const authAPI = {
-  urlAuth: "/oauth/token",
-  urlLogin: "/login"
+  urlAuth: '/oauth/token',
+  urlLogin: '/login'
 };
 
 const swagger = {
-  url: '/9budget/v2/api-docs?group=public-api'
+  url:  defaultURL.url + '/v2/api-docs?group=public-api'
 };
 
 export const authentication = {
-  idleTimeout: 90, //3 Minutes
-  idleTime: 90, //3 Minutes
+  idleTimeout: 90, // 3 Minutes
+  idleTime: 90, // 3 Minutes
 };
 
 export const api = {
-  url: "/9budget/api/v1",
+  url: defaultURL.url + '/api/v1',
   budget: budgetAPI,
   account: accountAPI,
   auth: authAPI,
@@ -50,5 +54,5 @@ export const api = {
 };
 
 export const storage = {
-  name: "authUser",
+  name: 'auth'
 };
