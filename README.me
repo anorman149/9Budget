@@ -1,14 +1,62 @@
 Download IntelliJ using School Email - https://www.jetbrains.com/student/
 Download WildFly - https://wildfly.org/downloads/ (18.0.1)
 Download Postman - https://www.getpostman.com/downloads/
-Download MySQL - https://dev.mysql.com/downloads/installer/
-Download and install REDIS (3.0.504) - https://github.com/MicrosoftArchive/redis/releases
 Download and install GIT - https://git-scm.com/downloads
-
-Run initialDB.txt on MySQL DB for DB to be setup
 
 Angular Tutorial - https://angular-templates.io/tutorials/about/learn-angular-from-scratch-step-by-step
 Install NVM - https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 Once done, install Angular CLI - npm install -g @angular/cli
 
 Sample Angular Code - https://github.com/AngularTemplates/learn-angular-from-scratch-step-by-step/tree/master/src/app
+
+---------------------------------------------Configure Wildfly-------------------------------------------------------------------------
+
+Go to C:\Users\Adam\.m2\repository\org\postgresql\postgresql\42.2.9 (if folder doesn't exist yet, run Maven Install - then go to this location)
+
+Copy postgresql-42.2.9.jar to C:\wildfly-18.0.1.Final\modules\system\layers\base\org\postgresql\main (go to your Wildfly install folder - you will need to create the postgresql\main under org).
+
+Once that JAR is in the above location, create a file called module.xml and copy the below into it.
+
+<module xmlns="urn:jboss:module:1.0" name="org.postgresql">
+   <resources>
+     <resource-root path="postgresql-42.2.9.jar"/>
+
+   </resources>
+
+   <dependencies>
+      <module name="javax.api"/>
+      <module name="javax.transaction.api"/>
+    </dependencies>
+</module>
+
+Once this is done, open this file - C:\wildfly-18.0.1.Final\standalone\configuration\standalone.xml
+Go to the section for datasource - Add the below Datasource into the file. Ask Adam for the Password.
+
+<datasource jndi-name="java:/BudgetDS" pool-name="BudgetDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+    <connection-url>jdbc:postgresql://ninebudgetdatabase-1.cgtb2y4tyq7y.us-east-2.rds.amazonaws.com:5432/9budget</connection-url>
+    <driver>postgresql</driver>
+    <pool>
+        <min-pool-size>1</min-pool-size>
+        <initial-pool-size>1</initial-pool-size>
+        <max-pool-size>30</max-pool-size>
+        <prefill>true</prefill>
+    </pool>
+    <security>
+        <user-name>9Budget_User</user-name>
+        <password>{Ask Adam for Password}</password>
+    </security>
+</datasource>
+
+Now you can start JBOSS from IntelliJ and run the application
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+Download PGAdmin from https://www.pgadmin.org/download/
+
+Once installed it will show a webpage, click "Add New Server"
+
+Name (whatever you want to name it - I named it 9budgetDev)
+Go to Connection Tab
+Type ninebudgetdatabase-1.cgtb2y4tyq7y.us-east-2.rds.amazonaws.com in the Host name/address field
+Username = postgres_9budget
+Password = {Ask Adam for Password}
