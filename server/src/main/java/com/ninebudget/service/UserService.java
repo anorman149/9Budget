@@ -67,9 +67,7 @@ public class UserService {
     }
 
     public ApplicationUser registerUser(ApplicationUserDto applicationUserDTO, String password) {
-        Credential cred = new Credential();
-        cred.setUsername(applicationUserDTO.getLogin().toLowerCase());
-        applicationUserRepository.findOneByCredential(cred).ifPresent(existingUser -> {
+        applicationUserRepository.findOneByCredential(applicationUserDTO.getCredential()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new UsernameAlreadyUsedException();
@@ -150,7 +148,7 @@ public class UserService {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
-                user.getCredential().setUsername(applicationUserDTO.getLogin().toLowerCase());
+                user.getCredential().setUsername(applicationUserDTO.getCredential().getUsername().toLowerCase());
                 user.setFirstName(applicationUserDTO.getFirstName());
                 user.setLastName(applicationUserDTO.getLastName());
 

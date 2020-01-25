@@ -43,6 +43,7 @@ public class ApplicationUserMapper {
             applicationUser.setEmail(applicationUserDTO.getEmail());
             applicationUser.setActivated(applicationUserDTO.isActivated());
             applicationUser.setCredential(applicationUserDTO.getCredential());
+            applicationUser.setPhone(applicationUserDTO.getPhone());
             return applicationUser;
         }
     }

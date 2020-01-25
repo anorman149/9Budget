@@ -1,12 +1,9 @@
 package com.ninebudget.model.dto;
 
 import com.ninebudget.model.ApplicationUser;
-import com.ninebudget.model.Constants;
 import com.ninebudget.model.Credential;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
@@ -19,14 +16,6 @@ public class ApplicationUserDto implements Serializable {
 
     private Long id;
 
-    @NotBlank
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
-    private String login;
-
-    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
-    private String password;
-
     @Size(max = 50)
     private String firstName;
 
@@ -36,6 +25,9 @@ public class ApplicationUserDto implements Serializable {
     @Email
     @Size(min = 5, max = 254)
     private String email;
+
+    @Size(min = 11, max = 20)
+    private String phone;
 
     private boolean activated = false;
 
@@ -64,6 +56,7 @@ public class ApplicationUserDto implements Serializable {
         this.lastModifiedBy = applicationUser.getLastModifiedBy();
         this.lastModifiedDate = applicationUser.getLastModifiedDate();
         this.credential = applicationUser.getCredential();
+        this.phone = applicationUser.getPhone();
     }
 
     public Long getId() {
@@ -72,14 +65,6 @@ public class ApplicationUserDto implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getFirstName() {
@@ -146,14 +131,6 @@ public class ApplicationUserDto implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Credential getCredential() {
         return credential;
     }
@@ -162,15 +139,22 @@ public class ApplicationUserDto implements Serializable {
         this.credential = credential;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "ApplicationUserDto{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 ", activated=" + activated +
                 ", createdBy='" + createdBy + '\'' +
                 ", createdDate=" + createdDate +
