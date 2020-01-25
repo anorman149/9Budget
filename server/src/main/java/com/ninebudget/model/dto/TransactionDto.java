@@ -23,7 +23,7 @@ public class TransactionDto implements Serializable {
 
     private Long budgetId;
 
-    private Long institutionId;
+    private Long institutionAccountId;
 
     public Long getId() {
         return id;
@@ -73,12 +73,12 @@ public class TransactionDto implements Serializable {
         this.budgetId = budgetId;
     }
 
-    public Long getInstitutionId() {
-        return institutionId;
+    public Long getInstitutionAccountId() {
+        return institutionAccountId;
     }
 
-    public void setInstitutionId(Long institutionId) {
-        this.institutionId = institutionId;
+    public void setInstitutionAccountId(Long institutionAccountId) {
+        this.institutionAccountId = institutionAccountId;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TransactionDto implements Serializable {
             ", date='" + getDate() + "'" +
             ", description='" + getDescription() + "'" +
             ", budgetId=" + getBudgetId() +
-            ", institutionId=" + getInstitutionId() +
+            ", institutionAccountId=" + getInstitutionAccountId() +
             "}";
     }
 }

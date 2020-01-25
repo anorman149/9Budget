@@ -44,7 +44,7 @@ public class Account implements Serializable {
 
     @OneToOne(mappedBy = "account")
     @JsonIgnore
-    private Institution institution;
+    private InstitutionAccount institutionAccount;
 
     public Account() {
     }
@@ -124,17 +124,17 @@ public class Account implements Serializable {
         this.budgets = budgets;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public InstitutionAccount getInstitutionAccount() {
+        return institutionAccount;
     }
 
-    public Account institution(Institution institution) {
-        this.institution = institution;
+    public Account institutionAccount(InstitutionAccount institutionAccount) {
+        this.institutionAccount = institutionAccount;
         return this;
     }
 
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
+    public void setInstitutionAccount(InstitutionAccount institutionAccount) {
+        this.institutionAccount = institutionAccount;
     }
 
     @Override
@@ -155,10 +155,14 @@ public class Account implements Serializable {
 
     @Override
     public String toString() {
-        return "SystemAccount{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", active='" + isActive() + "'" +
-            "}";
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", active=" + active +
+                ", applicationUsers=" + applicationUsers +
+                ", category=" + category +
+                ", budgets=" + budgets +
+                ", institutionAccount=" + institutionAccount +
+                '}';
     }
 }

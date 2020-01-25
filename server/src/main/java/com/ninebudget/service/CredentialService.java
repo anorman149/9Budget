@@ -72,7 +72,7 @@ public class CredentialService {
         log.debug("Request to get all credentials where Institution is null");
         return StreamSupport
             .stream(credentialRepository.findAll().spliterator(), false)
-            .filter(credential -> credential.getInstitution() == null)
+            .filter(credential -> credential.getInstitutionAccount() == null)
             .map(credentialMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }

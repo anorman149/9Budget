@@ -1,4 +1,4 @@
-import {IUser} from "./user";
+import {IUser} from './user';
 
 export interface IAccount {
   id?: number;
@@ -7,7 +7,7 @@ export interface IAccount {
   users?: IUser[];
   categoryId?: number;
   budgetId?: number;
-  institutionId?: number;
+  institutionAccountId?: number;
 }
 
 export class Account implements IAccount {
@@ -18,7 +18,7 @@ export class Account implements IAccount {
     public users?: IUser[],
     public categoryId?: number,
     public budgetId?: number,
-    public institutionId?: number
+    public institutionAccountId?: number
   ) {
     this.active = this.active || false;
   }

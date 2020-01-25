@@ -19,7 +19,6 @@ import java.util.Optional;
 @Service
 @Transactional
 public class InstitutionService {
-
     private final Logger log = LoggerFactory.getLogger(InstitutionService.class);
 
     private final InstitutionRepository institutionRepository;

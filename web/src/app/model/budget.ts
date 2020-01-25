@@ -10,7 +10,7 @@ export interface IBudget {
   budgetTiming?: BudgetTiming;
   useLeftOver?: boolean;
   active?: boolean;
-  systemAccountId?: number;
+  accountId?: number;
   transactions?: ITransaction[];
   category?: ICategory;
 }

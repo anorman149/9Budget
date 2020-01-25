@@ -43,7 +43,7 @@ public class Transaction implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("transactions")
-    private Institution institution;
+    private InstitutionAccount institutionAccount;
 
     public Long getId() {
         return id;
@@ -118,17 +118,17 @@ public class Transaction implements Serializable {
         this.budget = budget;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public InstitutionAccount getInstitutionAccount() {
+        return institutionAccount;
     }
 
-    public Transaction institution(Institution institution) {
-        this.institution = institution;
+    public void setInstitutionAccount(InstitutionAccount institutionAccount) {
+        this.institutionAccount = institutionAccount;
+    }
+
+    public Transaction institutionAccount(InstitutionAccount institutionAccount) {
+        this.institutionAccount = institutionAccount;
         return this;
-    }
-
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
     }
 
     @Override
@@ -150,10 +150,13 @@ public class Transaction implements Serializable {
     @Override
     public String toString() {
         return "Transaction{" +
-            "id=" + getId() +
-            ", amount=" + getAmount() +
-            ", date='" + getDate() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
+                "id=" + id +
+                ", amount=" + amount +
+                ", date=" + date +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", budget=" + budget +
+                ", institutionAccount=" + institutionAccount +
+                '}';
     }
 }

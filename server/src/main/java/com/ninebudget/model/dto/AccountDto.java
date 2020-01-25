@@ -62,10 +62,10 @@ public class AccountDto implements Serializable {
 
     @Override
     public String toString() {
-        return "SystemAccountDto{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", active='" + isActive() + "'" +
-            "}";
+        return "AccountDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", active=" + active +
+                '}';
     }
 }

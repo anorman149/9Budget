@@ -17,7 +17,7 @@ public interface AccountMapper extends EntityMapper<AccountDto, Account> {
     @Mapping(target = "removeUser", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "budgets", ignore = true)
-    @Mapping(target = "institution", ignore = true)
+    @Mapping(target = "institutionAccount", ignore = true)
     Account toEntity(AccountDto accountDto);
 
     default Account fromId(Long id) {

@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import {ICategory} from "./category";
+import {ICategory} from './category';
 
 export interface ITransaction {
   id?: number;
@@ -8,7 +8,7 @@ export interface ITransaction {
   description?: string;
   category?: ICategory;
   budgetId?: number;
-  institutionId?: number;
+  institutionAccountId?: number;
 }
 
 export class Transaction implements ITransaction {
@@ -19,6 +19,6 @@ export class Transaction implements ITransaction {
     public description?: string,
     public category?: ICategory,
     public budgetId?: number,
-    public institutionId?: number
+    public institutionAccountId?: number
   ) {}
 }

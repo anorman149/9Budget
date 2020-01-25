@@ -102,7 +102,7 @@ public class AccountService {
         log.debug("Request to get all systemAccounts where Institution is null");
         return StreamSupport
             .stream(accountRepository.findAll().spliterator(), false)
-            .filter(systemAccount -> systemAccount.getInstitution() == null)
+            .filter(systemAccount -> systemAccount.getInstitutionAccount() == null)
             .map(accountMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }

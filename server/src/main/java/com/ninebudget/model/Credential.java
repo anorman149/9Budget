@@ -34,7 +34,7 @@ public class Credential implements Serializable {
 
     @OneToOne(mappedBy = "credential")
     @JsonIgnore
-    private Institution institution;
+    private InstitutionAccount institutionAccount;
 
     public Long getId() {
         return id;
@@ -83,17 +83,17 @@ public class Credential implements Serializable {
         this.custom = custom;
     }
 
-    public Institution getInstitution() {
-        return institution;
+    public InstitutionAccount getInstitutionAccount() {
+        return institutionAccount;
     }
 
-    public Credential institution(Institution institution) {
-        this.institution = institution;
+    public Credential institutionAccount(InstitutionAccount institutionAccount) {
+        this.institutionAccount = institutionAccount;
         return this;
     }
 
-    public void setInstitution(Institution institution) {
-        this.institution = institution;
+    public void setInstitutionAccount(InstitutionAccount institutionAccount) {
+        this.institutionAccount = institutionAccount;
     }
 
     @Override

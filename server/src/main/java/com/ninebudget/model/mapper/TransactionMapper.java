@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
  * Mapper for the entity {@link Transaction} and its DTO {@link TransactionDto}.
  */
 @Component
-@Mapper(componentModel = "spring", uses = {CategoryMapper.class, BudgetMapper.class, InstitutionMapper.class})
+@Mapper(componentModel = "spring", uses = {CategoryMapper.class, BudgetMapper.class, InstitutionAccountMapper.class})
 public interface TransactionMapper extends EntityMapper<TransactionDto, Transaction> {
 
     @Mapping(source = "category", target = "category")
     @Mapping(source = "budget.id", target = "budgetId")
-    @Mapping(source = "institution.id", target = "institutionId")
+    @Mapping(source = "institutionAccount.id", target = "institutionAccountId")
     TransactionDto toDto(Transaction transaction);
 
     @Mapping(source = "category", target = "category")
     @Mapping(source = "budgetId", target = "budget")
-    @Mapping(source = "institutionId", target = "institution")
+    @Mapping(source = "institutionAccountId", target = "institutionAccount")
     Transaction toEntity(TransactionDto transactionDto);
 
     default Transaction fromId(Long id) {
