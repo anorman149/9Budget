@@ -11,7 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link com.ninebudget.model.InstitutionAccount}.
@@ -44,7 +48,7 @@ public class InstitutionAccountService {
     }
 
     /**
-     * Get all the institutions.
+     * Get all the institutionAccounts.
      *
      * @param pageable the pagination information.
      * @return the list of entities.
@@ -55,6 +59,24 @@ public class InstitutionAccountService {
         return institutionAccountRepository.findAll(pageable)
                 .map(institutionAccountMapper::toDto);
     }
+
+    /**
+     * Get all the institutionAccounts.
+     *
+     * @param accountId the accountId
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<InstitutionAccountDto> findAllByAccountId(Pageable pageable, Long accountId) {
+        log.debug("Request to get all InstitutionAccounts by AccountId");
+
+        return StreamSupport
+                .stream(institutionAccountRepository.findAll(pageable).spliterator(), false)
+                .filter(institutionAccountDto -> institutionAccountDto.getAccount().getId().equals(accountId))
+                .map(institutionAccountMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
 
 
     /**
