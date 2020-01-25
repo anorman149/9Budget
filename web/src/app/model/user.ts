@@ -1,6 +1,7 @@
+import {ICredential} from './credential';
+
 export interface IUser {
   id?: any;
-  login?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -9,13 +10,12 @@ export interface IUser {
   createdDate?: Date;
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
-  password?: string;
+  credential?: ICredential;
 }
 
 export class User implements IUser {
   constructor(
     public id?: any,
-    public login?: string,
     public firstName?: string,
     public lastName?: string,
     public email?: string,
@@ -24,6 +24,6 @@ export class User implements IUser {
     public createdDate?: Date,
     public lastModifiedBy?: string,
     public lastModifiedDate?: Date,
-    public password?: string
+    public credential?: ICredential
   ) {}
 }

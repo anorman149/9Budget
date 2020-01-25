@@ -40,8 +40,10 @@ export class LoginComponent implements OnInit {
   submit() {
     // Setup User
     const user = new User();
-    user.login = this.loginForm.get('username').value;
-    user.password = this.loginForm.get('password').value;
+    const credential = new Credential();
+    credential.username = this.loginForm.get('username').value;
+    credential.password = this.loginForm.get('password').value;
+    user.credential = credential;
 
     // Login
     this.authenticationService.login(user).subscribe(
