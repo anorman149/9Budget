@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public interface CredentialMapper extends EntityMapper<CredentialDto, Credential> {
 
     @Mapping(target = "institutionAccount", ignore = true)
+    @Mapping(target = "applicationUser", ignore = true)
     Credential toEntity(CredentialDto credentialDto);
 
     default Credential fromId(Long id) {

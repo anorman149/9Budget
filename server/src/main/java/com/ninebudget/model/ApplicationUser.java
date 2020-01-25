@@ -1,17 +1,14 @@
 package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Locale;
 
 /**
  * A user.
@@ -25,18 +22,6 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
-    private String login;
-
-    @JsonIgnore
-    @NotNull
-    @Size(min = 60, max = 60)
-    @Column(name = "password_hash", length = 60, nullable = false)
-    private String password;
 
     @Size(max = 50)
     @Column(name = "first_name", length = 50)
@@ -72,29 +57,16 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
     @JoinColumn
     private Account account;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Credential credential;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    // Lowercase the login before saving it in database
-    public void setLogin(String login) {
-        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -161,6 +133,14 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
         this.account = account;
     }
 
+    public Credential getCredential() {
+        return credential;
+    }
+
+    public void setCredential(Credential credential) {
+        this.credential = credential;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -179,13 +159,17 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
 
     @Override
     public String toString() {
-        return "User{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", activated='" + activated + '\'' +
-            ", activationKey='" + activationKey + '\'' +
-            "}";
+        return "ApplicationUser{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", activated=" + activated +
+                ", activationKey='" + activationKey + '\'' +
+                ", resetKey='" + resetKey + '\'' +
+                ", resetDate=" + resetDate +
+                ", account=" + account +
+                ", credential=" + credential +
+                '}';
     }
 }

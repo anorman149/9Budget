@@ -2,6 +2,7 @@ package com.ninebudget.model.dto;
 
 import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.Constants;
+import com.ninebudget.model.Credential;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -46,13 +47,14 @@ public class ApplicationUserDto implements Serializable {
 
     private Instant lastModifiedDate;
 
+    private Credential credential;
+
     public ApplicationUserDto() {
         // Empty constructor needed for Jackson.
     }
 
     public ApplicationUserDto(ApplicationUser applicationUser) {
         this.id = applicationUser.getId();
-        this.login = applicationUser.getLogin();
         this.firstName = applicationUser.getFirstName();
         this.lastName = applicationUser.getLastName();
         this.email = applicationUser.getEmail();
@@ -61,7 +63,7 @@ public class ApplicationUserDto implements Serializable {
         this.createdDate = applicationUser.getCreatedDate();
         this.lastModifiedBy = applicationUser.getLastModifiedBy();
         this.lastModifiedDate = applicationUser.getLastModifiedDate();
-        this.password = applicationUser.getPassword();
+        this.credential = applicationUser.getCredential();
     }
 
     public Long getId() {
@@ -152,18 +154,29 @@ public class ApplicationUserDto implements Serializable {
         this.password = password;
     }
 
+    public Credential getCredential() {
+        return credential;
+    }
+
+    public void setCredential(Credential credential) {
+        this.credential = credential;
+    }
+
     @Override
     public String toString() {
-        return "UserDto{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", activated=" + activated +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            "}";
+        return "ApplicationUserDto{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", activated=" + activated +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDate=" + createdDate +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", credential=" + credential +
+                '}';
     }
 }

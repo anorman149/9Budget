@@ -1,13 +1,12 @@
 package com.ninebudget.service;
 
 import com.ninebudget.model.ApplicationUser;
+import com.ninebudget.model.Credential;
 import com.ninebudget.model.EmailAlreadyUsedException;
-import com.ninebudget.model.InvalidPasswordException;
 import com.ninebudget.model.UsernameAlreadyUsedException;
 import com.ninebudget.model.dto.ApplicationUserDto;
 import com.ninebudget.repository.ApplicationUserRepository;
 import com.ninebudget.util.RandomUtil;
-import com.ninebudget.util.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,7 +49,7 @@ public class UserService {
         return applicationUserRepository.findOneByResetKey(key)
             .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
             .map(user -> {
-                user.setPassword(passwordEncoder.encode(newPassword));
+                user.getCredential().setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
                 user.setResetDate(null);
                 return user;
@@ -68,7 +67,9 @@ public class UserService {
     }
 
     public ApplicationUser registerUser(ApplicationUserDto applicationUserDTO, String password) {
-        applicationUserRepository.findOneByLogin(applicationUserDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
+        Credential cred = new Credential();
+        cred.setUsername(applicationUserDTO.getLogin().toLowerCase());
+        applicationUserRepository.findOneByCredential(cred).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
                 throw new UsernameAlreadyUsedException();
@@ -82,9 +83,13 @@ public class UserService {
         });
         ApplicationUser newApplicationUser = new ApplicationUser();
         String encryptedPassword = passwordEncoder.encode(password);
-        newApplicationUser.setLogin(applicationUserDTO.getLogin().toLowerCase());
+
         // new user gets initially a generated password
-        newApplicationUser.setPassword(encryptedPassword);
+        Credential credential = new Credential();
+        credential.setPassword(encryptedPassword);
+        credential.setUsername(applicationUserDTO.getCredential().getUsername().toLowerCase());
+
+        newApplicationUser.setCredential(credential);
         newApplicationUser.setFirstName(applicationUserDTO.getFirstName());
         newApplicationUser.setLastName(applicationUserDTO.getLastName());
         if (applicationUserDTO.getEmail() != null) {
@@ -110,7 +115,6 @@ public class UserService {
 
     public ApplicationUser createUser(ApplicationUserDto applicationUserDTO) {
         ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setLogin(applicationUserDTO.getLogin().toLowerCase());
         applicationUser.setFirstName(applicationUserDTO.getFirstName());
         applicationUser.setLastName(applicationUserDTO.getLastName());
         if (applicationUserDTO.getEmail() != null) {
@@ -118,8 +122,12 @@ public class UserService {
         }
 
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
-        applicationUser.setPassword(encryptedPassword);
 
+        Credential credential = new Credential();
+        credential.setPassword(encryptedPassword);
+        credential.setUsername(applicationUserDTO.getCredential().getUsername().toLowerCase());
+
+        applicationUser.setCredential(credential);
         applicationUser.setResetKey(RandomUtil.generateResetKey());
         applicationUser.setResetDate(Instant.now());
         applicationUser.setActivated(true);
@@ -128,29 +136,6 @@ public class UserService {
         log.debug("Created Information for User: {}", applicationUser);
 
         return applicationUser;
-    }
-
-    /**
-     * Update basic information (first name, last name, email, language) for the current user.
-     *
-     * @param firstName first name of user.
-     * @param lastName  last name of user.
-     * @param email     email id of user.
-     * @param langKey   language key.
-     * @param imageUrl  image URL of user.
-     */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
-        SecurityUtils.getCurrentUserLogin()
-            .flatMap(applicationUserRepository::findOneByLogin)
-            .ifPresent(user -> {
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                if (email != null) {
-	                user.setEmail(email.toLowerCase());
-                }
-
-                log.debug("Changed Information for User: {}", user);
-            });
     }
 
     /**
@@ -165,7 +150,7 @@ public class UserService {
             .filter(Optional::isPresent)
             .map(Optional::get)
             .map(user -> {
-                user.setLogin(applicationUserDTO.getLogin().toLowerCase());
+                user.getCredential().setUsername(applicationUserDTO.getLogin().toLowerCase());
                 user.setFirstName(applicationUserDTO.getFirstName());
                 user.setLastName(applicationUserDTO.getLastName());
 
@@ -182,26 +167,8 @@ public class UserService {
             .map(ApplicationUserDto::new);
     }
 
-    public void deleteUser(String login) {
-        applicationUserRepository.findOneByLogin(login).ifPresent(user -> {
-            applicationUserRepository.delete(user);
-            log.debug("Deleted User: {}", user);
-        });
-    }
-
-    public void changePassword(String currentClearTextPassword, String newPassword) {
-        SecurityUtils.getCurrentUserLogin()
-            .flatMap(applicationUserRepository::findOneByLogin)
-            .ifPresent(user -> {
-                String currentEncryptedPassword = user.getPassword();
-                if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {
-                    throw new InvalidPasswordException();
-                }
-
-                String encryptedPassword = passwordEncoder.encode(newPassword);
-                user.setPassword(encryptedPassword);
-
-                log.debug("Changed password for User: {}", user);
-            });
+    public void delete(Long id) {
+        log.debug("Request to delete AccountUser : {}", id);
+        applicationUserRepository.deleteById(id);
     }
 }

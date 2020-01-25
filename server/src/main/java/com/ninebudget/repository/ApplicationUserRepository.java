@@ -1,6 +1,7 @@
 package com.ninebudget.repository;
 
 import com.ninebudget.model.ApplicationUser;
+import com.ninebudget.model.Credential;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,5 @@ public interface ApplicationUserRepository extends JpaRepository<ApplicationUser
 
     Optional<ApplicationUser> findOneByEmailIgnoreCase(String email);
 
-    Optional<ApplicationUser> findOneByLogin(String login);
+    Optional<ApplicationUser> findOneByCredential(Credential credential);
 }

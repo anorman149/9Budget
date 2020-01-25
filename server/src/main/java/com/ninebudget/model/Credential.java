@@ -5,6 +5,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -21,11 +23,15 @@ public class Credential implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", length = 50, unique = true, nullable = false)
+    @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 1, max = 50)
     private String username;
 
+    @JsonIgnore
     @NotNull
-    @Column(name = "password", nullable = false)
+    @Size(min = 60, max = 60)
+    @Column(name = "password", length = 60, nullable = false)
     private String password;
 
     @NotNull
@@ -35,6 +41,10 @@ public class Credential implements Serializable {
     @OneToOne(mappedBy = "credential")
     @JsonIgnore
     private InstitutionAccount institutionAccount;
+
+    @OneToOne(mappedBy = "credential")
+    @JsonIgnore
+    private ApplicationUser applicationUser;
 
     public Long getId() {
         return id;
@@ -96,6 +106,14 @@ public class Credential implements Serializable {
         this.institutionAccount = institutionAccount;
     }
 
+    public ApplicationUser getApplicationUser() {
+        return applicationUser;
+    }
+
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -115,10 +133,12 @@ public class Credential implements Serializable {
     @Override
     public String toString() {
         return "Credential{" +
-            "id=" + getId() +
-            ", username='" + getUsername() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", custom='" + getCustom() + "'" +
-            "}";
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", custom='" + custom + '\'' +
+                ", institutionAccount=" + institutionAccount +
+                ", applicationUser=" + applicationUser +
+                '}';
     }
 }

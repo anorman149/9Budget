@@ -38,11 +38,11 @@ public class ApplicationUserMapper {
         } else {
             ApplicationUser applicationUser = new ApplicationUser();
             applicationUser.setId(applicationUserDTO.getId());
-            applicationUser.setLogin(applicationUserDTO.getLogin());
             applicationUser.setFirstName(applicationUserDTO.getFirstName());
             applicationUser.setLastName(applicationUserDTO.getLastName());
             applicationUser.setEmail(applicationUserDTO.getEmail());
             applicationUser.setActivated(applicationUserDTO.isActivated());
+            applicationUser.setCredential(applicationUserDTO.getCredential());
             return applicationUser;
         }
     }
