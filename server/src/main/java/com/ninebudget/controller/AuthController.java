@@ -5,7 +5,7 @@ import com.ninebudget.model.dto.ApplicationUserDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 
 @APIController
 public class AuthController implements AuthOperations {
@@ -15,7 +15,7 @@ public class AuthController implements AuthOperations {
     private JWTToken jwtToken;
 
     @Override
-    public OAuthToken login(ApplicationUserDto user) throws ServiceException {
+    public ResponseEntity<OAuthToken> login(ApplicationUserDto user) throws ServiceException {
         //TODO For now return a token without checking DB
         OAuthToken authToken = new OAuthToken(user);
 
@@ -26,6 +26,12 @@ public class AuthController implements AuthOperations {
             throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Authenticate");
         }
 
-        return authToken;
+        //Create Cookie and place in Response for others to use
+        HttpCookie cookie = ResponseCookie.from("token", authToken.getToken())
+                .path("/")
+//                .secure(true) //TODO uncomment when SSL is setup
+                .build();
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(authToken);
     }
 }

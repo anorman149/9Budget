@@ -54,5 +54,5 @@ export const api = {
 };
 
 export const storage = {
-  name: 'auth'
+  name: 'token'
 };

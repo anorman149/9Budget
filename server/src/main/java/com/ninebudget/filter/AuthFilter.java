@@ -43,8 +43,8 @@ public class AuthFilter extends OncePerRequestFilter {
             log.error("No Authentication Provided");
 
             //Set error and Response
-            ServiceException exception = new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "No Authentication Provided");
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+            ServiceException exception = new ServiceException(HttpStatus.UNAUTHORIZED.toString(), "FATAL", "No Authentication Provided");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
             //Print out error Object
@@ -68,8 +68,8 @@ public class AuthFilter extends OncePerRequestFilter {
             log.error("Unable to Validate Token " + e);
 
             //Set error and Response
-            ServiceException exception = new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not verify signature of Token");
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+            ServiceException exception = new ServiceException(HttpStatus.UNAUTHORIZED.toString(), "FATAL", "Could not verify signature of Token");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
             //Print out error Object
@@ -82,9 +82,6 @@ public class AuthFilter extends OncePerRequestFilter {
         }
 
         log.info("Token has been verified");
-
-        //Place in HTTP Session for APIs to use
-        request.getSession().setAttribute("token", jwtToken);
 
         //Continue on the path the request needed
         chain.doFilter(request, response);

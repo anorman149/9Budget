@@ -1,52 +1,57 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Observable, of, ReplaySubject} from 'rxjs';
+import {catchError, map, tap} from 'rxjs/operators';
 import {api, storage} from '../../environments/environment';
 import {OauthToken} from '../model/oauth-token';
 import {User} from '../model/user';
 import {Router} from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUser: BehaviorSubject<string>;
-  public currentUser$: Observable<string>;
+  private currentUser: User | null = null;
+  private authenticationState = new ReplaySubject<Account | null>(1);
+  private currentUser$: Observable<OauthToken>;
 
-  constructor(private http: HttpClient,
-              private router: Router) {
-
-    this.currentUser = new BehaviorSubject<string>(sessionStorage.getItem(storage.name));
-    this.currentUser$ = this.currentUser.asObservable();
-  }
-
-  public get token(): string {
-    return this.currentUser.value;
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private cookieService: CookieService
+  ) {}
 
   isLoggedIn() {
-    return this.currentUser.value;
+    return this.currentUser !== null;
   }
 
   login(user: User) {
-    return this.http.post<OauthToken>(api.url + api.auth.urlAuth, user)
-      .pipe(map(oauthToken => {
+    this.currentUser$ = this.http.post<OauthToken>(api.url + api.auth.urlAuth, user)
+      .pipe(
+        catchError(() => {
+          return of(null);
+      }),
+      tap((oauthToken: OauthToken | null) => {
         // Login successful if there's a token in the response
         if (oauthToken && oauthToken.token) {
-          // Store user details and jwt token in local storage to keep user logged in between page refreshes
-          sessionStorage.setItem(storage.name, oauthToken.token);
-
           // Grab OAuth Token from Response
-          this.currentUser.next(oauthToken.token);
+          this.currentUser = oauthToken.user;
         }
 
         return oauthToken;
       }));
+
+    return this.currentUser$;
+  }
+
+  getAuthenticationState(): Observable<Account | null> {
+    return this.authenticationState.asObservable();
   }
 
   logout() {
-    // Remove user from local storage to log user out
-    sessionStorage.removeItem(storage.name);
-    this.currentUser.next(null);
+    // Remove Cookie to log user out
+    this.cookieService.delete(storage.name);
+
+    this.currentUser = null;
     this.router.navigate([api.auth.urlLogin]);
   }
 }

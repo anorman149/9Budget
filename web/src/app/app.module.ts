@@ -31,6 +31,7 @@ import { InstitutionComponent } from './component/institution/institution.compon
 import { InstitutionCreateComponent } from './component/institution-create/institution-create.component';
 import { SwaggerComponent } from './component/swagger/swagger.component';
 import { BudgetNewComponent } from './component/budget-new/budget-new.component';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { BudgetNewComponent } from './component/budget-new/budget-new.component'
     AccountService,
     AuthenticationService,
     MessageService,
+    CookieService,
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeaderInterceptor, multi: true}
   ],

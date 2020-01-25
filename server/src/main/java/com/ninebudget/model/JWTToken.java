@@ -12,13 +12,12 @@ import java.io.IOException;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
+import java.time.Instant;
 import java.util.Date;
 
 @Component
 @PropertySource("classpath:store.properties")
 public class JWTToken implements Token<String> {
-    private static final long AUTH_TOKEN_EXPIRE_TIME = 5 * 60 * 18 * 1000; //90 Minutes
-
     private Claims claims;
     private String token;
 
@@ -81,7 +80,7 @@ public class JWTToken implements Token<String> {
         return Jwts.builder()
                 .setSubject("davis") //TODO correct - oAuthToken.getUser().getCredential().getUsername()
                 .setAudience("9budget")
-                .setExpiration(new Date(System.currentTimeMillis() + AUTH_TOKEN_EXPIRE_TIME))
+                .setExpiration(Date.from(Instant.now().plusSeconds(Token.AUTH_TOKEN_EXPIRE_TIME)))
                 .setIssuedAt(new Date())
                 .setIssuer("9budget")
                 .signWith(SignatureAlgorithm.RS256, key)
