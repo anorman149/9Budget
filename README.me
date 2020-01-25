@@ -33,7 +33,7 @@ Once this is done, open this file - C:\wildfly-18.0.1.Final\standalone\configura
 Go to the section for datasource - Add the below Datasource into the file. Ask Adam for the Password.
 
 <datasource jndi-name="java:/BudgetDS" pool-name="BudgetDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
-    <connection-url>jdbc:postgresql://ninebudgetdatabase-1.cgtb2y4tyq7y.us-east-2.rds.amazonaws.com:5432/9budget</connection-url>
+    <connection-url>jdbc:postgresql://ninebudgetdatabase-1.cgtb2y4tyq7y.us-east-2.rds.amazonaws.com:5432/ninebudget</connection-url>
     <driver>postgresql</driver>
     <pool>
         <min-pool-size>1</min-pool-size>
