@@ -1,18 +1,28 @@
 package com.ninebudget.model.dto;
 
+import com.ninebudget.model.Constants;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
 public class CredentialDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final int PASSWORD_MIN_LENGTH = 8;
+    public static final int PASSWORD_MAX_LENGTH = 100;
+
     private Long id;
 
     @NotNull
+    @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 1, max = 50)
     private String username;
 
     @NotNull
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
     @NotNull
