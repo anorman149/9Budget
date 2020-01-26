@@ -22,9 +22,12 @@ public class InstitutionService {
 
     private final Logger log = LoggerFactory.getLogger(InstitutionService.class);
 
-    private final InstitutionRepository institutionRepository;
+    private InstitutionRepository institutionRepository;
 
-    private final InstitutionMapper institutionMapper;
+    private InstitutionMapper institutionMapper;
+
+    public InstitutionService() {
+    }
 
     public InstitutionService(InstitutionRepository institutionRepository, InstitutionMapper institutionMapper) {
         this.institutionRepository = institutionRepository;

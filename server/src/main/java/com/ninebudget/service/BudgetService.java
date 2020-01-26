@@ -25,9 +25,12 @@ import java.util.stream.StreamSupport;
 public class BudgetService {
     private final Logger log = LoggerFactory.getLogger(BudgetService.class);
 
-    private final BudgetRepository budgetRepository;
+    private BudgetRepository budgetRepository;
 
-    private final BudgetMapper budgetMapper;
+    private BudgetMapper budgetMapper;
+
+    public BudgetService() {
+    }
 
     public BudgetService(BudgetRepository budgetRepository, BudgetMapper budgetMapper) {
         this.budgetRepository = budgetRepository;

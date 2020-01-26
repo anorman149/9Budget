@@ -22,9 +22,12 @@ public class SubCategoryService {
 
     private final Logger log = LoggerFactory.getLogger(SubCategoryService.class);
 
-    private final SubCategoryRepository subCategoryRepository;
+    private SubCategoryRepository subCategoryRepository;
 
-    private final SubCategoryMapper subCategoryMapper;
+    private SubCategoryMapper subCategoryMapper;
+
+    public SubCategoryService() {
+    }
 
     public SubCategoryService(SubCategoryRepository subCategoryRepository, SubCategoryMapper subCategoryMapper) {
         this.subCategoryRepository = subCategoryRepository;

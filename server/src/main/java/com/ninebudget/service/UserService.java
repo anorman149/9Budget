@@ -24,8 +24,11 @@ import java.util.Optional;
 public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-    private final ApplicationUserRepository applicationUserRepository;
-    private final PasswordEncoder passwordEncoder;
+    private ApplicationUserRepository applicationUserRepository;
+    private PasswordEncoder passwordEncoder;
+
+    public UserService() {
+    }
 
     public UserService(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder) {
         this.applicationUserRepository = applicationUserRepository;

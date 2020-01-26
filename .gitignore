@@ -1,2 +1,13 @@
-.idea/
 server/src/main/webapp/resources/static/
+*.class
+.mtj.tmp/
+*.war
+*.jar
+*.ear
+*.iml
+/*.iml
+hs_err_pid*
+/.idea/
+**/build/**
+**/target/**
+**/static/**
