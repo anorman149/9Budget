@@ -25,12 +25,9 @@ import java.util.stream.StreamSupport;
 public class InstitutionAccountService {
     private final Logger log = LoggerFactory.getLogger(InstitutionAccountService.class);
 
-    private InstitutionAccountRepository institutionAccountRepository;
+    private final InstitutionAccountRepository institutionAccountRepository;
 
-    private InstitutionAccountMapper institutionAccountMapper;
-
-    public InstitutionAccountService() {
-    }
+    private final InstitutionAccountMapper institutionAccountMapper;
 
     public InstitutionAccountService(InstitutionAccountRepository institutionAccountRepository, InstitutionAccountMapper institutionAccountMapper) {
         this.institutionAccountRepository = institutionAccountRepository;

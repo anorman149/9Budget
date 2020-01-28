@@ -22,12 +22,9 @@ public class TransactionService {
 
     private final Logger log = LoggerFactory.getLogger(TransactionService.class);
 
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
-    private TransactionMapper transactionMapper;
-
-    public TransactionService() {
-    }
+    private final TransactionMapper transactionMapper;
 
     public TransactionService(TransactionRepository transactionRepository, TransactionMapper transactionMapper) {
         this.transactionRepository = transactionRepository;

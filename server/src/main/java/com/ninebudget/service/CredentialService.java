@@ -26,12 +26,9 @@ public class CredentialService {
 
     private final Logger log = LoggerFactory.getLogger(CredentialService.class);
 
-    private CredentialRepository credentialRepository;
+    private final CredentialRepository credentialRepository;
 
-    private CredentialMapper credentialMapper;
-
-    public CredentialService() {
-    }
+    private final CredentialMapper credentialMapper;
 
     public CredentialService(CredentialRepository credentialRepository, CredentialMapper credentialMapper) {
         this.credentialRepository = credentialRepository;

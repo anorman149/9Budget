@@ -26,12 +26,9 @@ public class AccountService {
 
     private final Logger log = LoggerFactory.getLogger(AccountService.class);
 
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    private AccountMapper accountMapper;
-
-    public AccountService() {
-    }
+    private final AccountMapper accountMapper;
 
     public AccountService(AccountRepository accountRepository, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;

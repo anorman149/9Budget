@@ -27,9 +27,6 @@ public class UserService {
     private ApplicationUserRepository applicationUserRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserService() {
-    }
-
     public UserService(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder) {
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;
