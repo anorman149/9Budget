@@ -15,7 +15,7 @@ import java.time.Instant;
  */
 @Entity
 @Table(name = "application_user")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "account")
 public class ApplicationUser extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 

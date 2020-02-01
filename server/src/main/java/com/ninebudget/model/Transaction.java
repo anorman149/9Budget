@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
  */
 @Entity
 @Table(name = "transaction")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "institution")
 public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
 

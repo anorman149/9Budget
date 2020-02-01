@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "budget")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "budget")
 public class Budget implements Serializable {
     private static final long serialVersionUID = 1L;
 

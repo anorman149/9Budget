@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "category")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "category")
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,6 @@
 package com.ninebudget.model.dto;
 
 import com.ninebudget.model.BudgetTiming;
-import com.ninebudget.model.Transaction;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -34,7 +33,7 @@ public class BudgetDto implements Serializable {
 
     private CategoryDto category;
 
-    private List<Transaction> transactions;
+    private List<TransactionDto> transactions;
 
     public Long getId() {
         return id;
@@ -100,11 +99,11 @@ public class BudgetDto implements Serializable {
         this.category = categoryDto;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<TransactionDto> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<TransactionDto> transactions) {
         this.transactions = transactions;
     }
 

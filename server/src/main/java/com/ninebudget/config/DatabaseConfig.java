@@ -44,7 +44,8 @@ public class DatabaseConfig {
         props.put("hibernate.default_schema", DEFAULT_SCHEMA);
         props.put("hibernate.cache.use_second_level_cache", "true");
         props.put("hibernate.cache.ehcache.missing_cache_strategy", "create");
-        props.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+        props.put("hibernate.cache.region.factory_class", "org.hibernate.cache.jcache.JCacheRegionFactory");
+        props.put("hibernate.javax.cache.provider", "org.ehcache.jsr107.EhcacheCachingProvider");
         factory.setJpaProperties(props);
         factory.setDataSource((DataSource) new InitialContext().lookup(DATASOURCE_CONTEXT));
         return factory;

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "institution_type")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "institution")
 public class InstitutionType implements Serializable {
     private static final long serialVersionUID = 1L;
 

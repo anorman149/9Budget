@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "institution_account")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "institution")
 public class InstitutionAccount extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class InstitutionAccount extends AbstractAuditingEntity implements Serial
     private Credential credential;
 
     @OneToMany(mappedBy = "institutionAccount")
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "institution")
     private Set<Transaction> transactions = new HashSet<>();
 
     @ManyToOne
