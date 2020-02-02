@@ -77,8 +77,6 @@ public class InstitutionAccountService {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
-
     /**
      * Get one institutionAccount by id.
      *
