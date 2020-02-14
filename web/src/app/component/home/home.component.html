@@ -3,18 +3,18 @@
     <div class="branding">
       <a class="nav-link">
         <clr-icon size="30" shape="coin-bag"></clr-icon>
-        <span class="title">Budget</span>
+        <span class="title">9Budget</span>
       </a>
     </div>
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger>
-          <clr-icon shape="applicationUser"></clr-icon>
+          <clr-icon shape="user"></clr-icon>
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <a href="#" clrDropdownItem>About</a><!--TODO-->
-          <a href="#" clrDropdownItem routerLink="api" routerLinkActive="active">API</a>
+          <a href="#" clrDropdownItem (click)="hideAll(); showAPI = true;">API</a>
           <a href="#" clrDropdownItem>Preferences</a><!--TODO-->
           <a href="#" (click)="logout()" clrDropdownItem>Log out</a>
         </clr-dropdown-menu>
@@ -23,26 +23,54 @@
   </header>
   <div class="content-container">
     <div class="content-area">
-      <router-outlet></router-outlet>
+      <!--Budgets Section-->
+      <div *ngIf="showBudgets">
+        <app-budget></app-budget>
+      </div>
+
+      <!--Dashboard Section-->
+      <div *ngIf="showDashboard">
+
+      </div>
+
+      <!--Transaction Section-->
+      <div *ngIf="showTransactions">
+
+      </div>
+
+      <!--Account Section-->
+      <div *ngIf="showAccount">
+        <app-account></app-account>
+      </div>
+
+      <!--Settings Section-->
+      <div *ngIf="showSettings">
+
+      </div>
+
+      <!--API Section-->
+      <div *ngIf="showAPI">
+        <app-swagger></app-swagger>
+      </div>
     </div>
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed">
-      <a clrVerticalNavLink routerLink="home" routerLinkActive="active">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showDashboard = true;">
         <clr-icon class="is-highlight" clrVerticalNavIcon shape="home"></clr-icon>
         Dashboard
       </a>
-      <a clrVerticalNavLink routerLink="budgets" routerLinkActive="active">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showBudgets = true;">
         <clr-icon class="is-success" clrVerticalNavIcon shape="dollar"></clr-icon>
         Budgets
       </a>
-      <a clrVerticalNavLink href="#">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showTransactions = true;">
         <clr-icon class="is-warning" clrVerticalNavIcon shape="bank"></clr-icon>
         Transactions
       </a>
-      <a clrVerticalNavLink href="#">
-        <clr-icon class="is-error" clrVerticalNavIcon shape="applicationUser"></clr-icon>
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showAccount = true;">
+        <clr-icon class="is-error" clrVerticalNavIcon shape="user"></clr-icon>
         Account
       </a>
-      <a clrVerticalNavLink href="#">
+      <a clrVerticalNavLink href="#" (click)="hideAll(); showSettings = true;">
         <clr-icon class="is-info" clrVerticalNavIcon shape="cog"></clr-icon>
         Settings
       </a>
