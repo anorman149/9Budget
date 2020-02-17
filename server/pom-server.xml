@@ -156,11 +156,6 @@
             <version>3.8.1</version>
         </dependency>
         <dependency>
-            <groupId>com.plaid</groupId>
-            <artifactId>plaid-java</artifactId>
-            <version>5.1.5</version>
-        </dependency>
-        <dependency>
             <groupId>com.ninebudget</groupId>
             <artifactId>web</artifactId>
             <version>${project.version}</version>
