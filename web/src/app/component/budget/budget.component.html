@@ -1,18 +1,22 @@
-<div class="card my-5">
-  <div class="card-body">
-    <table class="table table-bordered table-striped">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Category</th>
-      </tr>
-      </thead>
-      <tbody>
-        <td>{{ budget.id }}</td>
-        <td>{{ budget.name }}</td>
-        <td>{{ budget.category.id }}</td>
-      </tbody>
-    </table>
+<div class="main-container">
+  <div class="content-container">
+    <div class="card my-5">
+      <div class="card-body">
+        <table class="table table-bordered table-striped">
+          <thead class="branding">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+          </tr>
+          </thead>
+          <tbody>
+          <td>{{ budget.id }}</td>
+          <td>{{ budget.name }}</td>
+          <td>{{ budget.category.id }}</td>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
