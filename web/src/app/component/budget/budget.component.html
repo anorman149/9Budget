@@ -1,22 +1,62 @@
-<div class="main-container">
-  <div class="content-container">
-    <div class="card my-5">
-      <div class="card-body">
-        <table class="table table-bordered table-striped">
-          <thead class="branding">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Category</th>
-          </tr>
-          </thead>
-          <tbody>
-          <td>{{ budget.id }}</td>
-          <td>{{ budget.name }}</td>
-          <td>{{ budget.category.id }}</td>
-          </tbody>
-        </table>
+<div class="card-columns">
+    <div class="clr-col-lg-10 clr-col-md-8 clr-col-12">
+      <div class="card">
+        <div class="card-header">
+          Budgets
+        </div>
+        <div class="card-block">
+          <div class="card-title">
+            <a class="btn btn-sm float-left" (click)="budgetNewDisplay = true">
+              <clr-icon size="12" shape="plus"></clr-icon>
+              New
+            </a>
+          </div>
+          <div class="card-text">
+            <table class="table table-noborder">
+              <tbody>
+              <tr *ngFor="let budget of budgets">
+                <td class="left">
+                  <span style="font-weight:bold">{{budget.category.type}} - </span><span>{{budget.category.subCategory.name}}</span>
+                  <span class="float-right">${{budget.amountSpent}} of ${{budget.amount}}</span>
+                  <P></P>
+                  <div class="progress-block">
+                    <div class="progress {{checkProgressType(budget)}}">
+                      <progress value="{{budget.amountSpent / budget.amount * 100}}" max="100"></progress>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+      <div class="card">
+        <div class="card-header">
+          Overview
+        </div>
+        <div class="card-block">
+          <div class="card-text">
+            <span>Income: </span><span style="color: black; font-size:20px">${{income.toFixed(2)}}</span>
+            <P></P>
+            <span>Spending: </span><span style="color: red; font-size:20px">${{spent.toFixed(2)}}</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-weight:bold">Left Over: </span><span style="font-size:20px" class="{{leftOverColor}}">${{leftOverAmount.toFixed(2)}}</span>
+        </div>
+      </div>
+    </div>
 </div>
+
+<!--For Budget New Messages -->
+<p-dialog [(visible)]="budgetNewDisplay" [modal]="true" [blockScroll]="true"
+          [closeOnEscape]="true" [closable]="true" [focusOnShow]="true">
+  <p-header>
+    Create New Budget
+  </p-header>
+  <app-budget-new></app-budget-new>
+</p-dialog>
