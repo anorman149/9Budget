@@ -8,13 +8,13 @@ import {MessageService} from 'primeng/api';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  private collapsed: boolean = true; //Start collapsed Navigation
-  private showBudgets: boolean = false;
-  private showDashboard: boolean = true; //Default View
-  private showTransactions: boolean = false;
-  private showAccount: boolean = false;
-  private showSettings: boolean = false;
-  private showAPI: boolean = false;
+  private collapsed = true; // Start collapsed Navigation
+  private showBudgets = false;
+  private showDashboard = true; // Default View
+  private showTransactions = false;
+  private showAccount = false;
+  private showSettings = false;
+  private showAPI = false;
 
   constructor(private authenticationService: AuthenticationService,
               private messageService: MessageService) {
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
 
   }
 
-  hideAll(){
+  hideAll() {
     this.showBudgets = false;
     this.showDashboard = false;
     this.showTransactions = false;
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
     this.showAPI = false;
   }
 
-  logout(){
+  logout() {
     this.authenticationService.logout();
   }
 }
