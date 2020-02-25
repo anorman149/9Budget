@@ -16,7 +16,7 @@
               <tbody>
               <tr *ngFor="let budget of budgets">
                 <td class="left">
-                  <a class="btn btn-sm btn-link float-left" (click)="budgetDetailDisplay = true">
+                  <a class="btn btn-sm btn-link float-left" (click)="budgetDetailDisplay = true; budgetDetailID = budgets.indexOf(budget)">
                     {{budget.category.type}} - {{budget.category.subCategory.name}}
                   </a>
                   <span class="float-right">${{budget.amountSpent}} of ${{budget.amount}}</span>
@@ -69,5 +69,5 @@
   <p-header>
     Edit Budget
   </p-header>
-  <app-budget-detail></app-budget-detail>
+  <app-budget-detail [budget]="budgets[budgetDetailID]"></app-budget-detail>
 </p-dialog>

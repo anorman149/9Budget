@@ -1,1 +1,19 @@
-<p>budget-detail works!</p>
+<form class="login" [formGroup]="budgetDetailForm" (ngSubmit)="submit()">
+  <clr-radio-container clrInline>
+    <label>When will this happen?</label>
+    <clr-radio-wrapper>
+      <label for="option1">Weekly</label>
+      <input type="radio" clrRadio id="option1" name="budgetTiming" required value="Weekly" [(ngModel)]="budgetTiming" />
+    </clr-radio-wrapper>
+    <clr-radio-wrapper>
+      <label for="option2">Monthly</label>
+      <input type="radio" clrRadio id="option2" name="budgetTiming" required value="Monthly" [(ngModel)]="budgetTiming" />
+    </clr-radio-wrapper>
+    <clr-control-error>This field is required!</clr-control-error>
+  </clr-radio-container>
+
+  <clr-input-container>
+    <label for="amount">Amount</label>
+    $<input clrInput placeholder="{{budget.amount}}" id="amount" name="amount" [(ngModel)]="budget.amount" />
+  </clr-input-container>
+</form>
