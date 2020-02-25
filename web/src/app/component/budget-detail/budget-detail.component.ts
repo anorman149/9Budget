@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IBudget} from '../../model/budget';
+import {BudgetService} from '../../service/budget.service';
+import {BudgetTiming} from '../../model/budget-timing.model';
 
 @Component({
   selector: 'app-budget-detail',
@@ -8,24 +10,24 @@ import {IBudget} from '../../model/budget';
   styleUrls: ['./budget-detail.component.scss']
 })
 export class BudgetDetailComponent implements OnInit {
-  display: true;
   budgetDetailForm: FormGroup;
 
   @Input()
   budget?: IBudget;
-  budgetTiming: any;
 
-  constructor() {}
+  constructor(private budgetService: BudgetService) {}
 
   ngOnInit() {
-    this.display = true;
-
     // Form
     this.budgetDetailForm = new FormGroup({
+      budgetTiming: new FormControl(this.budget.budgetTiming, Validators.required),
+      amount: new FormControl(this.budget.amount, Validators.required)
     });
   }
 
   submit() {
-
+    this.budget.budgetTiming = this.budgetDetailForm.get('budgetTiming').value;
+    this.budget.amount = this.budgetDetailForm.get('amount').value;
+    this.budgetService.update(this.budget);
   }
 }

@@ -30,10 +30,10 @@ export class BudgetService implements PrimaryService {
   }
 
   create(budget: Budget): any {
-    return this.http.post<Budget>(api.url + api.budget.url  + '/' + budget.id, budget);
+    return this.http.post<Budget>(api.url + api.budget.url, budget);
   }
 
   update(budget: Budget): any {
-    return this.http.put<Budget>(api.url + api.budget.url  + '/' + budget.id, budget);
+    return this.http.put<Budget>(api.url + api.budget.url, budget);
   }
 }
