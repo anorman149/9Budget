@@ -1,4 +1,64 @@
-  <form class="login" [formGroup]="budgetNewForm" (ngSubmit)="submit()">
+<form class="login" [formGroup]="budgetNewForm" (ngSubmit)="submit()">
+  <div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="!budgetNewForm.valid">Create</button>
-  </form>
+    <clr-select-container>
+      <label>Category</label>
+      <select clrSelect id="category" required formControlName="category">
+        <option value="bills">Bills</option>
+        <option value="food_dining">Food/Dining</option>
+        <option value="fees_charges">Fees/Charges</option>
+        <option value="income">Income</option>
+        <option value="travel">Travel</option>
+        <option value="home">Home</option>
+        <option value="taxes">Taxes</option>
+        <option value="shopping">Shopping</option>
+        <option value="misc">Miscellaneous</option>
+        <option value="education">Education</option>
+        <option value="hide_from_budget">Hide from budget</option>
+      </select>
+    </clr-select-container>
+
+    <clr-input-container>
+      <label for="name">Name</label>
+      <input clrInput type="text" id="name" required formControlName="name"/>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-input-container>
+
+    <clr-input-container>
+      <label for="amount">Amount</label>
+      $<input clrInput type="text" id="amount" required formControlName="amount"/>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-input-container>
+
+    <clr-radio-container clrInline>
+      <label>When will this happen?</label>
+      <clr-radio-wrapper>
+        <label for="budget_biweekly">BIWEEKLY</label>
+        <input type="radio" clrRadio id="budget_biweekly" formControlName="budgetTiming" required value="BIWEEKLY"/>
+      </clr-radio-wrapper>
+      <clr-radio-wrapper>
+        <label for="budget_monthly">MONTHLY</label>
+        <input type="radio" clrRadio id="budget_monthly" formControlName="budgetTiming" required value="MONTHLY"/>
+      </clr-radio-wrapper>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-radio-container>
+
+    <clr-radio-container clrInline>
+      <label>Use left over?</label>
+      <clr-radio-wrapper>
+        <label for="use_leftover_yes">Yes</label>
+        <input type="radio" clrRadio id="use_leftover_yes" formControlName="use_leftover" required value="Yes"/>
+      </clr-radio-wrapper>
+      <clr-radio-wrapper>
+        <label for="use_leftover_no">No</label>
+        <input type="radio" clrRadio id="use_leftover_no" formControlName="use_leftover" required value="No"/>
+      </clr-radio-wrapper>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-radio-container>
+
+    <div>
+      <input type="submit" value="Create">
+      <button type="submit" class="btn btn-success-outline">Create</button>
+    </div>
+  </div>
+</form>

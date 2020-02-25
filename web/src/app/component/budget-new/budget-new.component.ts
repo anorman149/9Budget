@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {IBudget} from '../../model/budget';
+import {BudgetService} from '../../service/budget.service';
 
 @Component({
   selector: 'app-budget-new',
@@ -10,7 +12,10 @@ export class BudgetNewComponent implements OnInit {
   display: true;
   budgetNewForm: FormGroup;
 
-  constructor() { }
+  @Input()
+  budget?: IBudget;
+
+  constructor(private budgetService: BudgetService) { }
 
   ngOnInit() {
     this.display = true;
@@ -20,7 +25,12 @@ export class BudgetNewComponent implements OnInit {
     });
   }
 
-  submit() {
-
+  public submit(): void {
+    this.budget.category = this.budgetNewForm.get('category').value;
+    this.budget.name = this.budgetNewForm.get('name').value;
+    this.budget.amount = this.budgetNewForm.get('amount').value;
+    this.budget.budgetTiming = this.budgetNewForm.get('budgetTiming').value;
+    this.budget.useLeftOver = this.budgetNewForm.get('use_leftover').value;
+    this.budgetService.create(this.budget);
   }
 }
