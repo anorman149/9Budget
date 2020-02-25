@@ -15,6 +15,7 @@ export class BudgetComponent implements OnInit {
   spent = 0;
   income = 0;
   budgetNewDisplay = false;
+  budgetDetailDisplay = false;
 
   constructor(private budgetService: BudgetService) {}
 

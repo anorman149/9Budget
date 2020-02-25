@@ -32,6 +32,7 @@ import { InstitutionCreateComponent } from './component/institution-create/insti
 import { SwaggerComponent } from './component/swagger/swagger.component';
 import { BudgetNewComponent } from './component/budget-new/budget-new.component';
 import {CookieService} from 'ngx-cookie-service';
+import {BudgetDetailComponent} from './component/budget-detail/budget-detail.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {CookieService} from 'ngx-cookie-service';
     InstitutionComponent,
     InstitutionCreateComponent,
     SwaggerComponent,
-    BudgetNewComponent
+    BudgetNewComponent,
+    BudgetDetailComponent
   ],
   imports: [
     BrowserModule,

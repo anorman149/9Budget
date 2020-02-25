@@ -20,7 +20,7 @@ export class AuthenticationService {
     private cookieService: CookieService
   ) {}
 
-  isLoggedIn() {
+  isLoggedIn(): boolean {
     return this.currentUser !== null;
   }
 

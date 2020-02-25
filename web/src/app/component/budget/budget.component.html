@@ -16,7 +16,9 @@
               <tbody>
               <tr *ngFor="let budget of budgets">
                 <td class="left">
-                  <span style="font-weight:bold">{{budget.category.type}} - </span><span>{{budget.category.subCategory.name}}</span>
+                  <a class="btn btn-sm btn-link float-left" (click)="budgetDetailDisplay = true">
+                    {{budget.category.type}} - {{budget.category.subCategory.name}}
+                  </a>
                   <span class="float-right">${{budget.amountSpent}} of ${{budget.amount}}</span>
                   <P></P>
                   <div class="progress-block">
@@ -59,4 +61,13 @@
     Create New Budget
   </p-header>
   <app-budget-new></app-budget-new>
+</p-dialog>
+
+<!--For Budget Detail Messages -->
+<p-dialog [(visible)]="budgetDetailDisplay" [modal]="true" [blockScroll]="true"
+          [closeOnEscape]="true" [closable]="true" [focusOnShow]="true">
+  <p-header>
+    Edit Budget
+  </p-header>
+  <app-budget-detail></app-budget-detail>
 </p-dialog>
