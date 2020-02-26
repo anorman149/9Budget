@@ -19,13 +19,18 @@ export class BudgetNewComponent implements OnInit {
   @Input()
   budget?: IBudget;
 
-  constructor(private budgetService: BudgetService) { }
+  constructor(private budgetService: BudgetService) {
+  }
 
   ngOnInit() {
     this.display = true;
 
-    // Form
     this.budgetNewForm = new FormGroup({
+      category: new FormControl(this.budget.category, Validators.required),
+      name: new FormControl(this.budget.name, Validators.required),
+      amount: new FormControl(this.budget.amount, Validators.required),
+      budgetTiming: new FormControl(this.budget.budgetTiming, Validators.required),
+      useLeftOver: new FormControl(this.budget.useLeftOver, Validators.required)
     });
   }
 
@@ -35,6 +40,9 @@ export class BudgetNewComponent implements OnInit {
     this.budget.amount = this.budgetNewForm.get('amount').value;
     this.budget.budgetTiming = this.budgetNewForm.get('budgetTiming').value;
     this.budget.useLeftOver = this.budgetNewForm.get('use_leftover').value;
-    this.budgetService.create(this.budget);
+    this.budgetService.create(this.budget).subscribe(
+      data => {},
+      error => console.log("ERROR")
+    );
   }
 }
