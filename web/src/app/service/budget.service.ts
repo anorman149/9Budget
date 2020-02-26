@@ -24,16 +24,16 @@ export class BudgetService implements PrimaryService {
     return this.http.get<Budget>(api.url + api.budget.url + '/' + budget.id);
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  public query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IBudget[]>(api.url + api.budget.url, { params: options, observe: 'response' });
   }
 
-  create(budget: Budget): any {
-    return this.http.post<Budget>(api.url + api.budget.url, budget);
+  public create(budget: Budget) {
+    return this.http.put<Budget>(api.url + api.budget.url, budget);
   }
 
-  update(budget: Budget): any {
-    return this.http.put<Budget>(api.url + api.budget.url, budget);
+  public update(budget: Budget) {
+    return this.http.post<Budget>(api.url + api.budget.url, budget);
   }
 }

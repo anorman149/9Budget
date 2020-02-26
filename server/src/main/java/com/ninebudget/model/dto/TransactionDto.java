@@ -3,7 +3,6 @@ package com.ninebudget.model.dto;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class TransactionDto implements Serializable {
@@ -15,7 +14,7 @@ public class TransactionDto implements Serializable {
     private BigDecimal amount;
 
     @NotNull
-    private ZonedDateTime date;
+    private String date;
 
     private String description;
 
@@ -41,11 +40,11 @@ public class TransactionDto implements Serializable {
         this.amount = amount;
     }
 
-    public ZonedDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

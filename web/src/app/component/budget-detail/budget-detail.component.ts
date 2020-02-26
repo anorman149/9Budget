@@ -28,6 +28,11 @@ export class BudgetDetailComponent implements OnInit {
   submit() {
     this.budget.budgetTiming = this.budgetDetailForm.get('budgetTiming').value;
     this.budget.amount = this.budgetDetailForm.get('amount').value;
-    this.budgetService.update(this.budget);
+    this.budgetService.update(this.budget).subscribe(
+      data => {
+        console.log('YAY'); // TODO
+      },
+      error => console.log('ERROR') // TODO
+    );
   }
 }

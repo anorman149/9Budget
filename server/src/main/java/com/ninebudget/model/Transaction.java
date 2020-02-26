@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 /**
  * A Transaction.
@@ -28,7 +28,7 @@ public class Transaction implements Serializable {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private ZonedDateTime date;
+    private Instant date;
 
     @Column(name = "description")
     private String description;
@@ -66,16 +66,11 @@ public class Transaction implements Serializable {
         this.amount = amount;
     }
 
-    public ZonedDateTime getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public Transaction date(ZonedDateTime date) {
-        this.date = date;
-        return this;
-    }
-
-    public void setDate(ZonedDateTime date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
