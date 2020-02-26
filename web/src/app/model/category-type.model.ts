@@ -1,4 +1,4 @@
-export const enum CategoryType {
+export enum CategoryType {
   BILL = "BILL",
   ENTERTAINMENT = "ENTERTAINMENT",
   FOOD_DINING = "FOOD DINING",

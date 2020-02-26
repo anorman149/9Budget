@@ -4,17 +4,7 @@
     <clr-select-container>
       <label>Category</label>
       <select clrSelect id="category" required formControlName="category">
-        <option value="bills">Bills</option>
-        <option value="food_dining">Food/Dining</option>
-        <option value="fees_charges">Fees/Charges</option>
-        <option value="income">Income</option>
-        <option value="travel">Travel</option>
-        <option value="home">Home</option>
-        <option value="taxes">Taxes</option>
-        <option value="shopping">Shopping</option>
-        <option value="misc">Miscellaneous</option>
-        <option value="education">Education</option>
-        <option value="hide_from_budget">Hide from budget</option>
+        <option *ngFor="let category of keys(categoryType)" [ngValue]="category">{{categoryType[category]}}</option>
       </select>
     </clr-select-container>
 

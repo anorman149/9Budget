@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
+import {CategoryType} from "../../model/category-type.model";
 
 @Component({
   selector: 'app-budget-new',
@@ -11,6 +12,9 @@ import {BudgetService} from '../../service/budget.service';
 export class BudgetNewComponent implements OnInit {
   display: true;
   budgetNewForm: FormGroup;
+
+  keys = Object.keys;
+  categoryType = CategoryType;
 
   @Input()
   budget?: IBudget;
