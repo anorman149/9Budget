@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
-import {CategoryType} from "../../model/category-type.model";
+import {CategoryType} from '../../model/category-type.model';
+import {BudgetTiming} from '../../model/budget-timing.model';
 
 @Component({
   selector: 'app-budget-new',
@@ -16,8 +17,7 @@ export class BudgetNewComponent implements OnInit {
   keys = Object.keys;
   categoryType = CategoryType;
 
-  @Input()
-  budget?: IBudget;
+  budget: IBudget;
 
   constructor(private budgetService: BudgetService) {
   }
@@ -26,11 +26,11 @@ export class BudgetNewComponent implements OnInit {
     this.display = true;
 
     this.budgetNewForm = new FormGroup({
-      category: new FormControl(this.budget.category, Validators.required),
-      name: new FormControl(this.budget.name, Validators.required),
-      amount: new FormControl(this.budget.amount, Validators.required),
-      budgetTiming: new FormControl(this.budget.budgetTiming, Validators.required),
-      useLeftOver: new FormControl(this.budget.useLeftOver, Validators.required)
+      category: new FormControl('', Validators.required),
+      name: new FormControl('', Validators.required),
+      amount: new FormControl(0, Validators.required), // Default to 0
+      budgetTiming: new FormControl(BudgetTiming.MONTHLY, Validators.required), // Default to Monthly
+      useLeftOver: new FormControl(false, Validators.required) // Default to False
     });
   }
 
@@ -42,7 +42,7 @@ export class BudgetNewComponent implements OnInit {
     this.budget.useLeftOver = this.budgetNewForm.get('use_leftover').value;
     this.budgetService.create(this.budget).subscribe(
       data => {},
-      error => console.log("ERROR")
+      error => console.log('ERROR') // TODO tell the user somehow
     );
   }
 }

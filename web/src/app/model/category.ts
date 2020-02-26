@@ -1,5 +1,5 @@
-import {CategoryType} from "./category-type.model";
-import {ISubCategory} from "./sub-category";
+import {CategoryType} from './category-type.model';
+import {ISubCategory} from './sub-category';
 
 export interface ICategory {
   id?: number;

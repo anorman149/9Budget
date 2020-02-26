@@ -2,7 +2,7 @@
   <div>
 
     <clr-select-container>
-      <label>Category</label>
+      <label for="category">Category</label>
       <select clrSelect id="category" required formControlName="category">
         <option *ngFor="let category of keys(categoryType)" [ngValue]="category">{{categoryType[category]}}</option>
       </select>
@@ -37,17 +37,17 @@
       <label>Use left over?</label>
       <clr-radio-wrapper>
         <label for="use_leftover_yes">Yes</label>
-        <input type="radio" clrRadio id="use_leftover_yes" formControlName="use_leftover" required value="Yes"/>
+        <input type="radio" clrRadio id="use_leftover_yes" formControlName="useLeftOver" required value="true"/>
       </clr-radio-wrapper>
       <clr-radio-wrapper>
         <label for="use_leftover_no">No</label>
-        <input type="radio" clrRadio id="use_leftover_no" formControlName="use_leftover" required value="No"/>
+        <input type="radio" clrRadio id="use_leftover_no" formControlName="useLeftOver" required value="false"/>
       </clr-radio-wrapper>
       <clr-control-error>This field is required!</clr-control-error>
     </clr-radio-container>
 
     <div>
-      <button type="submit" class="btn btn-success-outline">Create</button>
+      <button type="submit" class="btn btn-success-outline" [disabled]="!budgetNewForm.valid">Create</button>
     </div>
   </div>
 </form>
