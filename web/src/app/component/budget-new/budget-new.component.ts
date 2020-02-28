@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
 import {CategoryType} from '../../model/category-type.model';
 import {BudgetTiming} from '../../model/budget-timing.model';
+import {Category, ICategory} from "../../model/category";
 
 @Component({
   selector: 'app-budget-new',
@@ -18,6 +19,7 @@ export class BudgetNewComponent implements OnInit {
   categoryType = CategoryType;
 
   budget: IBudget;
+  category: ICategory;
 
   constructor(private budgetService: BudgetService) {
   }
@@ -35,7 +37,8 @@ export class BudgetNewComponent implements OnInit {
   }
 
   public submit(): void {
-    this.budget.category = this.budgetNewForm.get('category').value;
+    this.category.type = this.budgetNewForm.get('category').value;
+    this.budget.category =  this.category;
     this.budget.name = this.budgetNewForm.get('name').value;
     this.budget.amount = this.budgetNewForm.get('amount').value;
     this.budget.budgetTiming = this.budgetNewForm.get('budgetTiming').value;
