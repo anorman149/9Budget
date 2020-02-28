@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit {
   private showDashboard = true; // Default View
   private showTransactions = false;
   private showAccount = false;
-  private showSettings = false;
   private showAPI = false;
 
   constructor(private authenticationService: AuthenticationService,
@@ -30,7 +29,6 @@ export class HomeComponent implements OnInit {
     this.showDashboard = false;
     this.showTransactions = false;
     this.showAccount = false;
-    this.showSettings = false;
     this.showAPI = false;
   }
 

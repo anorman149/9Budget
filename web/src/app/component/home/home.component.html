@@ -13,9 +13,7 @@
           <clr-icon shape="caret down"></clr-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-          <a href="#" clrDropdownItem>About</a><!--TODO-->
           <a href="#" clrDropdownItem (click)="hideAll(); showAPI = true;">API</a>
-          <a href="#" clrDropdownItem>Preferences</a><!--TODO-->
           <a href="#" (click)="logout()" clrDropdownItem>Log out</a>
         </clr-dropdown-menu>
       </clr-dropdown>
@@ -43,11 +41,6 @@
         <app-account></app-account>
       </div>
 
-      <!--Settings Section-->
-      <div *ngIf="showSettings">
-
-      </div>
-
       <!--API Section-->
       <div *ngIf="showAPI">
         <app-swagger></app-swagger>
@@ -69,10 +62,6 @@
       <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showAccount = true;">
         <clr-icon class="is-error" clrVerticalNavIcon shape="user"></clr-icon>
         Account
-      </a>
-      <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showSettings = true;">
-        <clr-icon class="is-info" clrVerticalNavIcon shape="cog"></clr-icon>
-        Settings
       </a>
     </clr-vertical-nav>
   </div>
