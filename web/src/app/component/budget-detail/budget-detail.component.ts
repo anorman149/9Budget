@@ -30,9 +30,12 @@ export class BudgetDetailComponent implements OnInit {
     this.budget.amount = this.budgetDetailForm.get('amount').value;
     this.budgetService.update(this.budget).subscribe(
       data => {
-        console.log('YAY'); // TODO
+        console.log('Budget Updated');
       },
-      error => console.log('ERROR') // TODO
+      error => {
+        console.log('Budget Failed to update: ' + error);
+        alert('Budget Failed to update: ' + error);
+      }
     );
   }
 }

@@ -41,8 +41,13 @@ export class BudgetNewComponent implements OnInit {
     this.budget.budgetTiming = this.budgetNewForm.get('budgetTiming').value;
     this.budget.useLeftOver = this.budgetNewForm.get('use_leftover').value;
     this.budgetService.create(this.budget).subscribe(
-      data => {},
-      error => console.log('ERROR') // TODO tell the user somehow
+      data => {
+        console.log('Budget Created');
+      },
+      error => {
+        console.log('Budget Failed to Create: ' + error);
+        alert('Budget Failed to Create: ' + error);
+      }
     );
   }
 }
