@@ -25,7 +25,6 @@ import {MatInputModule} from '@angular/material/input';
 import { ClarityModule } from '@clr/angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AccountDetailComponent } from './component/account-detail/account-detail.component';
-import { SettingsComponent } from './component/settings/settings.component';
 import { TransactionComponent } from './component/transaction/transaction.component';
 import { InstitutionComponent } from './component/institution/institution.component';
 import { InstitutionCreateComponent } from './component/institution-create/institution-create.component';
@@ -42,7 +41,6 @@ import {BudgetDetailComponent} from './component/budget-detail/budget-detail.com
     HomeComponent,
     LoginComponent,
     AccountDetailComponent,
-    SettingsComponent,
     TransactionComponent,
     InstitutionComponent,
     InstitutionCreateComponent,
