@@ -12,5 +12,20 @@ public enum CategoryType {
     SHOPPING,
     MISC,
     HIDE_FROM_BUDGET,
-    EDUCATION
+    EDUCATION,
+    RESTAURANTS,
+    TRANSFER,
+    PAYROLL,
+    SERVICE,
+    FINANCIAL,
+    LOANS,
+    SHOPS,
+    CHECK,
+    WITHDRAWAL,
+    HEALTHCARE,
+    CREDIT,
+    GAS,
+    CABLE,
+    INSURANCE,
+    COMMUNITY
 }

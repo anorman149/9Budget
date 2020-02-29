@@ -44,7 +44,7 @@ public class InstitutionAccountService {
     public InstitutionAccountDto save(InstitutionAccountDto institutionAccountDto) {
         log.debug("Request to save InstitutionAccount : {}", institutionAccountDto);
         InstitutionAccount institutionAccount = institutionAccountMapper.toEntity(institutionAccountDto);
-        institutionAccount = institutionAccountRepository.save(institutionAccount);
+        institutionAccount = institutionAccountRepository.saveAndFlush(institutionAccount);
         return institutionAccountMapper.toDto(institutionAccount);
     }
 

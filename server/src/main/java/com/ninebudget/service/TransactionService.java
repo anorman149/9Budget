@@ -41,7 +41,7 @@ public class TransactionService {
     public TransactionDto save(TransactionDto transactionDto) {
         log.debug("Request to save Transaction : {}", transactionDto);
         Transaction transaction = transactionMapper.toEntity(transactionDto);
-        transaction = transactionRepository.save(transaction);
+        transaction = transactionRepository.saveAndFlush(transaction);
         return transactionMapper.toDto(transaction);
     }
 

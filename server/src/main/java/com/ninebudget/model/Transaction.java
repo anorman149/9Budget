@@ -2,8 +2,6 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,15 +34,15 @@ public class Transaction implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn()
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JsonIgnoreProperties("transactions")
     private Budget budget;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @JsonIgnoreProperties("transactions")
     private InstitutionAccount institutionAccount;
 

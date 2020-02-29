@@ -1,8 +1,6 @@
 package com.ninebudget.model;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,8 +28,9 @@ public class InstitutionAccount extends AbstractAuditingEntity implements Serial
     @Column(name = "active", nullable = false)
     private Boolean active;
 
-    @ManyToOne
-    @JoinColumn(unique = true)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
     private InstitutionType type;
 
     @NotNull
@@ -51,7 +50,7 @@ public class InstitutionAccount extends AbstractAuditingEntity implements Serial
     private Set<Transaction> transactions = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(unique = true)
+    @JoinColumn()
     private Institution institution;
 
     public UUID getId() {

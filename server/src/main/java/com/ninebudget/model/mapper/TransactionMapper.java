@@ -24,7 +24,7 @@ public interface TransactionMapper extends EntityMapper<TransactionDto, Transact
 
     @Mapping(source = "category", target = "category")
     @Mapping(source = "budgetId", target = "budget")
-    @Mapping(source = "institutionAccountId", target = "institutionAccount")
+    @Mapping(source = "institutionAccountId", target = "institutionAccount.id")
     @Mapping(target = "date", expression = "java(Instant.parse(transactionDto.getDate()))")
     Transaction toEntity(TransactionDto transactionDto);
 

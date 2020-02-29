@@ -15,7 +15,7 @@ import java.time.Instant;
 public abstract class AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "created_by", nullable = false, length = 50, updatable = false)
+    @Column(name = "created_by", length = 50, updatable = false)
     @JsonIgnore
     private String createdBy;
 
