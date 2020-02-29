@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @APIController
 public class BudgetController implements BudgetOperations {
@@ -33,7 +34,7 @@ public class BudgetController implements BudgetOperations {
     }
 
     @Override
-    public ResponseEntity<BudgetDto> get(long id) throws ServiceException {
+    public ResponseEntity<BudgetDto> get(UUID id) throws ServiceException {
         log.debug("REST request to get Budget : {}", id);
 
         Optional<BudgetDto> budgetDto = budgetService.findOne(id);
@@ -74,7 +75,7 @@ public class BudgetController implements BudgetOperations {
     }
 
     @Override
-    public ResponseEntity<Void> delete(long id) throws ServiceException {
+    public ResponseEntity<Void> delete(UUID id) throws ServiceException {
         log.debug("REST request to delete Budget : {}", id);
 
         budgetService.delete(id);

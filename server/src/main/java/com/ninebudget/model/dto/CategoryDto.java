@@ -4,12 +4,14 @@ import com.ninebudget.model.CategoryType;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CategoryDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     private CategoryType type;
@@ -17,13 +19,13 @@ public class CategoryDto implements Serializable {
     @NotNull
     private Boolean active;
 
-    private SubCategoryDto subCategory;
+    private List<SubCategoryDto> subCategories;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -43,12 +45,12 @@ public class CategoryDto implements Serializable {
         this.active = active;
     }
 
-    public SubCategoryDto getSubCategory() {
-        return subCategory;
+    public List<SubCategoryDto> getSubCategories() {
+        return subCategories;
     }
 
-    public void setSubCategory(SubCategoryDto subCategoryDto) {
-        this.subCategory = subCategoryDto;
+    public void setSubCategories(List<SubCategoryDto> subCategories) {
+        this.subCategories = subCategories;
     }
 
     @Override

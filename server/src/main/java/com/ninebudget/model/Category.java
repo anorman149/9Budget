@@ -2,11 +2,14 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A Category.
@@ -18,8 +21,8 @@ public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -38,19 +41,19 @@ public class Category implements Serializable {
     @JsonIgnore
     private List<Budget> budgets;
 
-    @OneToOne
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn()
-    private SubCategory subCategory;
+    private List<SubCategory> subCategories;
 
     @OneToMany
     @JsonIgnore
     private List<Transaction> transactions;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -104,17 +107,12 @@ public class Category implements Serializable {
         this.transactions = transactions;
     }
 
-    public SubCategory getSubCategory() {
-        return subCategory;
+    public List<SubCategory> getSubCategories() {
+        return subCategories;
     }
 
-    public Category subCategory(SubCategory subCategory){
-        this.subCategory = subCategory;
-        return this;
-    }
-
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
+    public void setSubCategories(List<SubCategory> subCategories) {
+        this.subCategories = subCategories;
     }
 
     @Override

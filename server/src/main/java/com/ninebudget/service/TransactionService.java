@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Service Implementation for managing {@link Transaction}.
@@ -65,7 +66,7 @@ public class TransactionService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<TransactionDto> findOne(Long id) {
+    public Optional<TransactionDto> findOne(UUID id) {
         log.debug("Request to get Transaction : {}", id);
         return transactionRepository.findById(id)
             .map(transactionMapper::toDto);
@@ -76,7 +77,7 @@ public class TransactionService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Transaction : {}", id);
         transactionRepository.deleteById(id);
     }

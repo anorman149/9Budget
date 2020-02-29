@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -84,7 +85,7 @@ public class CredentialService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<CredentialDto> findOne(Long id) {
+    public Optional<CredentialDto> findOne(UUID id) {
         log.debug("Request to get Credential : {}", id);
         return credentialRepository.findById(id)
             .map(credentialMapper::toDto);
@@ -95,7 +96,7 @@ public class CredentialService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Credential : {}", id);
         credentialRepository.deleteById(id);
     }

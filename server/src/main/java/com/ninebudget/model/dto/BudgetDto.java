@@ -7,11 +7,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class BudgetDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     private String name;
@@ -29,17 +30,17 @@ public class BudgetDto implements Serializable {
     private Boolean active;
 
     @NotNull
-    private Long accountId;
+    private UUID accountId;
 
     private CategoryDto category;
 
     private List<TransactionDto> transactions;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -83,11 +84,11 @@ public class BudgetDto implements Serializable {
         this.active = active;
     }
 
-    public Long getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Long accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
 

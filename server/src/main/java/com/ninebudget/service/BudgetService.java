@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -94,7 +95,7 @@ public class BudgetService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<BudgetDto> findOne(Long id) {
+    public Optional<BudgetDto> findOne(UUID id) {
         log.debug("Request to get Budget : {}", id);
         return budgetRepository.findById(id)
             .map(budgetMapper::toDto);
@@ -105,7 +106,7 @@ public class BudgetService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Budget : {}", id);
         budgetRepository.deleteById(id);
     }

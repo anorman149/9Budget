@@ -5,6 +5,8 @@ import com.ninebudget.model.dto.SubCategoryDto;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Mapper for the entity {@link SubCategory} and its DTO {@link SubCategoryDto}.
  */
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring", uses = {})
 public interface SubCategoryMapper extends EntityMapper<SubCategoryDto, SubCategory> {
 
-    default SubCategory fromId(Long id) {
+    default SubCategory fromId(UUID id) {
         if (id == null) {
             return null;
         }

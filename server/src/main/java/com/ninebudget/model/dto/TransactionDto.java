@@ -4,11 +4,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 public class TransactionDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     private BigDecimal amount;
@@ -20,15 +21,15 @@ public class TransactionDto implements Serializable {
 
     private CategoryDto category;
 
-    private Long budgetId;
+    private UUID budgetId;
 
-    private Long institutionAccountId;
+    private UUID institutionAccountId;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -64,19 +65,19 @@ public class TransactionDto implements Serializable {
         this.category = category;
     }
 
-    public Long getBudgetId() {
+    public UUID getBudgetId() {
         return budgetId;
     }
 
-    public void setBudgetId(Long budgetId) {
+    public void setBudgetId(UUID budgetId) {
         this.budgetId = budgetId;
     }
 
-    public Long getInstitutionAccountId() {
+    public UUID getInstitutionAccountId() {
         return institutionAccountId;
     }
 
-    public void setInstitutionAccountId(Long institutionAccountId) {
+    public void setInstitutionAccountId(UUID institutionAccountId) {
         this.institutionAccountId = institutionAccountId;
     }
 

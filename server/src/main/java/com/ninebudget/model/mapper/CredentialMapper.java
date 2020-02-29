@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Mapper for the entity {@link Credential} and its DTO {@link CredentialDto}.
  */
@@ -17,7 +19,7 @@ public interface CredentialMapper extends EntityMapper<CredentialDto, Credential
     @Mapping(target = "applicationUser", ignore = true)
     Credential toEntity(CredentialDto credentialDto);
 
-    default Credential fromId(Long id) {
+    default Credential fromId(UUID id) {
         if (id == null) {
             return null;
         }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 public interface CategoryOperations {
     @RequestMapping(value = "/categories",
@@ -20,7 +21,7 @@ public interface CategoryOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CategoryDto> get(@PathVariable long id) throws ServiceException;
+    ResponseEntity<CategoryDto> get(@PathVariable UUID id) throws ServiceException;
 
     @RequestMapping(value = "/categories",
             method = RequestMethod.POST,
@@ -38,5 +39,5 @@ public interface CategoryOperations {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@PathVariable long id) throws ServiceException;
+    ResponseEntity<Void> delete(@PathVariable UUID id) throws ServiceException;
 }

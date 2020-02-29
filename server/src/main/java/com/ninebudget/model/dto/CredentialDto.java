@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 public class CredentialDto implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,7 +15,7 @@ public class CredentialDto implements Serializable {
     public static final int PASSWORD_MIN_LENGTH = 8;
     public static final int PASSWORD_MAX_LENGTH = 100;
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -28,11 +29,11 @@ public class CredentialDto implements Serializable {
     @NotNull
     private String custom;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

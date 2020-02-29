@@ -7,11 +7,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 public class ApplicationUserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
 
     @Size(max = 50)
     private String firstName;
@@ -56,11 +57,11 @@ public class ApplicationUserDto implements Serializable {
         this.phone = applicationUser.getPhone();
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @Mapper(componentModel = "spring", uses = {AccountMapper.class, CredentialMapper.class, InstitutionMapper.class})
 public interface InstitutionAccountMapper extends EntityMapper<InstitutionAccountDto, InstitutionAccount>{
@@ -21,7 +23,7 @@ public interface InstitutionAccountMapper extends EntityMapper<InstitutionAccoun
     @Mapping(target = "transactions", ignore = true)
     InstitutionAccount toEntity(InstitutionAccountDto institutionAccountDto);
 
-    default InstitutionAccount fromId(Long id) {
+    default InstitutionAccount fromId(UUID id) {
         if (id == null) {
             return null;
         }

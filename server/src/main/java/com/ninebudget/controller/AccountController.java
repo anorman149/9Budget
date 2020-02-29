@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @APIController
 public class AccountController implements AccountOperations {
@@ -55,7 +56,7 @@ public class AccountController implements AccountOperations {
     }
 
     @Override
-    public ResponseEntity<AccountDto> get(long id) throws ServiceException {
+    public ResponseEntity<AccountDto> get(UUID id) throws ServiceException {
         log.debug("REST request to get SystemAccount : {}", id);
 
         Optional<AccountDto> systemAccountDto = accountService.findOne(id);
@@ -96,7 +97,7 @@ public class AccountController implements AccountOperations {
     }
 
     @Override
-    public ResponseEntity<Void> delete(long id) throws ServiceException {
+    public ResponseEntity<Void> delete(UUID id) throws ServiceException {
         log.debug("REST request to delete SystemAccount : {}", id);
 
         accountService.delete(id);

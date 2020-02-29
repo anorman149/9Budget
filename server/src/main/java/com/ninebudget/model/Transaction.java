@@ -2,12 +2,15 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * A Transaction.
@@ -19,8 +22,8 @@ public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @NotNull
     @Column(name = "amount", precision = 21, scale = 2, nullable = false)
@@ -33,7 +36,7 @@ public class Transaction implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn()
     private Category category;
 
@@ -45,11 +48,11 @@ public class Transaction implements Serializable {
     @JsonIgnoreProperties("transactions")
     private InstitutionAccount institutionAccount;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

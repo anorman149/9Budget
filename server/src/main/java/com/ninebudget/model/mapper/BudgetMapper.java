@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Mapper for the entity {@link Budget} and its DTO {@link BudgetDto}.
  */
@@ -24,7 +26,7 @@ public interface BudgetMapper extends EntityMapper<BudgetDto, Budget> {
     @Mapping(target = "removeTransaction", ignore = true)
     Budget toEntity(BudgetDto budgetDto);
 
-    default Budget fromId(Long id) {
+    default Budget fromId(UUID id) {
         if (id == null) {
             return null;
         }

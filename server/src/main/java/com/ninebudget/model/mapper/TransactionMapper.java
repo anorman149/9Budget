@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.UUID;
 
 /**
  * Mapper for the entity {@link Transaction} and its DTO {@link TransactionDto}.
@@ -27,7 +28,7 @@ public interface TransactionMapper extends EntityMapper<TransactionDto, Transact
     @Mapping(target = "date", expression = "java(Instant.parse(transactionDto.getDate()))")
     Transaction toEntity(TransactionDto transactionDto);
 
-    default Transaction fromId(Long id) {
+    default Transaction fromId(UUID id) {
         if (id == null) {
             return null;
         }

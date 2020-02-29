@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Spring Data JPA repository for the {@link ApplicationUser} entity.
  */
 @Repository
-public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, Long> {
+public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, UUID> {
     Optional<ApplicationUser> findOneByActivationKey(String activationKey);
 
     Optional<ApplicationUser> findOneByResetKey(String resetKey);

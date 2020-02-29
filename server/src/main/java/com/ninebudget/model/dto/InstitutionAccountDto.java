@@ -6,11 +6,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.UUID;
 
 public class InstitutionAccountDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     private String name;
@@ -24,17 +25,17 @@ public class InstitutionAccountDto implements Serializable {
     @NotNull
     private Boolean active;
 
-    private Long accountId;
+    private UUID accountId;
 
-    private Long credentialId;
+    private UUID credentialId;
 
-    private Long institutionId;
+    private UUID institutionId;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -70,27 +71,27 @@ public class InstitutionAccountDto implements Serializable {
         this.active = active;
     }
 
-    public Long getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Long accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
 
-    public Long getCredentialId() {
+    public UUID getCredentialId() {
         return credentialId;
     }
 
-    public void setCredentialId(Long credentialId) {
+    public void setCredentialId(UUID credentialId) {
         this.credentialId = credentialId;
     }
 
-    public Long getInstitutionId() {
+    public UUID getInstitutionId() {
         return institutionId;
     }
 
-    public void setInstitutionId(Long institutionId) {
+    public void setInstitutionId(UUID institutionId) {
         this.institutionId = institutionId;
     }
 

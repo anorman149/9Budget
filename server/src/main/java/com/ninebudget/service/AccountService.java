@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -114,7 +115,7 @@ public class AccountService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<AccountDto> findOne(Long id) {
+    public Optional<AccountDto> findOne(UUID id) {
         log.debug("Request to get SystemAccount : {}", id);
         return accountRepository.findById(id)
             .map(accountMapper::toDto);
@@ -125,7 +126,7 @@ public class AccountService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete SystemAccount : {}", id);
         accountRepository.deleteById(id);
     }

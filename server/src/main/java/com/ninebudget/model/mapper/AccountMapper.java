@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Mapper for the entity {@link Account} and its DTO {@link AccountDto}.
  */
@@ -20,7 +22,7 @@ public interface AccountMapper extends EntityMapper<AccountDto, Account> {
     @Mapping(target = "institutionAccount", ignore = true)
     Account toEntity(AccountDto accountDto);
 
-    default Account fromId(Long id) {
+    default Account fromId(UUID id) {
         if (id == null) {
             return null;
         }

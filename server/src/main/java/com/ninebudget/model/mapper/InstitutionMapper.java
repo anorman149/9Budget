@@ -5,6 +5,8 @@ import com.ninebudget.model.dto.InstitutionDto;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Mapper for the entity {@link Institution} and its DTO {@link InstitutionDto}.
  */
@@ -14,7 +16,7 @@ public interface InstitutionMapper extends EntityMapper<InstitutionDto, Institut
 
     Institution toEntity(InstitutionDto institutionDto);
 
-    default Institution fromId(Long id) {
+    default Institution fromId(UUID id) {
         if (id == null) {
             return null;
         }

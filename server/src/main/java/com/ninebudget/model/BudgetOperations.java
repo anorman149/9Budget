@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 public interface BudgetOperations {
     @RequestMapping(value = "/budgets",
@@ -22,7 +23,7 @@ public interface BudgetOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<BudgetDto> get(@PathVariable long id) throws ServiceException;
+    ResponseEntity<BudgetDto> get(@PathVariable UUID id) throws ServiceException;
 
     @RequestMapping(value = "/budgets",
             method = RequestMethod.POST,
@@ -40,5 +41,5 @@ public interface BudgetOperations {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@PathVariable long id) throws ServiceException;
+    ResponseEntity<Void> delete(@PathVariable UUID id) throws ServiceException;
 }

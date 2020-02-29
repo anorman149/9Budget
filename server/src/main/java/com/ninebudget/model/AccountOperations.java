@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 public interface AccountOperations {
     @RequestMapping(value = "/accounts",
@@ -20,7 +21,7 @@ public interface AccountOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<AccountDto> get(@PathVariable long id) throws ServiceException;
+    ResponseEntity<AccountDto> get(@PathVariable UUID id) throws ServiceException;
 
     @RequestMapping(value = "/accounts",
             method = RequestMethod.POST,
@@ -38,5 +39,5 @@ public interface AccountOperations {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@PathVariable long id) throws ServiceException;
+    ResponseEntity<Void> delete(@PathVariable UUID id) throws ServiceException;
 }

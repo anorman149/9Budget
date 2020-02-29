@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +49,7 @@ public class ApplicationUserMapper {
         }
     }
 
-    public ApplicationUser userFromId(Long id) {
+    public ApplicationUser userFromId(UUID id) {
         if (id == null) {
             return null;
         }

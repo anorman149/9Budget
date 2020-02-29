@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Service Implementation for managing {@link Institution}.
@@ -65,7 +66,7 @@ public class InstitutionService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<InstitutionDto> findOne(Long id) {
+    public Optional<InstitutionDto> findOne(UUID id) {
         log.debug("Request to get Institution : {}", id);
         return institutionRepository.findById(id)
             .map(institutionMapper::toDto);
@@ -76,7 +77,7 @@ public class InstitutionService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Institution : {}", id);
         institutionRepository.deleteById(id);
     }

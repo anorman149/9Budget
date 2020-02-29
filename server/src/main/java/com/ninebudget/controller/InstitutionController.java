@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @APIController
 public class InstitutionController implements InstitutionOperations {
@@ -35,7 +36,7 @@ public class InstitutionController implements InstitutionOperations {
     }
 
     @Override
-    public ResponseEntity<InstitutionDto> get(long id) throws ServiceException {
+    public ResponseEntity<InstitutionDto> get(UUID id) throws ServiceException {
         log.debug("REST request to get Institution : {}", id);
 
         Optional<InstitutionDto> institutionDto = institutionService.findOne(id);
@@ -76,7 +77,7 @@ public class InstitutionController implements InstitutionOperations {
     }
 
     @Override
-    public ResponseEntity<Void> delete(long id) throws ServiceException {
+    public ResponseEntity<Void> delete(UUID id) throws ServiceException {
         log.debug("REST request to delete Institution : {}", id);
 
         institutionService.delete(id);

@@ -3,11 +3,12 @@ package com.ninebudget.model.dto;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
 public class AccountDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private UUID id;
 
     @NotNull
     private String name;
@@ -15,11 +16,11 @@ public class AccountDto implements Serializable {
     @NotNull
     private Boolean active;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

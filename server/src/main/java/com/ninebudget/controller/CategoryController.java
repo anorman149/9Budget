@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @APIController
 public class CategoryController implements CategoryOperations {
@@ -41,7 +42,7 @@ public class CategoryController implements CategoryOperations {
     }
 
     @Override
-    public ResponseEntity<CategoryDto> get(long id) throws ServiceException {
+    public ResponseEntity<CategoryDto> get(UUID id) throws ServiceException {
         log.debug("REST request to get Category : {}", id);
 
         Optional<CategoryDto> categoryDto = categoryService.findOne(id);
@@ -82,7 +83,7 @@ public class CategoryController implements CategoryOperations {
     }
 
     @Override
-    public ResponseEntity<Void> delete(long id) throws ServiceException {
+    public ResponseEntity<Void> delete(UUID id) throws ServiceException {
         log.debug("REST request to delete Category : {}", id);
 
         categoryService.delete(id);

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -84,7 +85,7 @@ public class CategoryService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<CategoryDto> findOne(Long id) {
+    public Optional<CategoryDto> findOne(UUID id) {
         log.debug("Request to get Category : {}", id);
         return categoryRepository.findById(id)
             .map(categoryMapper::toDto);
@@ -95,7 +96,7 @@ public class CategoryService {
      *
      * @param id the id of the entity.
      */
-    public void delete(Long id) {
+    public void delete(UUID id) {
         log.debug("Request to delete Category : {}", id);
         categoryRepository.deleteById(id);
     }
