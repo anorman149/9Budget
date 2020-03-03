@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IBudget} from '../../model/budget';
+import {Budget, IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
 import {CategoryType} from '../../model/category-type.model';
 import {BudgetTiming} from '../../model/budget-timing.model';
 import {Category, ICategory} from "../../model/category";
+import {IAccount} from "../../model/account";
 
 @Component({
   selector: 'app-budget-new',
@@ -18,10 +19,15 @@ export class BudgetNewComponent implements OnInit {
   keys = Object.keys;
   categoryType = CategoryType;
 
+  @Input()
+  account?: IAccount;
+
   budget: IBudget;
   category: ICategory;
 
   constructor(private budgetService: BudgetService) {
+    this.budget = new Budget();
+    this.category = new Category();
   }
 
   ngOnInit() {
@@ -36,13 +42,14 @@ export class BudgetNewComponent implements OnInit {
     });
   }
 
-  public submit(): void {
-    this.category.type = this.budgetNewForm.get('category').value;
-    this.budget.category =  this.category;
+  submit() {
+    this.budget.accountId = this.account.id;
     this.budget.name = this.budgetNewForm.get('name').value;
     this.budget.amount = this.budgetNewForm.get('amount').value;
+    this.category.type = CategoryType[this.budgetNewForm.get('category').value] as CategoryType;
+    this.budget.category =  this.category;
+    this.budget.useLeftOver = this.budgetNewForm.get('useLeftOver').value as boolean;
     this.budget.budgetTiming = this.budgetNewForm.get('budgetTiming').value;
-    this.budget.useLeftOver = this.budgetNewForm.get('use_leftover').value;
     this.budgetService.create(this.budget).subscribe(
       data => {
         console.log('Budget Created');
