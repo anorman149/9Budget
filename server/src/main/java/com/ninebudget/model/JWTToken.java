@@ -41,6 +41,7 @@ public class JWTToken implements Token<String> {
         return claims.getIssuedAt();
     }
 
+    @Override
     public String getSubject() {
         return claims.getSubject();
     }

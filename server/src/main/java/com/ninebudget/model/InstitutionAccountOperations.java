@@ -1,10 +1,12 @@
 package com.ninebudget.model;
 
 import com.ninebudget.model.dto.InstitutionAccountDto;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,7 +17,7 @@ public interface InstitutionAccountOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<InstitutionAccountDto>> getAll(Pageable pageable, @PathVariable Long id) throws ServiceException;
+    ResponseEntity<List<InstitutionAccountDto>> getAll() throws ServiceException;
 
     @RequestMapping(value = "/institution-accounts/{id}",
             method = RequestMethod.GET,

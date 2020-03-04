@@ -1,8 +1,7 @@
 package com.ninebudget.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,6 +25,10 @@ public class Institution implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private Account account;
+
     public UUID getId() {
         return id;
     }
@@ -41,6 +44,14 @@ public class Institution implements Serializable {
     public Institution name(String name) {
         this.name = name;
         return this;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public void setName(String name) {
@@ -68,6 +79,7 @@ public class Institution implements Serializable {
         return "Institution{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", account=" + account +
                 '}';
     }
 }

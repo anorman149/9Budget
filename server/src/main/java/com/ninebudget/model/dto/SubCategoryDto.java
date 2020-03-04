@@ -53,8 +53,8 @@ public class SubCategoryDto implements Serializable {
     @Override
     public String toString() {
         return "SubCategoryDto{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            "}";
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

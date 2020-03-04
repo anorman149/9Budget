@@ -1,8 +1,6 @@
 package com.ninebudget.model;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -196,12 +194,15 @@ public class Budget implements Serializable {
     @Override
     public String toString() {
         return "Budget{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", amount=" + getAmount() +
-            ", budgetTiming='" + getBudgetTiming() + "'" +
-            ", useLeftOver='" + isUseLeftOver() + "'" +
-            ", active='" + isActive() + "'" +
-            "}";
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", budgetTiming=" + budgetTiming +
+                ", useLeftOver=" + useLeftOver +
+                ", active=" + active +
+                ", account=" + account +
+                ", transactions=" + transactions +
+                ", category=" + category +
+                '}';
     }
 }

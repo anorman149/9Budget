@@ -2,8 +2,6 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -48,6 +46,14 @@ public class Account implements Serializable {
     @OneToOne(mappedBy = "account", cascade = {CascadeType.ALL})
     @JsonIgnore
     private InstitutionAccount institutionAccount;
+
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private List<Transaction> transactions;
+
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private List<Institution> institutions;
 
     public Account() {
     }
@@ -138,6 +144,14 @@ public class Account implements Serializable {
 
     public void setInstitutionAccount(InstitutionAccount institutionAccount) {
         this.institutionAccount = institutionAccount;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     @Override

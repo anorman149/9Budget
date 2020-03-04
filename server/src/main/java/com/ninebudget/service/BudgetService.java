@@ -6,8 +6,8 @@ import com.ninebudget.model.mapper.BudgetMapper;
 import com.ninebudget.repository.BudgetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link Budget}.
@@ -51,41 +50,17 @@ public class BudgetService {
     /**
      * Get all the budgets.
      *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<BudgetDto> findAll(Pageable pageable) {
-        log.debug("Request to get all Budgets");
-        return budgetRepository.findAll(pageable).map(budgetMapper::toDto);
-    }
-
-    /**
-     * Get all the budgets.
-     *
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<BudgetDto> findAll() {
         log.debug("Request to get all Budgets");
-        return StreamSupport
-                .stream(budgetRepository.findAll().spliterator(), false)
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return budgetRepository.findAll().stream()
+                .filter(budget -> budget.getAccount().getId().toString().equals(principal.getUsername()))
                 .map(budgetMapper::toDto)
                 .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-    /**
-    *  Get all the budgets where Category is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<BudgetDto> findAllWhereCategoryIsNull() {
-        log.debug("Request to get all budgets where Category is null");
-        return StreamSupport
-            .stream(budgetRepository.findAll().spliterator(), false)
-            .filter(budget -> budget.getCategory() == null)
-            .map(budgetMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -97,8 +72,11 @@ public class BudgetService {
     @Transactional(readOnly = true)
     public Optional<BudgetDto> findOne(UUID id) {
         log.debug("Request to get Budget : {}", id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return budgetRepository.findById(id)
-            .map(budgetMapper::toDto);
+                .filter(budget -> budget.getAccount().getId().toString().equals(principal.getUsername()))
+                .map(budgetMapper::toDto);
     }
 
     /**
@@ -108,6 +86,12 @@ public class BudgetService {
      */
     public void delete(UUID id) {
         log.debug("Request to delete Budget : {}", id);
-        budgetRepository.deleteById(id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //Only delete if User has access
+        Optional<Budget> budget = budgetRepository.findById(id);
+        if (budget.isPresent() && budget.get().getAccount().getId().toString().equals(principal.getUsername())) {
+            budgetRepository.deleteById(id);
+        }
     }
 }

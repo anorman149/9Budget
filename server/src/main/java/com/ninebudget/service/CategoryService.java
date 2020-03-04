@@ -6,8 +6,8 @@ import com.ninebudget.model.mapper.CategoryMapper;
 import com.ninebudget.repository.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link Category}.
@@ -52,30 +51,32 @@ public class CategoryService {
     /**
      * Get all the categories.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<CategoryDto> findAll(Pageable pageable) {
+    public List<CategoryDto> findAll() {
         log.debug("Request to get all Categories");
-        return categoryRepository.findAll(pageable)
-            .map(categoryMapper::toDto);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return categoryRepository.findAll().stream()
+                .filter(category -> category.getAccounts().stream().anyMatch(account -> account.getId().toString().equals(principal.getUsername())))
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
 
-
     /**
-    *  Get all the categories where Transaction is {@code null}.
-     *  @return the list of entities.
+     * Get all the categories where Transaction is {@code null}.
+     *
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<CategoryDto> findAllWhereTransactionIsNull() {
         log.debug("Request to get all categories where Transaction is null");
-        return StreamSupport
-            .stream(categoryRepository.findAll().spliterator(), false)
-            .filter(category -> category.getTransactions() == null)
-            .map(categoryMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return categoryRepository.findAll().stream()
+                .filter(category -> category.getTransactions() == null)
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -87,8 +88,11 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public Optional<CategoryDto> findOne(UUID id) {
         log.debug("Request to get Category : {}", id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return categoryRepository.findById(id)
-            .map(categoryMapper::toDto);
+                .filter(category -> category.getAccounts().stream().anyMatch(account -> account.getId().toString().equals(principal.getUsername())))
+                .map(categoryMapper::toDto);
     }
 
     /**
@@ -98,6 +102,12 @@ public class CategoryService {
      */
     public void delete(UUID id) {
         log.debug("Request to delete Category : {}", id);
-        categoryRepository.deleteById(id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //Only delete if User has access
+        Optional<Category> cat = categoryRepository.findById(id);
+        if (cat.isPresent() && cat.get().getAccounts().stream().anyMatch(account -> account.getId().toString().equals(principal.getUsername()))) {
+            categoryRepository.deleteById(id);
+        }
     }
 }

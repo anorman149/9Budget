@@ -85,10 +85,10 @@ public class CredentialDto implements Serializable {
     @Override
     public String toString() {
         return "CredentialDto{" +
-            "id=" + getId() +
-            ", username='" + getUsername() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", custom='" + getCustom() + "'" +
-            "}";
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", custom='" + custom + '\'' +
+                '}';
     }
 }

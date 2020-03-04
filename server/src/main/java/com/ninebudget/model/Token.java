@@ -8,6 +8,7 @@ public interface Token<T> {
     T getToken();
     void setToken(T token);
     void verify(PublicKey publicKey);
+    String getSubject();
     String provide(OAuthToken oAuthToken) throws TokenException;
     void authenticate() throws TokenException;
 }

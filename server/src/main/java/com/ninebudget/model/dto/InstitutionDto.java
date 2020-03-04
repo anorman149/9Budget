@@ -13,6 +13,9 @@ public class InstitutionDto implements Serializable {
     @NotNull
     private String name;
 
+    @NotNull
+    private AccountDto account;
+
     public UUID getId() {
         return id;
     }
@@ -27,6 +30,14 @@ public class InstitutionDto implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public AccountDto getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountDto account) {
+        this.account = account;
     }
 
     @Override
@@ -53,8 +64,9 @@ public class InstitutionDto implements Serializable {
     @Override
     public String toString() {
         return "InstitutionDto{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            "}";
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", account=" + account +
+                '}';
     }
 }

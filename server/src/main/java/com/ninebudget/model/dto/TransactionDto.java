@@ -21,9 +21,11 @@ public class TransactionDto implements Serializable {
 
     private CategoryDto category;
 
-    private UUID budgetId;
+    private BudgetDto budget;
 
-    private UUID institutionAccountId;
+    private InstitutionAccountDto institutionAccount;
+
+    private AccountDto account;
 
     public UUID getId() {
         return id;
@@ -65,20 +67,28 @@ public class TransactionDto implements Serializable {
         this.category = category;
     }
 
-    public UUID getBudgetId() {
-        return budgetId;
+    public BudgetDto getBudget() {
+        return budget;
     }
 
-    public void setBudgetId(UUID budgetId) {
-        this.budgetId = budgetId;
+    public void setBudget(BudgetDto budget) {
+        this.budget = budget;
     }
 
-    public UUID getInstitutionAccountId() {
-        return institutionAccountId;
+    public InstitutionAccountDto getInstitutionAccount() {
+        return institutionAccount;
     }
 
-    public void setInstitutionAccountId(UUID institutionAccountId) {
-        this.institutionAccountId = institutionAccountId;
+    public void setInstitutionAccount(InstitutionAccountDto institutionAccount) {
+        this.institutionAccount = institutionAccount;
+    }
+
+    public AccountDto getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountDto account) {
+        this.account = account;
     }
 
     @Override
@@ -105,12 +115,14 @@ public class TransactionDto implements Serializable {
     @Override
     public String toString() {
         return "TransactionDto{" +
-            "id=" + getId() +
-            ", amount=" + getAmount() +
-            ", date='" + getDate() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", budgetId=" + getBudgetId() +
-            ", institutionAccountId=" + getInstitutionAccountId() +
-            "}";
+                "id=" + id +
+                ", amount=" + amount +
+                ", date='" + date + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", budget=" + budget +
+                ", institutionAccount=" + institutionAccount +
+                ", account=" + account +
+                '}';
     }
 }

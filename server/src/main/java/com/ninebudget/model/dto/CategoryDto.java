@@ -77,9 +77,10 @@ public class CategoryDto implements Serializable {
     @Override
     public String toString() {
         return "CategoryDto{" +
-            "id=" + getId() +
-            ", type='" + getType() + "'" +
-            ", active='" + isActive() + "'" +
-            "}";
+                "id=" + id +
+                ", type=" + type +
+                ", active=" + active +
+                ", subCategories=" + subCategories +
+                '}';
     }
 }

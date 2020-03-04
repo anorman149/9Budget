@@ -1,7 +1,6 @@
 package com.ninebudget.model;
 
 import com.ninebudget.model.dto.InstitutionDto;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ public interface InstitutionOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<InstitutionDto>> getAll(Pageable pageable, @RequestParam(required = false) String filter) throws ServiceException;
+    ResponseEntity<List<InstitutionDto>> getAll(@RequestParam(required = false) String filter) throws ServiceException;
 
     @RequestMapping(value = "/institutions/{id}",
             method = RequestMethod.GET,

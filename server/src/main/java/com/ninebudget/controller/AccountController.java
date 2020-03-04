@@ -9,16 +9,11 @@ import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,32 +23,6 @@ public class AccountController implements AccountOperations {
 
     @Autowired
     private AccountService accountService;
-
-    @Override
-    public ResponseEntity<List<AccountDto>> getAll(Pageable pageable, @RequestParam(required = false) String filter) throws ServiceException {
-        if ("category-is-null".equals(filter)) {
-            log.debug("REST request to get all SystemAccounts where category is null");
-            return new ResponseEntity<>(accountService.findAllWhereCategoryIsNull(),
-                    HttpStatus.OK);
-        }
-
-        if ("budget-is-null".equals(filter)) {
-            log.debug("REST request to get all SystemAccounts where budget is null");
-            return new ResponseEntity<>(accountService.findAllWhereBudgetIsNull(),
-                    HttpStatus.OK);
-        }
-
-        if ("institution-is-null".equals(filter)) {
-            log.debug("REST request to get all SystemAccounts where institution is null");
-            return new ResponseEntity<>(accountService.findAllWhereInstitutionIsNull(),
-                    HttpStatus.OK);
-        }
-
-        log.debug("REST request to get a page of SystemAccounts");
-
-        Page<AccountDto> page = accountService.findAll(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
 
     @Override
     public ResponseEntity<AccountDto> get(UUID id) throws ServiceException {

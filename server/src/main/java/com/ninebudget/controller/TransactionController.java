@@ -9,8 +9,6 @@ import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
@@ -27,12 +25,12 @@ public class TransactionController implements TransactionOperations {
     private TransactionService transactionService;
 
     @Override
-    public ResponseEntity<List<TransactionDto>> getAll(Pageable pageable, String filter) throws ServiceException {
+    public ResponseEntity<List<TransactionDto>> getAll(String filter) throws ServiceException {
         log.debug("REST request to get a page of Transactions");
 
-        Page<TransactionDto> page = transactionService.findAll(pageable);
+        List<TransactionDto> list = transactionService.findAll();
 
-        return ResponseEntity.ok().body(page.getContent());
+        return ResponseEntity.ok().body(list);
     }
 
     @Override

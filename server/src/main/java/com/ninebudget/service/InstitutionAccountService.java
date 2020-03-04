@@ -6,8 +6,8 @@ import com.ninebudget.model.mapper.InstitutionAccountMapper;
 import com.ninebudget.repository.InstitutionAccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link com.ninebudget.model.InstitutionAccount}.
@@ -51,29 +50,15 @@ public class InstitutionAccountService {
     /**
      * Get all the institutionAccounts.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<InstitutionAccountDto> findAll(Pageable pageable) {
+    public List<InstitutionAccountDto> findAll() {
         log.debug("Request to get all InstitutionAccounts");
-        return institutionAccountRepository.findAll(pageable)
-                .map(institutionAccountMapper::toDto);
-    }
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    /**
-     * Get all the institutionAccounts.
-     *
-     * @param accountId the accountId
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<InstitutionAccountDto> findAllByAccountId(Pageable pageable, Long accountId) {
-        log.debug("Request to get all InstitutionAccounts by AccountId");
-
-        return StreamSupport
-                .stream(institutionAccountRepository.findAll(pageable).spliterator(), false)
-                .filter(institutionAccountDto -> institutionAccountDto.getAccount().getId().equals(accountId))
+        return institutionAccountRepository.findAll().stream()
+                .filter(account -> account.getAccount().getId().toString().equals(principal.getUsername()))
                 .map(institutionAccountMapper::toDto)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
@@ -87,7 +72,10 @@ public class InstitutionAccountService {
     @Transactional(readOnly = true)
     public Optional<InstitutionAccountDto> findOne(UUID id) {
         log.debug("Request to get InstitutionAccount : {}", id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return institutionAccountRepository.findById(id)
+                .filter(account -> account.getAccount().getId().toString().equals(principal.getUsername()))
                 .map(institutionAccountMapper::toDto);
     }
 
@@ -98,6 +86,12 @@ public class InstitutionAccountService {
      */
     public void delete(UUID id) {
         log.debug("Request to delete InstitutionAccount : {}", id);
-        institutionAccountRepository.deleteById(id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //Only delete if User has access
+        Optional<InstitutionAccount> trans = institutionAccountRepository.findById(id);
+        if (trans.isPresent() && trans.get().getAccount().getId().toString().equals(principal.getUsername())) {
+            institutionAccountRepository.deleteById(id);
+        }
     }
 }

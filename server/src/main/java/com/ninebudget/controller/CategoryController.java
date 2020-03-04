@@ -9,8 +9,6 @@ import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -28,7 +26,7 @@ public class CategoryController implements CategoryOperations {
     private CategoryService categoryService;
 
     @Override
-    public ResponseEntity<List<CategoryDto>> getAll(Pageable pageable, String filter) throws ServiceException {
+    public ResponseEntity<List<CategoryDto>> getAll(String filter) throws ServiceException {
         if ("transaction-is-null".equals(filter)) {
             log.debug("REST request to get all Categories where transaction is null");
             return new ResponseEntity<>(categoryService.findAllWhereTransactionIsNull(), HttpStatus.OK);
@@ -36,9 +34,9 @@ public class CategoryController implements CategoryOperations {
 
         log.debug("REST request to get a page of Categories");
 
-        Page<CategoryDto> page = categoryService.findAll(pageable);
+        List<CategoryDto> list = categoryService.findAll();
 
-        return ResponseEntity.ok().body(page.getContent());
+        return ResponseEntity.ok().body(list);
     }
 
     @Override

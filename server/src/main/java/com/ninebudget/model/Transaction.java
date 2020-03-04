@@ -46,6 +46,10 @@ public class Transaction implements Serializable {
     @JsonIgnoreProperties("transactions")
     private InstitutionAccount institutionAccount;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JsonIgnoreProperties("transactions")
+    private Account account;
+
     public UUID getId() {
         return id;
     }
@@ -61,6 +65,14 @@ public class Transaction implements Serializable {
     public Transaction amount(BigDecimal amount) {
         this.amount = amount;
         return this;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public void setAmount(BigDecimal amount) {
@@ -153,6 +165,7 @@ public class Transaction implements Serializable {
                 ", category=" + category +
                 ", budget=" + budget +
                 ", institutionAccount=" + institutionAccount +
+                ", account=" + account +
                 '}';
     }
 }

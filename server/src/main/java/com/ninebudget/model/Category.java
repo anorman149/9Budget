@@ -2,8 +2,6 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -134,9 +132,13 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "Category{" +
-            "id=" + getId() +
-            ", type='" + getType() + "'" +
-            ", active='" + isActive() + "'" +
-            "}";
+                "id=" + id +
+                ", type=" + type +
+                ", active=" + active +
+                ", accounts=" + accounts +
+                ", budgets=" + budgets +
+                ", subCategories=" + subCategories +
+                ", transactions=" + transactions +
+                '}';
     }
 }

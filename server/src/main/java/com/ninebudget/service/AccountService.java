@@ -6,17 +6,13 @@ import com.ninebudget.model.mapper.AccountMapper;
 import com.ninebudget.repository.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link Account}.
@@ -43,69 +39,10 @@ public class AccountService {
      * @return the persisted entity.
      */
     public AccountDto save(AccountDto accountDto) {
-        log.debug("Request to save SystemAccount : {}", accountDto);
+        log.debug("Request to save Account : {}", accountDto);
         Account account = accountMapper.toEntity(accountDto);
         account = accountRepository.save(account);
         return accountMapper.toDto(account);
-    }
-
-    /**
-     * Get all the systemAccounts.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<AccountDto> findAll(Pageable pageable) {
-        log.debug("Request to get all SystemAccounts");
-        return accountRepository.findAll(pageable)
-            .map(accountMapper::toDto);
-    }
-
-
-
-    /**
-    *  Get all the systemAccounts where Category is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<AccountDto> findAllWhereCategoryIsNull() {
-        log.debug("Request to get all systemAccounts where Category is null");
-        return StreamSupport
-            .stream(accountRepository.findAll().spliterator(), false)
-            .filter(systemAccount -> systemAccount.getCategory() == null)
-            .map(accountMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-
-    /**
-    *  Get all the systemAccounts where Budget is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<AccountDto> findAllWhereBudgetIsNull() {
-        log.debug("Request to get all systemAccounts where Budget is null");
-        return StreamSupport
-            .stream(accountRepository.findAll().spliterator(), false)
-            .filter(systemAccount -> systemAccount.getBudgets() == null)
-            .map(accountMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
-    }
-
-
-    /**
-    *  Get all the systemAccounts where Institution is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<AccountDto> findAllWhereInstitutionIsNull() {
-        log.debug("Request to get all systemAccounts where Institution is null");
-        return StreamSupport
-            .stream(accountRepository.findAll().spliterator(), false)
-            .filter(systemAccount -> systemAccount.getInstitutionAccount() == null)
-            .map(accountMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -116,9 +53,12 @@ public class AccountService {
      */
     @Transactional(readOnly = true)
     public Optional<AccountDto> findOne(UUID id) {
-        log.debug("Request to get SystemAccount : {}", id);
+        log.debug("Request to get Account : {}", id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return accountRepository.findById(id)
-            .map(accountMapper::toDto);
+                .filter(account -> account.getId().toString().equals(principal.getUsername()))
+                .map(accountMapper::toDto);
     }
 
     /**
@@ -127,7 +67,13 @@ public class AccountService {
      * @param id the id of the entity.
      */
     public void delete(UUID id) {
-        log.debug("Request to delete SystemAccount : {}", id);
-        accountRepository.deleteById(id);
+        log.debug("Request to delete Account : {}", id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //Only delete if User has access
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent() && account.get().getId().toString().equals(principal.getUsername())) {
+            accountRepository.deleteById(id);
+        }
     }
 }

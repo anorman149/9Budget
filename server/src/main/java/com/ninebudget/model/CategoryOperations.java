@@ -1,7 +1,6 @@
 package com.ninebudget.model;
 
 import com.ninebudget.model.dto.CategoryDto;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ public interface CategoryOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<CategoryDto>> getAll(Pageable pageable, @RequestParam(required = false) String filter) throws ServiceException;
+    ResponseEntity<List<CategoryDto>> getAll(@RequestParam(required = false) String filter) throws ServiceException;
 
     @RequestMapping(value = "/categories/{id}",
             method = RequestMethod.GET,

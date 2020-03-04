@@ -13,18 +13,20 @@ import java.util.UUID;
  * Mapper for the entity {@link Transaction} and its DTO {@link TransactionDto}.
  */
 @Component
-@Mapper(componentModel = "spring", imports = {Instant.class}, uses = {CategoryMapper.class, BudgetMapper.class, InstitutionAccountMapper.class})
+@Mapper(componentModel = "spring", imports = {Instant.class}, uses = {CategoryMapper.class, BudgetMapper.class, InstitutionAccountMapper.class, AccountMapper.class})
 public interface TransactionMapper extends EntityMapper<TransactionDto, Transaction> {
 
     @Mapping(source = "category", target = "category")
-    @Mapping(source = "budget.id", target = "budgetId")
-    @Mapping(source = "institutionAccount.id", target = "institutionAccountId")
+    @Mapping(source = "budget", target = "budget")
+    @Mapping(source = "account", target = "account")
+    @Mapping(source = "institutionAccount", target = "institutionAccount")
     @Mapping(target = "date", expression = "java(transaction.getDate().toString())")
     TransactionDto toDto(Transaction transaction);
 
     @Mapping(source = "category", target = "category")
-    @Mapping(source = "budgetId", target = "budget")
-    @Mapping(source = "institutionAccountId", target = "institutionAccount.id")
+    @Mapping(source = "budget", target = "budget")
+    @Mapping(source = "account", target = "account")
+    @Mapping(source = "institutionAccount", target = "institutionAccount")
     @Mapping(target = "date", expression = "java(Instant.parse(transactionDto.getDate()))")
     Transaction toEntity(TransactionDto transactionDto);
 
