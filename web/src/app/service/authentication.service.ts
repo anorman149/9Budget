@@ -10,7 +10,7 @@ import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUser: User | null = null;
+  private _currentUser: User | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
   private currentUser$: Observable<OauthToken>;
 
@@ -21,7 +21,7 @@ export class AuthenticationService {
   ) {}
 
   isLoggedIn(): boolean {
-    return this.currentUser !== null;
+    return this._currentUser !== null;
   }
 
   login(user: User) {
@@ -34,7 +34,7 @@ export class AuthenticationService {
         // Login successful if there's a token in the response
         if (oauthToken && oauthToken.token) {
           // Grab OAuth Token from Response
-          this.currentUser = oauthToken.user;
+          this._currentUser = oauthToken.user;
         }
 
         return oauthToken;
@@ -51,7 +51,11 @@ export class AuthenticationService {
     // Remove Cookie to log user out
     this.cookieService.delete(storage.name);
 
-    this.currentUser = null;
+    this._currentUser = null;
     this.router.navigate([api.auth.urlLogin]);
+  }
+
+  get currentUser(): User | null {
+    return this._currentUser;
   }
 }

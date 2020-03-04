@@ -1,6 +1,7 @@
 package com.ninebudget.service;
 
 import com.ninebudget.model.Category;
+import com.ninebudget.model.CategoryType;
 import com.ninebudget.model.dto.CategoryDto;
 import com.ninebudget.model.mapper.CategoryMapper;
 import com.ninebudget.repository.CategoryRepository;
@@ -64,7 +65,6 @@ public class CategoryService {
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get all the categories where Transaction is {@code null}.
      *
@@ -73,8 +73,10 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryDto> findAllWhereTransactionIsNull() {
         log.debug("Request to get all categories where Transaction is null");
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return categoryRepository.findAll().stream()
-                .filter(category -> category.getTransactions() == null)
+                .filter(category -> category.getAccounts().stream().anyMatch(account -> account.getId().toString().equals(principal.getUsername())))
                 .map(categoryMapper::toDto)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
@@ -109,5 +111,21 @@ public class CategoryService {
         if (cat.isPresent() && cat.get().getAccounts().stream().anyMatch(account -> account.getId().toString().equals(principal.getUsername()))) {
             categoryRepository.deleteById(id);
         }
+    }
+
+    /**
+     * Get all the categories where Transaction is {@code null}.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public CategoryDto findAllWhereTypeIs(CategoryType categoryType, UUID accountId) {
+        log.debug("Request to get all categories where category type is: {}", categoryType);
+        return categoryRepository.findAll().stream()
+                .filter(category -> category.getType().equals(categoryType) &&
+                        category.getAccounts().stream().anyMatch(account -> account.getId().equals(accountId)))
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new))
+                .getFirst();
     }
 }

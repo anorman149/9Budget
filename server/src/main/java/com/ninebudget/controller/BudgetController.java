@@ -1,10 +1,12 @@
 package com.ninebudget.controller;
 
-import com.ninebudget.model.APIController;
-import com.ninebudget.model.BudgetOperations;
-import com.ninebudget.model.ServiceException;
+import com.ninebudget.model.*;
 import com.ninebudget.model.dto.BudgetDto;
+import com.ninebudget.model.dto.CategoryDto;
+import com.ninebudget.repository.BudgetRepository;
+import com.ninebudget.repository.CategoryRepository;
 import com.ninebudget.service.BudgetService;
+import com.ninebudget.service.CategoryService;
 import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +25,9 @@ public class BudgetController implements BudgetOperations {
 
     @Autowired
     private BudgetService budgetService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Override
     public ResponseEntity<List<BudgetDto>> getAll() throws ServiceException {
@@ -61,6 +66,10 @@ public class BudgetController implements BudgetOperations {
     @Override
     public ResponseEntity<BudgetDto> create(BudgetDto budget) throws ServiceException {
         log.debug("REST request to create Budget : {}", budget);
+
+        CategoryDto category = categoryService.findAllWhereTypeIs(budget.getCategory().getType(), budget.getAccountId());
+
+        budget.setCategory(category);
 
         BudgetDto result = budgetService.save(budget);
 

@@ -1,8 +1,9 @@
 import {CategoryType} from './category-type.model';
 import {ISubCategory} from './sub-category';
+import {v4 as uuid} from 'uuid';
 
 export interface ICategory {
-  id?: number;
+  id?: uuid;
   type?: CategoryType;
   active?: boolean;
   accountId?: number;
@@ -11,7 +12,7 @@ export interface ICategory {
 
 export class Category implements ICategory {
   constructor(
-    public id?: number,
+    public id?: uuid,
     public type?: CategoryType,
     public active?: boolean,
     public accountId?: number,

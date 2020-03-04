@@ -6,6 +6,8 @@ import {CategoryType} from '../../model/category-type.model';
 import {BudgetTiming} from '../../model/budget-timing.model';
 import {Category, ICategory} from "../../model/category";
 import {IAccount} from "../../model/account";
+import {AuthenticationService} from "../../service/authentication.service";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-budget-new',
@@ -19,13 +21,11 @@ export class BudgetNewComponent implements OnInit {
   keys = Object.keys;
   categoryType = CategoryType;
 
-  @Input()
-  account?: IAccount;
-
+  account: IAccount;
   budget: IBudget;
   category: ICategory;
 
-  constructor(private budgetService: BudgetService) {
+  constructor(private budgetService: BudgetService, private authenicationService: AuthenticationService) {
     this.budget = new Budget();
     this.category = new Category();
   }
@@ -43,7 +43,7 @@ export class BudgetNewComponent implements OnInit {
   }
 
   submit() {
-    this.budget.accountId = this.account.id;
+    this.budget.accountId = this.authenicationService.currentUser.accountId;
     this.budget.name = this.budgetNewForm.get('name').value;
     this.budget.amount = this.budgetNewForm.get('amount').value;
     this.category.type = CategoryType[this.budgetNewForm.get('category').value] as CategoryType;
