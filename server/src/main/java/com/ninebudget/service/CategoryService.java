@@ -1,6 +1,7 @@
 package com.ninebudget.service;
 
 import com.ninebudget.model.Category;
+import com.ninebudget.model.CategoryType;
 import com.ninebudget.model.dto.CategoryDto;
 import com.ninebudget.model.mapper.CategoryMapper;
 import com.ninebudget.repository.CategoryRepository;
@@ -59,23 +60,22 @@ public class CategoryService {
     public Page<CategoryDto> findAll(Pageable pageable) {
         log.debug("Request to get all Categories");
         return categoryRepository.findAll(pageable)
-            .map(categoryMapper::toDto);
+                .map(categoryMapper::toDto);
     }
 
-
-
     /**
-    *  Get all the categories where Transaction is {@code null}.
-     *  @return the list of entities.
+     * Get all the categories where Transaction is {@code null}.
+     *
+     * @return the list of entities.
      */
     @Transactional(readOnly = true)
     public List<CategoryDto> findAllWhereTransactionIsNull() {
         log.debug("Request to get all categories where Transaction is null");
         return StreamSupport
-            .stream(categoryRepository.findAll().spliterator(), false)
-            .filter(category -> category.getTransactions() == null)
-            .map(categoryMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+                .stream(categoryRepository.findAll().spliterator(), false)
+                .filter(category -> category.getTransactions() == null)
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -88,7 +88,7 @@ public class CategoryService {
     public Optional<CategoryDto> findOne(UUID id) {
         log.debug("Request to get Category : {}", id);
         return categoryRepository.findById(id)
-            .map(categoryMapper::toDto);
+                .map(categoryMapper::toDto);
     }
 
     /**
@@ -99,5 +99,22 @@ public class CategoryService {
     public void delete(UUID id) {
         log.debug("Request to delete Category : {}", id);
         categoryRepository.deleteById(id);
+    }
+
+    /**
+     * Get all the categories where Transaction is {@code null}.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public CategoryDto findAllWhereTypeIs(CategoryType categoryType, UUID accountId) {
+        log.debug("Request to get all categories where category type is: {}", categoryType);
+        return StreamSupport
+                .stream(categoryRepository.findAll().spliterator(), false)
+                .filter(category -> category.getType().equals(categoryType) &&
+                        category.getAccounts().stream().anyMatch(account -> account.getId().equals(accountId)))
+                .map(categoryMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new))
+                .getFirst();
     }
 }

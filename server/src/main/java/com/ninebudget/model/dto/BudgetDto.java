@@ -132,13 +132,15 @@ public class BudgetDto implements Serializable {
     @Override
     public String toString() {
         return "BudgetDto{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", amount=" + getAmount() +
-            ", budgetTiming='" + getBudgetTiming() + "'" +
-            ", useLeftOver='" + isUseLeftOver() + "'" +
-            ", active='" + isActive() + "'" +
-            ", systemAccountId=" + getAccountId() +
-            "}";
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", budgetTiming=" + budgetTiming +
+                ", useLeftOver=" + useLeftOver +
+                ", active=" + active +
+                ", accountId=" + accountId +
+                ", category=" + category +
+                ", transactions=" + transactions +
+                '}';
     }
 }

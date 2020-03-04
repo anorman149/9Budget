@@ -1,6 +1,7 @@
 import {BudgetTiming} from './budget-timing.model';
 import {ITransaction} from './transaction';
 import {ICategory} from './category';
+import {v4 as uuid} from 'uuid';
 
 export interface IBudget {
   id?: number;
@@ -10,7 +11,7 @@ export interface IBudget {
   budgetTiming?: BudgetTiming;
   useLeftOver?: boolean;
   active?: boolean;
-  accountId?: number;
+  accountId?: uuid;
   transactions?: ITransaction[];
   category?: ICategory;
 }
@@ -24,7 +25,7 @@ export class Budget implements IBudget {
     public budgetTiming?: BudgetTiming,
     public useLeftOver?: boolean,
     public active?: boolean,
-    public accountId?: number,
+    public accountId?: uuid,
     public transactions?: ITransaction[],
     public category?: ICategory
   ) {

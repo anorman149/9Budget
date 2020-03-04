@@ -1,7 +1,8 @@
 import {IUser} from './user';
+import {v4 as uuid} from 'uuid';
 
 export interface IAccount {
-  id?: number;
+  id?: uuid;
   name?: string;
   active?: boolean;
   users?: IUser[];
@@ -12,7 +13,7 @@ export interface IAccount {
 
 export class Account implements IAccount {
   constructor(
-    public id?: number,
+    public id?: uuid,
     public name?: string,
     public active?: boolean,
     public users?: IUser[],
