@@ -44,8 +44,7 @@ public class BudgetService {
         log.debug("Request to save Budget : {}", budgetDto);
         Budget budget = budgetMapper.toEntity(budgetDto);
         budget = budgetRepository.save(budget);
-        BudgetDto budgetDto1 = budgetMapper.toDto(budget);
-        return budgetDto1;
+        return budgetMapper.toDto(budget);
     }
 
     /**

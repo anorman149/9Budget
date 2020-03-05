@@ -25,9 +25,9 @@ public class InstitutionAccountController implements InstitutionAccountOperation
     private InstitutionAccountService institutionAccountService;
 
     @Override
-    public ResponseEntity<List<InstitutionAccountDto>> getAll() throws ServiceException {
+    public ResponseEntity<List<InstitutionAccountDto>> getAll(UUID id) throws ServiceException {
         log.debug("REST request to get a page of InstitutionAccounts");
-
+        //TODO
         List<InstitutionAccountDto> page = institutionAccountService.findAll();
 
         return ResponseEntity.ok().body(page);

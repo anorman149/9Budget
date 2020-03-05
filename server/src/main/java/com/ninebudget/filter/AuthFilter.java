@@ -8,9 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
 
 public class AuthFilter extends OncePerRequestFilter {
     protected static final Logger log = LogManager.getLogger(AuthFilter.class);
@@ -86,10 +82,6 @@ public class AuthFilter extends OncePerRequestFilter {
         }
 
         log.info("Token has been verified");
-
-        //Place in Spring for others to use
-        User principal = new User(jwtToken.getSubject(), "", Collections.emptyList());
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, jwtToken, Collections.emptyList()));
 
         //Continue on the path the request needed
         chain.doFilter(request, response);

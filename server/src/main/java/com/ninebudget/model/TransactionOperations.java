@@ -1,14 +1,17 @@
 package com.ninebudget.model;
 
 import com.ninebudget.model.dto.TransactionDto;
+import com.ninebudget.validator.uuid.ValidUUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
+@Validated
 public interface TransactionOperations {
     @RequestMapping(value = "/transactions",
             method = RequestMethod.GET,
@@ -20,7 +23,7 @@ public interface TransactionOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<TransactionDto> get(@PathVariable UUID id) throws ServiceException;
+    ResponseEntity<TransactionDto> get(@ValidUUID @PathVariable UUID id) throws ServiceException;
 
     @RequestMapping(value = "/transactions",
             method = RequestMethod.POST,
@@ -38,5 +41,5 @@ public interface TransactionOperations {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@PathVariable UUID id) throws ServiceException;
+    ResponseEntity<Void> delete(@ValidUUID @PathVariable UUID id) throws ServiceException;
 }

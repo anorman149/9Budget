@@ -6,6 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.Collections;
 
 @APIController
 public class AuthController implements AuthOperations {
@@ -31,6 +36,10 @@ public class AuthController implements AuthOperations {
                 .path("/")
 //                .secure(true) //TODO uncomment when SSL is setup
                 .build();
+
+        //Place in Spring for others to use
+        User principal = new User(authToken.getUser().getAccount().getId().toString(), "", Collections.emptyList());
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, jwtToken, Collections.emptyList()));
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(authToken);
     }

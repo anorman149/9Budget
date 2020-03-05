@@ -1,6 +1,7 @@
 package com.ninebudget.model;
 
 import com.ninebudget.model.dto.CategoryDto;
+import com.ninebudget.validator.uuid.ValidUUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public interface CategoryOperations {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CategoryDto> get(@PathVariable UUID id) throws ServiceException;
+    ResponseEntity<CategoryDto> get(@ValidUUID @PathVariable UUID id) throws ServiceException;
 
     @RequestMapping(value = "/categories",
             method = RequestMethod.POST,
@@ -38,5 +39,5 @@ public interface CategoryOperations {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@PathVariable UUID id) throws ServiceException;
+    ResponseEntity<Void> delete(@ValidUUID @PathVariable UUID id) throws ServiceException;
 }

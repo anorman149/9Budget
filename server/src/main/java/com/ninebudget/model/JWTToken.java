@@ -79,7 +79,7 @@ public class JWTToken implements Token<String> {
 
         //Create JWT Token
         return Jwts.builder()
-                .setSubject("davis") //TODO correct - oAuthToken.getUser().getCredential().getUsername()
+                .setSubject(oAuthToken.getUser().getCredential().getUsername())
                 .setAudience("9budget")
                 .setExpiration(Date.from(Instant.now().plusSeconds(Token.AUTH_TOKEN_EXPIRE_TIME)))
                 .setIssuedAt(new Date())

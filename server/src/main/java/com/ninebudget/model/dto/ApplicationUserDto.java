@@ -6,7 +6,6 @@ import com.ninebudget.model.Credential;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.UUID;
 
 public class ApplicationUserDto implements Serializable {
@@ -29,15 +28,9 @@ public class ApplicationUserDto implements Serializable {
 
     private boolean activated = false;
 
-    private String createdBy;
-
-    private Instant createdDate;
-
-    private String lastModifiedBy;
-
-    private Instant lastModifiedDate;
-
     private Credential credential;
+
+    private AccountDto account;
 
     public ApplicationUserDto() {
         // Empty constructor needed for Jackson.
@@ -49,10 +42,6 @@ public class ApplicationUserDto implements Serializable {
         this.lastName = applicationUser.getLastName();
         this.email = applicationUser.getEmail();
         this.activated = applicationUser.getActivated();
-        this.createdBy = applicationUser.getCreatedBy();
-        this.createdDate = applicationUser.getCreatedDate();
-        this.lastModifiedBy = applicationUser.getLastModifiedBy();
-        this.lastModifiedDate = applicationUser.getLastModifiedDate();
         this.credential = applicationUser.getCredential();
         this.phone = applicationUser.getPhone();
     }
@@ -97,38 +86,6 @@ public class ApplicationUserDto implements Serializable {
         this.activated = activated;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-
     public Credential getCredential() {
         return credential;
     }
@@ -145,6 +102,14 @@ public class ApplicationUserDto implements Serializable {
         this.phone = phone;
     }
 
+    public AccountDto getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountDto account) {
+        this.account = account;
+    }
+
     @Override
     public String toString() {
         return "ApplicationUserDto{" +
@@ -154,10 +119,6 @@ public class ApplicationUserDto implements Serializable {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", activated=" + activated +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDate=" + createdDate +
-                ", lastModifiedBy='" + lastModifiedBy + '\'' +
-                ", lastModifiedDate=" + lastModifiedDate +
                 ", credential=" + credential +
                 '}';
     }
