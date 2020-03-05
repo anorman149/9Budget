@@ -2,8 +2,6 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -37,8 +35,7 @@ public class Credential implements Serializable {
     @Column(name = "password", length = 60, nullable = false)
     private String password;
 
-    @NotNull
-    @Column(name = "custom", nullable = false)
+    @Column(name = "custom")
     private String custom;
 
     @OneToOne(mappedBy = "credential")

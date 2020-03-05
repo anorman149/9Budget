@@ -2,54 +2,28 @@ package com.ninebudget.model.mapper;
 
 import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.dto.ApplicationUserDto;
-import org.springframework.stereotype.Service;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * Mapper for the entity {@link ApplicationUser} and its DTO called {@link ApplicationUserDto}.
  */
-@Service
-public class ApplicationUserMapper {
+@Component
+@Mapper(componentModel = "spring", uses = {AccountMapper.class, CredentialMapper.class})
+public interface ApplicationUserMapper extends EntityMapper<ApplicationUserDto, ApplicationUser>{
 
-    public List<ApplicationUserDto> usersToUserDTOs(List<ApplicationUser> applicationUsers) {
-        return applicationUsers.stream()
-            .filter(Objects::nonNull)
-            .map(this::userToUserDTO)
-            .collect(Collectors.toList());
-    }
+    @Mapping(source = "account", target = "account")
+    @Mapping(source = "credential", target = "credential")
+    ApplicationUserDto toDto(ApplicationUser applicationUser);
 
-    public ApplicationUserDto userToUserDTO(ApplicationUser applicationUser) {
-        return new ApplicationUserDto(applicationUser);
-    }
+    @Mapping(source = "account", target = "account")
+    @Mapping(source = "credential", target = "credential")
+    ApplicationUser toEntity(ApplicationUserDto applicationUserDto);
 
-    public List<ApplicationUser> userDTOsToUsers(List<ApplicationUserDto> applicationUserDTOS) {
-        return applicationUserDTOS.stream()
-            .filter(Objects::nonNull)
-            .map(this::userDTOToUser)
-            .collect(Collectors.toList());
-    }
-
-    public ApplicationUser userDTOToUser(ApplicationUserDto applicationUserDTO) {
-        if (applicationUserDTO == null) {
-            return null;
-        } else {
-            ApplicationUser applicationUser = new ApplicationUser();
-            applicationUser.setId(applicationUserDTO.getId());
-            applicationUser.setFirstName(applicationUserDTO.getFirstName());
-            applicationUser.setLastName(applicationUserDTO.getLastName());
-            applicationUser.setEmail(applicationUserDTO.getEmail());
-            applicationUser.setActivated(applicationUserDTO.isActivated());
-            applicationUser.setCredential(applicationUserDTO.getCredential());
-            applicationUser.setPhone(applicationUserDTO.getPhone());
-            return applicationUser;
-        }
-    }
-
-    public ApplicationUser userFromId(UUID id) {
+    default ApplicationUser fromId(UUID id) {
         if (id == null) {
             return null;
         }

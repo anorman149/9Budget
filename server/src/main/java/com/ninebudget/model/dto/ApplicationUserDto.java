@@ -1,8 +1,5 @@
 package com.ninebudget.model.dto;
 
-import com.ninebudget.model.ApplicationUser;
-import com.ninebudget.model.Credential;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -28,23 +25,9 @@ public class ApplicationUserDto implements Serializable {
 
     private boolean activated = false;
 
-    private Credential credential;
+    private CredentialDto credential;
 
     private AccountDto account;
-
-    public ApplicationUserDto() {
-        // Empty constructor needed for Jackson.
-    }
-
-    public ApplicationUserDto(ApplicationUser applicationUser) {
-        this.id = applicationUser.getId();
-        this.firstName = applicationUser.getFirstName();
-        this.lastName = applicationUser.getLastName();
-        this.email = applicationUser.getEmail();
-        this.activated = applicationUser.getActivated();
-        this.credential = applicationUser.getCredential();
-        this.phone = applicationUser.getPhone();
-    }
 
     public UUID getId() {
         return id;
@@ -86,11 +69,11 @@ public class ApplicationUserDto implements Serializable {
         this.activated = activated;
     }
 
-    public Credential getCredential() {
+    public CredentialDto getCredential() {
         return credential;
     }
 
-    public void setCredential(Credential credential) {
+    public void setCredential(CredentialDto credential) {
         this.credential = credential;
     }
 

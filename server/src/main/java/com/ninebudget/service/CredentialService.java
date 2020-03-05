@@ -92,6 +92,18 @@ public class CredentialService {
     }
 
     /**
+     * Get one credential by username.
+     *
+     * @return the entity.
+     */
+    @Transactional(readOnly = true)
+    public Optional<CredentialDto> findOneByUsername(String username) {
+        log.debug("Request to get Credential by Username: {}", username);
+        return credentialRepository.findOneByUsername(username)
+                .map(credentialMapper::toDto);
+    }
+
+    /**
      * Delete the credential by id.
      *
      * @param id the id of the entity.

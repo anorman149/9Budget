@@ -45,7 +45,7 @@ public class InstitutionAccount extends AbstractAuditingEntity implements Serial
     @JoinColumn(unique = true)
     private Credential credential;
 
-    @OneToMany(mappedBy = "institutionAccount")
+    @OneToMany(mappedBy = "institutionAccount", cascade = {CascadeType.ALL})
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "institution")
     private Set<Transaction> transactions = new HashSet<>();
 

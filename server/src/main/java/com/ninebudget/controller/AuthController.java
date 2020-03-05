@@ -2,6 +2,7 @@ package com.ninebudget.controller;
 
 import com.ninebudget.model.*;
 import com.ninebudget.model.dto.ApplicationUserDto;
+import com.ninebudget.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @APIController
 public class AuthController implements AuthOperations {
@@ -19,16 +21,23 @@ public class AuthController implements AuthOperations {
     @Autowired
     private JWTToken jwtToken;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public ResponseEntity<OAuthToken> login(ApplicationUserDto user) throws ServiceException {
-        //TODO For now return a token without checking DB
-        OAuthToken authToken = new OAuthToken(user);
-
+        OAuthToken authToken;
+        Optional<ApplicationUserDto> dbUser;
         try {
+            //Grab User from DB
+            dbUser = userService.findOneByCredential(user.getCredential());
+
+            authToken = new OAuthToken(dbUser.get());
+
             authToken.setToken(jwtToken.provide(authToken));
         } catch (Exception e) {
-            log.error(e); //TODO add more
-            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Authenticate");
+            log.error("Error while logging in", e);
+            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Authenticate" + e.getMessage());
         }
 
         //Create Cookie and place in Response for others to use
@@ -37,8 +46,8 @@ public class AuthController implements AuthOperations {
 //                .secure(true) //TODO uncomment when SSL is setup
                 .build();
 
-        //Place in Spring for others to use //TODO Correct authToken.getUser().getAccount().getId().toString()
-        User principal = new User("6b5c91dd-ab38-492f-8d52-747baee07e89", "", Collections.emptyList());
+        //Place in Spring for others to use
+        User principal = new User(dbUser.get().getAccount().getId().toString(), "", Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, jwtToken, Collections.emptyList()));
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(authToken);
