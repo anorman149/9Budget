@@ -37,8 +37,8 @@ public class AuthController implements AuthOperations {
 //                .secure(true) //TODO uncomment when SSL is setup
                 .build();
 
-        //Place in Spring for others to use
-        User principal = new User(authToken.getUser().getAccount().getId().toString(), "", Collections.emptyList());
+        //Place in Spring for others to use //TODO Correct authToken.getUser().getAccount().getId().toString()
+        User principal = new User("6b5c91dd-ab38-492f-8d52-747baee07e89", "", Collections.emptyList());
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(principal, jwtToken, Collections.emptyList()));
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(authToken);

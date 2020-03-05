@@ -1,5 +1,6 @@
 import {ICredential} from './credential';
 import {v4 as uuid} from 'uuid';
+import {IAccount} from "./account";
 
 export interface IUser {
   id?: any;
@@ -12,7 +13,7 @@ export interface IUser {
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
   credential?: ICredential;
-  accountId?: uuid;
+  account?: IAccount;
 }
 
 export class User implements IUser {
@@ -27,6 +28,6 @@ export class User implements IUser {
     public lastModifiedBy?: string,
     public lastModifiedDate?: Date,
     public credential?: ICredential,
-    public accountId?: uuid
+    public account?: IAccount
   ) {}
 }
