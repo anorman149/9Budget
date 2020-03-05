@@ -37,7 +37,7 @@ public class AuthController implements AuthOperations {
             authToken.setToken(jwtToken.provide(authToken));
         } catch (Exception e) {
             log.error("Error while logging in", e);
-            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Authenticate" + e.getMessage());
+            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Authenticate: " + e.getMessage());
         }
 
         //Create Cookie and place in Response for others to use

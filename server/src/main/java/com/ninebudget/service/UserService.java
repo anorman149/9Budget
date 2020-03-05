@@ -2,7 +2,6 @@ package com.ninebudget.service;
 
 import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.Credential;
-import com.ninebudget.model.InvalidPasswordException;
 import com.ninebudget.model.dto.ApplicationUserDto;
 import com.ninebudget.model.dto.CredentialDto;
 import com.ninebudget.model.mapper.AccountMapper;
@@ -101,7 +100,7 @@ public class UserService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<ApplicationUserDto> findOneByCredential(CredentialDto credential) throws InvalidPasswordException {
+    public Optional<ApplicationUserDto> findOneByCredential(CredentialDto credential) throws Exception {
         log.debug("Request to get Application User By Credential: {}", credential);
 
         //Grab credential from DB
@@ -112,8 +111,8 @@ public class UserService {
 
             If not, error
          */
-        if(!passwordEncoder.matches(credential.getPassword(), loaded.get().getPassword())){
-            throw new InvalidPasswordException();
+        if(!loaded.isPresent() || !passwordEncoder.matches(credential.getPassword(), loaded.get().getPassword())){
+            throw new Exception("Invalid Username or Password");
         }
 
         return applicationUserRepository.findOneByCredential(credentialMapper.toEntity(loaded.get()))
