@@ -22,6 +22,10 @@ const budgetAPI = {
   url: '/budgets'
 };
 
+const userAPI = {
+  url: '/users'
+};
+
 const accountAPI = {
   url: '/accounts'
 };
@@ -47,6 +51,7 @@ export const authentication = {
 export const api = {
   url: defaultURL.url + '/api/v1',
   budget: budgetAPI,
+  user: userAPI,
   account: accountAPI,
   auth: authAPI,
   home: homeAPI,

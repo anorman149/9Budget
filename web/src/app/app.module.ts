@@ -32,6 +32,7 @@ import { SwaggerComponent } from './component/swagger/swagger.component';
 import { BudgetNewComponent } from './component/budget-new/budget-new.component';
 import {CookieService} from 'ngx-cookie-service';
 import {BudgetDetailComponent} from './component/budget-detail/budget-detail.component';
+import {UserService} from './service/user.service';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {BudgetDetailComponent} from './component/budget-detail/budget-detail.com
     AuthenticationService,
     MessageService,
     CookieService,
+    UserService,
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeaderInterceptor, multi: true}
   ],
