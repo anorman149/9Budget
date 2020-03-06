@@ -38,7 +38,7 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
     private String email;
 
     @Size(min = 11, max = 20)
-    @Column(length = 20, unique = true)
+    @Column(length = 20)
     private String phone;
 
     @NotNull

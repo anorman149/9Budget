@@ -3,6 +3,7 @@ package com.ninebudget.controller;
 import com.ninebudget.model.*;
 import com.ninebudget.model.dto.ApplicationUserDto;
 import com.ninebudget.service.CredentialService;
+import com.ninebudget.service.MailService;
 import com.ninebudget.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -26,8 +28,8 @@ public class UserController implements UserOperations {
     @Autowired
     private CredentialService credentialService;
 
-//    @Autowired
-//    private MailService mailService;
+    @Autowired
+    private MailService mailService;
 
     @Override
     public ResponseEntity<ApplicationUserDto> create(@Valid ApplicationUserDto applicationUser) throws ServiceException {
@@ -59,14 +61,14 @@ public class UserController implements UserOperations {
         //Create User
         ApplicationUserDto result = userService.createUser(applicationUser);
 
-        //Send Creation Email
-//        mailService.sendCreationEmail(result);
-        //TODO
         URI uri;
         try{
+            //Send Creation Email
+            mailService.sendActivationEmail(result);
+
             uri = new URI(String.valueOf(result.getId()));
-        } catch (URISyntaxException e) {
-            throw new ServiceException(e);
+        } catch (URISyntaxException | IOException e) {
+            throw new ServiceException(HttpStatus.BAD_REQUEST.toString(), "FATAL", e.getMessage());
         }
 
         return ResponseEntity.created(uri).body(result);
