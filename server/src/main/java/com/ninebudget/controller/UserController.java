@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.UUID;
 
 @APIController
@@ -76,6 +77,19 @@ public class UserController implements UserOperations {
         log.debug("REST request to delete Application User : {}", id);
 
         userService.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> activate(String key) throws ServiceException {
+        log.debug("REST request to Activate User : {}", key);
+
+        Optional<ApplicationUser> user = userService.activateRegistration(key);
+
+        if (!user.isPresent()) {
+            throw new ServiceException(HttpStatus.NOT_FOUND.toString(), "FATAL", "No User was found for this activation key");
+        }
 
         return ResponseEntity.noContent().build();
     }

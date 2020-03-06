@@ -1,29 +1,32 @@
 package com.ninebudget.util;
 
-import org.apache.commons.text.RandomStringGenerator;
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.security.SecureRandom;
 
 public class RandomUtil {
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
     private RandomUtil() {
     }
 
-    public static String generatePassword(){
-        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder()
-                .withinRange(33, 45)
-                .build();
-        return pwdGenerator.generate(20);
+    public static String generateRandomAlphanumericString() {
+        return RandomStringUtils.random(20, 0, 0, true, true, (char[])null, SECURE_RANDOM);
     }
 
-    public static String generateResetKey(){
-        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder()
-                .withinRange(33, 45)
-                .build();
-        return pwdGenerator.generate(20);
+    public static String generatePassword() {
+        return generateRandomAlphanumericString();
     }
 
-    public static String generateActivationKey(){
-        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder()
-                .withinRange(33, 45)
-                .build();
-        return pwdGenerator.generate(20);
+    public static String generateActivationKey() {
+        return generateRandomAlphanumericString();
+    }
+
+    public static String generateResetKey() {
+        return generateRandomAlphanumericString();
+    }
+
+    static {
+        SECURE_RANDOM.nextBytes(new byte[64]);
     }
 }

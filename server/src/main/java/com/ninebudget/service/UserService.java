@@ -50,13 +50,16 @@ public class UserService {
     }
 
     public Optional<ApplicationUser> activateRegistration(String key) {
-        log.debug("Activating user for activation key {}", key);
+        log.debug("Activating Application User for activation key {}", key);
+
         return applicationUserRepository.findOneByActivationKey(key)
                 .map(user -> {
                     // activate given user for the registration key.
                     user.setActivated(true);
                     user.setActivationKey(null);
+
                     log.debug("Activated user: {}", user);
+
                     return user;
                 });
     }
