@@ -12,6 +12,8 @@ import com.ninebudget.util.RandomUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,35 +52,35 @@ public class UserService {
     public Optional<ApplicationUser> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return applicationUserRepository.findOneByActivationKey(key)
-            .map(user -> {
-                // activate given user for the registration key.
-                user.setActivated(true);
-                user.setActivationKey(null);
-                log.debug("Activated user: {}", user);
-                return user;
-            });
+                .map(user -> {
+                    // activate given user for the registration key.
+                    user.setActivated(true);
+                    user.setActivationKey(null);
+                    log.debug("Activated user: {}", user);
+                    return user;
+                });
     }
 
     public Optional<ApplicationUser> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
         return applicationUserRepository.findOneByResetKey(key)
-            .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
-            .map(user -> {
-                user.getCredential().setPassword(passwordEncoder.encode(newPassword));
-                user.setResetKey(null);
-                user.setResetDate(null);
-                return user;
-            });
+                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+                .map(user -> {
+                    user.getCredential().setPassword(passwordEncoder.encode(newPassword));
+                    user.setResetKey(null);
+                    user.setResetDate(null);
+                    return user;
+                });
     }
 
     public Optional<ApplicationUser> requestPasswordReset(String mail) {
         return applicationUserRepository.findOneByEmailIgnoreCase(mail)
-            .filter(ApplicationUser::getActivated)
-            .map(user -> {
-                user.setResetKey(RandomUtil.generateResetKey());
-                user.setResetDate(Instant.now());
-                return user;
-            });
+                .filter(ApplicationUser::getActivated)
+                .map(user -> {
+                    user.setResetKey(RandomUtil.generateResetKey());
+                    user.setResetDate(Instant.now());
+                    return user;
+                });
     }
 
     /**
@@ -111,7 +113,7 @@ public class UserService {
 
             If not, error
          */
-        if(!loaded.isPresent() || !passwordEncoder.matches(credential.getPassword(), loaded.get().getPassword())){
+        if (!loaded.isPresent() || !passwordEncoder.matches(credential.getPassword(), loaded.get().getPassword())) {
             throw new Exception("Invalid Username or Password");
         }
 
@@ -119,78 +121,49 @@ public class UserService {
                 .map(applicationUserMapper::toDto);
     }
 
-    public ApplicationUserDto registerUser(ApplicationUserDto applicationUserDTO) {
-//        applicationUserRepository.findOneByCredential(credentialMapper.toEntity(applicationUserDTO.getCredential())).ifPresent(existingUser -> {
-//            boolean removed = removeNonActivatedUser(existingUser);
-//            if (!removed) {
-//                throw new UsernameAlreadyUsedException();
-//            }
-//        });
-//        applicationUserRepository.findOneByEmailIgnoreCase(applicationUserDTO.getEmail()).ifPresent(existingUser -> {
-//            boolean removed = removeNonActivatedUser(existingUser);
-//            if (!removed) {
-//                throw new EmailAlreadyUsedException();
-//            }
-//        });
-        ApplicationUser newApplicationUser = new ApplicationUser();
-        String encryptedPassword = passwordEncoder.encode(applicationUserDTO.getCredential().getPassword());
-
-        // new user gets initially a generated password
-        Credential credential = new Credential();
-        credential.setPassword(encryptedPassword);
-        credential.setUsername(applicationUserDTO.getCredential().getUsername().toLowerCase());
-
-        newApplicationUser.setCredential(credential);
-        newApplicationUser.setFirstName(applicationUserDTO.getFirstName());
-        newApplicationUser.setLastName(applicationUserDTO.getLastName());
-
-        if (applicationUserDTO.getEmail() != null) {
-            newApplicationUser.setEmail(applicationUserDTO.getEmail().toLowerCase());
-        }
-
-        // new user is not active
-        newApplicationUser.setActivated(false);
-        newApplicationUser.setAccount(accountMapper.toEntity(applicationUserDTO.getAccount()));
-
-        // new user gets registration key
-        newApplicationUser.setActivationKey(RandomUtil.generateActivationKey());
-        applicationUserRepository.saveAndFlush(newApplicationUser);
-        log.debug("Created Information for User: {}", newApplicationUser);
-        return applicationUserMapper.toDto(newApplicationUser);
-    }
-
-    private boolean removeNonActivatedUser(ApplicationUser existingApplicationUser){
+    private boolean removeNonActivatedUser(ApplicationUser existingApplicationUser) {
         if (existingApplicationUser.getActivated()) {
-             return false;
+            return false;
         }
         applicationUserRepository.delete(existingApplicationUser);
         applicationUserRepository.flush();
         return true;
     }
 
-    public ApplicationUser createUser(ApplicationUserDto applicationUserDTO) {
+    public ApplicationUserDto createUser(ApplicationUserDto applicationUserDTO) {
         ApplicationUser applicationUser = new ApplicationUser();
+
         applicationUser.setFirstName(applicationUserDTO.getFirstName());
         applicationUser.setLastName(applicationUserDTO.getLastName());
         if (applicationUserDTO.getEmail() != null) {
             applicationUser.setEmail(applicationUserDTO.getEmail().toLowerCase());
         }
 
-        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+        if (applicationUserDTO.getPhone() != null) {
+            applicationUser.setPhone(applicationUserDTO.getPhone());
+        }
 
+        String encryptedPassword = passwordEncoder.encode(applicationUserDTO.getCredential().getPassword());
         Credential credential = new Credential();
         credential.setPassword(encryptedPassword);
         credential.setUsername(applicationUserDTO.getCredential().getUsername().toLowerCase());
-
         applicationUser.setCredential(credential);
+
         applicationUser.setResetKey(RandomUtil.generateResetKey());
+        applicationUser.setActivationKey(RandomUtil.generateActivationKey());
         applicationUser.setResetDate(Instant.now());
-        applicationUser.setActivated(true);
+        applicationUser.setAccount(accountMapper.toEntity(applicationUserDTO.getAccount()));
+
+        //User is only activated once they respond to email
+        applicationUser.setActivated(false);
+
+        applicationUser.setCreatedBy(applicationUserDTO.getAccount().getName());
+        applicationUser.setLastModifiedBy(applicationUserDTO.getAccount().getName());
 
         applicationUserRepository.save(applicationUser);
-        log.debug("Created Information for User: {}", applicationUser);
+        log.debug("Created Information for Application User: {}", applicationUser);
 
-        return applicationUser;
+        return applicationUserMapper.toDto(applicationUser);
     }
 
     /**
@@ -223,6 +196,12 @@ public class UserService {
 
     public void delete(UUID id) {
         log.debug("Request to delete AccountUser : {}", id);
-        applicationUserRepository.deleteById(id);
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //Only delete if User has access
+        Optional<ApplicationUser> user = applicationUserRepository.findById(id);
+        if (user.isPresent() && user.get().getAccount().getId().toString().equals(principal.getUsername())) {
+            applicationUserRepository.deleteById(id);
+        }
     }
 }
