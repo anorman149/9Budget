@@ -3,10 +3,7 @@ package com.ninebudget.controller;
 import com.ninebudget.model.*;
 import com.ninebudget.model.dto.BudgetDto;
 import com.ninebudget.model.dto.CategoryDto;
-import com.ninebudget.repository.BudgetRepository;
-import com.ninebudget.repository.CategoryRepository;
-import com.ninebudget.service.BudgetService;
-import com.ninebudget.service.CategoryService;
+import com.ninebudget.service.*;
 import com.ninebudget.util.ResponseUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,7 +51,7 @@ public class BudgetController implements BudgetOperations {
         BudgetDto result = budgetService.save(budget);
 
         URI uri;
-        try{
+        try {
             uri = new URI(String.valueOf(result.getId()));
         } catch (URISyntaxException e) {
             throw new ServiceException(e);
@@ -67,14 +64,17 @@ public class BudgetController implements BudgetOperations {
     public ResponseEntity<BudgetDto> create(BudgetDto budget) throws ServiceException {
         log.debug("REST request to create Budget : {}", budget);
 
-        CategoryDto category = categoryService.findAllWhereTypeIs(budget.getCategory().getType(), budget.getAccountId());
+        CategoryDto category = new CategoryDto();
+        category.setType(budget.getCategory().getType());
+        category.setActive(true);
+        CategoryDto categoryDto = categoryService.save(category);
 
-        budget.setCategory(category);
+        budget.setCategory(categoryDto);
 
         BudgetDto result = budgetService.save(budget);
 
         URI uri;
-        try{
+        try {
             uri = new URI(String.valueOf(result.getId()));
         } catch (URISyntaxException e) {
             throw new ServiceException(e);

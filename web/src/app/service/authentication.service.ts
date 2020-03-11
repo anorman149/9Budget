@@ -10,7 +10,7 @@ import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private _currentUser: User | null = null;
+  _currentUser: User | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
   private currentUser$: Observable<OauthToken>;
 

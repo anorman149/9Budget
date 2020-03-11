@@ -43,7 +43,7 @@ export class BudgetNewComponent implements OnInit {
   }
 
   submit() {
-    this.budget.accountId = this.authenicationService.currentUser.accountId;
+    this.budget.accountId = this.authenicationService._currentUser.id;
     this.budget.name = this.budgetNewForm.get('name').value;
     this.budget.amount = this.budgetNewForm.get('amount').value;
     this.category.type = CategoryType[this.budgetNewForm.get('category').value] as CategoryType;
