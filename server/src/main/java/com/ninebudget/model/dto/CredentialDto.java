@@ -1,7 +1,10 @@
 package com.ninebudget.model.dto;
 
 import com.ninebudget.model.Constants;
+import org.hibernate.envers.Audited;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -9,12 +12,15 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Audited
 public class CredentialDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final int PASSWORD_MIN_LENGTH = 8;
     public static final int PASSWORD_MAX_LENGTH = 100;
 
+    @Id
     private UUID id;
 
     @NotNull

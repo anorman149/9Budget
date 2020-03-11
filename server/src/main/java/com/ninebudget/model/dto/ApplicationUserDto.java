@@ -1,13 +1,20 @@
 package com.ninebudget.model.dto;
 
+import org.hibernate.envers.Audited;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.UUID;
 
+@Entity
+@Audited
 public class ApplicationUserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
     private UUID id;
 
     @Size(max = 50)
