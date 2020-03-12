@@ -1,6 +1,7 @@
 package com.ninebudget.model;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import java.util.UUID;
  * A Budget.
  */
 @Entity
+@Audited
 @Table(name = "budget")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "budget")
 public class Budget implements Serializable {

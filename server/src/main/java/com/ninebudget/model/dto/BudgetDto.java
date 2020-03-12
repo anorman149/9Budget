@@ -1,12 +1,6 @@
 package com.ninebudget.model.dto;
 
 import com.ninebudget.model.BudgetTiming;
-import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,18 +8,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
 public class BudgetDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
     private UUID id;
 
-    @Audited
     @NotNull
     private String name;
 
-    @Audited
     @NotNull
     private BigDecimal amount;
 
@@ -38,15 +28,11 @@ public class BudgetDto implements Serializable {
     @NotNull
     private Boolean active;
 
-    @Audited
     @NotNull
     private UUID accountId;
 
-    @NotAudited
     private CategoryDto category;
 
-    @OneToMany
-    @NotAudited
     private List<TransactionDto> transactions;
 
     public UUID getId() {

@@ -1,7 +1,6 @@
 package com.ninebudget.model.dto;
 
 import com.ninebudget.model.CategoryType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.UUID;
 public class CategoryDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
     private UUID id;
 
     @NotNull
