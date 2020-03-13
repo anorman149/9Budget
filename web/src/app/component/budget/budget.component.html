@@ -17,7 +17,7 @@
               <tr *ngFor="let budget of budgets">
                 <td class="left">
                   <a class="btn btn-sm btn-link float-left" (click)="budgetDetailDisplay = true; budgetDetailID = budgets.indexOf(budget)">
-                    {{budget.category.type}} - {{budget.category.subCategory.name}}
+                    {{budget.name}} - {{budget.category.type}}
                   </a>
                   <span class="float-right">${{budget.amountSpent}} of ${{budget.amount}}</span>
                   <P></P>

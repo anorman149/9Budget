@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -64,12 +66,15 @@ public class BudgetController implements BudgetOperations {
     public ResponseEntity<BudgetDto> create(BudgetDto budget) throws ServiceException {
         log.debug("REST request to create Budget : {}", budget);
 
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         CategoryDto category = new CategoryDto();
         category.setType(budget.getCategory().getType());
         category.setActive(true);
         CategoryDto categoryDto = categoryService.save(category);
 
         budget.setCategory(categoryDto);
+        budget.setAccountId(UUID.fromString(principal.getUsername()));
 
         BudgetDto result = budgetService.save(budget);
 

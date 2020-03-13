@@ -111,17 +111,19 @@ public class UserService {
         //Grab credential from DB
         Optional<CredentialDto> loaded = credentialService.findOneByUsername(credential.getUsername());
 
+        return loaded.map(credentialDto -> applicationUserRepository.findOneByCredential(credentialMapper.toEntity(credentialDto))
+                .map(applicationUserMapper::toDto)).orElse(null);
+    }
+
+    public void checkPassword(String givenPass, String passToCheck) throws Exception{
         /*
             Check to see if the Passwords match
 
             If not, error
          */
-        if (!loaded.isPresent() || !passwordEncoder.matches(credential.getPassword(), loaded.get().getPassword())) {
+        if (!passwordEncoder.matches(givenPass, passToCheck)) {
             throw new Exception("Invalid Username or Password");
         }
-
-        return applicationUserRepository.findOneByCredential(credentialMapper.toEntity(loaded.get()))
-                .map(applicationUserMapper::toDto);
     }
 
     private boolean removeNonActivatedUser(ApplicationUser existingApplicationUser) {

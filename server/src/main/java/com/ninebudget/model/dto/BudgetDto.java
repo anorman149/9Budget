@@ -28,7 +28,6 @@ public class BudgetDto implements Serializable {
     @NotNull
     private Boolean active;
 
-    @NotNull
     private UUID accountId;
 
     private CategoryDto category;

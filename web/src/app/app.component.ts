@@ -62,7 +62,7 @@ export class AppComponent {
     keepalive.interval(15);
     keepalive.onPing.subscribe(() => this.lastPing = new Date());
 
-    this.authenticationService.getAuthenticationState().subscribe(userLoggedIn => {
+    this.authenticationService.currentUser$.subscribe(userLoggedIn => {
       if (userLoggedIn) {
         idle.watch();
         this.timedOut = false;

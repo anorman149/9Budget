@@ -32,6 +32,9 @@ public class AuthController implements AuthOperations {
             //Grab User from DB
             dbUser = userService.findOneByCredential(user.getCredential());
 
+            //Check Password is correct
+            userService.checkPassword(user.getCredential().getPassword(), dbUser.get().getCredential().getPassword());
+
             authToken = new OAuthToken(dbUser.get());
 
             authToken.setToken(jwtToken.provide(authToken));
