@@ -2,6 +2,7 @@ package com.ninebudget.service;
 
 import com.ninebudget.model.dto.ApplicationUserDto;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.text.StringSubstitutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -33,11 +36,11 @@ public class MailService {
     @Value("#{'${port}'}")
     private String port;
 
-    @Value("#{'${username}'}")
-    private String username;
+    @Value("#{'${mail.username}'}")
+    private String mailUsername;
 
-    @Value("#{'${password}'}")
-    private String password;
+    @Value("#{'${mail.password}'}")
+    private String mailPassword;
 
     public void sendEmail(String to, String subject, String content) {
         log.debug("Send email to '{}' with subject '{}' and content={}", to, subject, content);
@@ -53,7 +56,7 @@ public class MailService {
         // Prepare message
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(mailUsername, mailPassword);
             }
         });
 
@@ -65,7 +68,7 @@ public class MailService {
             message.setSubject(subject);
             message.setContent(content, "text/html");
 
-//            Transport.send(message);
+            Transport.send(message);
             log.debug("Sent email to User '{}'", to);
         }  catch (MailException | MessagingException e) {
             log.warn("Email could not be sent to user '{}'", to, e);
@@ -79,10 +82,14 @@ public class MailService {
         }
 
         String content = IOUtils.toString(getClass().getResourceAsStream(templateName), StandardCharsets.UTF_8);
-        content = content.replaceAll("[name]", user.getFirstName());
-        content = content.replaceAll("[url]", user.getFirstName());
 
-        sendEmail(user.getEmail(), subject, content);
+        Map<String, String> values = new HashMap<>();
+        values.put("name", user.getFirstName());
+        values.put("url", user.getFirstName());
+
+        String message = StringSubstitutor.replace(content, values, "{", "}");
+
+        sendEmail(user.getEmail(), subject, message);
     }
 
     public void sendActivationEmail(ApplicationUserDto user) throws IOException {
