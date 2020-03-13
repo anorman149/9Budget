@@ -6,6 +6,7 @@ import {CategoryType} from '../../model/category-type.model';
 import {BudgetTiming} from '../../model/budget-timing.model';
 import {Category, ICategory} from "../../model/category";
 import {IAccount} from "../../model/account";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-budget-new',
@@ -23,7 +24,7 @@ export class BudgetNewComponent implements OnInit {
   budget: IBudget;
   category: ICategory;
 
-  constructor(private budgetService: BudgetService) {
+  constructor(private budgetService: BudgetService, private messageService: MessageService) {
     this.budget = new Budget();
     this.category = new Category();
   }
@@ -50,10 +51,11 @@ export class BudgetNewComponent implements OnInit {
     this.budgetService.create(this.budget).subscribe(
       data => {
         console.log('Budget Created');
+        this.messageService.add({ summary: 'Budget Created', severity: 'success', sticky: false })
       },
       error => {
         console.log('Budget Failed to Create: ' + error);
-        alert('Budget Failed to Create: ' + error);
+        this.messageService.add({ summary: 'Budget Failed to Create: ' + error, severity: 'error', sticky: false })
       }
     );
   }

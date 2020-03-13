@@ -33,8 +33,4 @@ export class AccountService implements PrimaryService {
   public update(account: Account) {
     return this.http.put<Account>(this.accountUrl + '/' + account.id, account);
   }
-
-  public getUsernames(): Observable<string[]> { // TODO
-    return new Observable<string[]>();
-  }
 }

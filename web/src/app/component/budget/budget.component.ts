@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
 import {CategoryType} from '../../model/category-type.model';
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-budget',
@@ -18,7 +19,7 @@ export class BudgetComponent implements OnInit {
   budgetDetailDisplay = false;
   budgetDetailID = 0;
 
-  constructor(private budgetService: BudgetService) {}
+  constructor(private budgetService: BudgetService, private messageService: MessageService) {}
 
   ngOnInit() {
     this.budgetService.getAll().subscribe(
@@ -50,8 +51,10 @@ export class BudgetComponent implements OnInit {
             this.leftOverColor = 'value-down';
           }
         }
+
+        this.messageService.add({ summary: 'Budgets Found', severity: 'success', sticky: false })
       },
-      error => console.log('ERROR') // TODO
+      error => this.messageService.add({ summary: 'Failed to Load Budgets: ' + error, severity: 'error', sticky: false })
     );
   }
 

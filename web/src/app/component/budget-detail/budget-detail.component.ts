@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
 import {BudgetTiming} from '../../model/budget-timing.model';
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-budget-detail',
@@ -15,7 +16,7 @@ export class BudgetDetailComponent implements OnInit {
   @Input()
   budget?: IBudget;
 
-  constructor(private budgetService: BudgetService) {}
+  constructor(private budgetService: BudgetService, private messageService: MessageService) {}
 
   ngOnInit() {
     // Form
@@ -31,10 +32,11 @@ export class BudgetDetailComponent implements OnInit {
     this.budgetService.update(this.budget).subscribe(
       data => {
         console.log('Budget Updated');
+        this.messageService.add({ summary: 'Budget Updated', severity: 'success', sticky: false })
       },
       error => {
         console.log('Budget Failed to update: ' + error);
-        alert('Budget Failed to update: ' + error);
+        this.messageService.add({ summary: 'Budget Failed to update: ' + error, severity: 'error', sticky: false })
       }
     );
   }
