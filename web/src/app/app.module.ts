@@ -32,7 +32,14 @@ import { SwaggerComponent } from './component/swagger/swagger.component';
 import { BudgetNewComponent } from './component/budget-new/budget-new.component';
 import {CookieService} from 'ngx-cookie-service';
 import {BudgetDetailComponent} from './component/budget-detail/budget-detail.component';
+
 import {UserService} from './service/user.service';
+
+import {InstitutionService} from "./service/institution.service";
+import { ForgetpasswordComponent } from './component/forgetpassword/forgetpassword.component';
+import { ResetpasswordComponent } from './component/resetpassword/resetpassword.component';
+
+
 
 @NgModule({
   declarations: [
@@ -47,7 +54,12 @@ import {UserService} from './service/user.service';
     InstitutionCreateComponent,
     SwaggerComponent,
     BudgetNewComponent,
-    BudgetDetailComponent
+    BudgetDetailComponent,
+    //Added by Panit
+    ForgetpasswordComponent,
+    ResetpasswordComponent,
+
+
   ],
   imports: [
     BrowserModule,
@@ -71,7 +83,12 @@ import {UserService} from './service/user.service';
     AuthenticationService,
     MessageService,
     CookieService,
+
     UserService,
+
+    //Added by Panit
+    InstitutionService,
+
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeaderInterceptor, multi: true}
   ],

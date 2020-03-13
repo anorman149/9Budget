@@ -40,7 +40,7 @@ public class AuthFilter extends OncePerRequestFilter {
             Check to make sure it's only coming in for the API
             Don't want to check for the UI or Auth
          */
-        if(!request.getPathInfo().contains("/api") || request.getPathInfo().contains("/oauth/token")){
+        if(!request.getPathInfo().contains("/api") || request.getPathInfo().contains("/oauth/token") || request.getPathInfo().contains("/password/reset")){
             //Continue on the path the request needed
             chain.doFilter(request, response);
 

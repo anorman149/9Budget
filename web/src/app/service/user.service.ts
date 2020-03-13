@@ -37,4 +37,12 @@ export class UserService implements PrimaryService {
     return this.http.post<IUser>(api.url + api.user.url, user);
   }
 
+  public resetPassword(user: IUser) {
+    return this.http.post<IUser>(api.url + api.user.url + '/password/reset', user);
+  }
+
+  public completePasswordRest(user: IUser) {
+    return this.http.post<IUser>(api.url + api.user.url + '/password/reset/complete', user);
+  }
+
 }

@@ -23,7 +23,8 @@
       </div>
       <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
       <a href="#" class="signup">Sign up</a><!-- TODO add RouterLink -->
-      <a href="#" class="signup">Forgot Password?</a><!-- TODO add RouterLink -->
+      <a [routerLink]="['/forgetpassword']" class="signup">Forgot Password?</a><!-- getting me an issue -->
+
     </div>
   </form>
 </div>
