@@ -59,19 +59,22 @@ public class UserController implements UserOperations {
         }
 
         //Create User
-        ApplicationUserDto result = userService.createUser(applicationUser);
+        ApplicationUserDto user = userService.createUser(applicationUser);
 
         URI uri;
         try{
             //Send Creation Email
-            mailService.sendActivationEmail(result);
+            mailService.sendActivationEmail(user);
 
-            uri = new URI(String.valueOf(result.getId()));
+            uri = new URI(String.valueOf(user.getId()));
         } catch (URISyntaxException | IOException e) {
-            throw new ServiceException(HttpStatus.BAD_REQUEST.toString(), "FATAL", e.getMessage());
+            //Remove User since there was an error
+            userService.delete(user.getId());
+
+            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "FATAL", "Could not send email for User to Activate");
         }
 
-        return ResponseEntity.created(uri).body(result);
+        return ResponseEntity.created(uri).body(user);
     }
 
     @Override
@@ -80,7 +83,7 @@ public class UserController implements UserOperations {
 
         userService.delete(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @Override
@@ -93,6 +96,47 @@ public class UserController implements UserOperations {
             throw new ServiceException(HttpStatus.NOT_FOUND.toString(), "FATAL", "No User was found for this activation key");
         }
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
+
+    @Override
+    public ResponseEntity<Void> requestPasswordReset(@Valid ApplicationUserDto applicationUser) throws ServiceException {
+        log.debug("REST request to Reset Password for: : {}", applicationUser.getEmail());
+
+        Optional<ApplicationUserDto> user = userService.requestPasswordReset(applicationUser.getEmail());
+
+        if (!user.isPresent()) {
+            throw new ServiceException(HttpStatus.NOT_FOUND.toString(), "FATAL", "Could not Allow User to reset password");
+        }
+
+        try{
+            //Send Password Reset Email
+            mailService.sendPasswordResetMail(user.get());
+        } catch (IOException e) {
+            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "FATAL", "Could not send email to Reset Password");
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> completePasswordReset(@Valid ApplicationUserDto applicationUser) throws ServiceException {
+        log.debug("REST request to Complete Password Reset for: : {}", applicationUser.getEmail());
+
+        Optional<ApplicationUserDto> user = userService.completePasswordReset(applicationUser.getCredential().getPassword(), applicationUser.getResetKey());
+
+        if (!user.isPresent()) {
+            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Allow User to reset password");
+        }
+
+        try{
+            //Send Password Reset Email
+            mailService.sendCompleteResetMail(user.get());
+        } catch (IOException e) {
+            log.warn("Could not send Password Rest Email to User: ", e);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
 }

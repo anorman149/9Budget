@@ -32,4 +32,16 @@ public interface UserOperations {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> activate(@PathVariable String key) throws ServiceException;
+
+    @RequestMapping(value = "/users/password/reset",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> requestPasswordReset(@Valid @RequestBody ApplicationUserDto applicationUser) throws ServiceException;
+
+    @RequestMapping(value = "/users/password/reset/complete",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> completePasswordReset(@Valid @RequestBody ApplicationUserDto applicationUser) throws ServiceException;
 }

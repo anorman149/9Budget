@@ -23,6 +23,9 @@ public class ApplicationUserDto implements Serializable {
     @Size(min = 11, max = 20)
     private String phone;
 
+    @Size(max = 20)
+    private String resetKey;
+
     private boolean activated = false;
 
     private CredentialDto credential;
@@ -93,6 +96,14 @@ public class ApplicationUserDto implements Serializable {
         this.account = account;
     }
 
+    public String getResetKey() {
+        return resetKey;
+    }
+
+    public void setResetKey(String resetKey) {
+        this.resetKey = resetKey;
+    }
+
     @Override
     public String toString() {
         return "ApplicationUserDto{" +
@@ -101,8 +112,10 @@ public class ApplicationUserDto implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", resetKey='" + resetKey + '\'' +
                 ", activated=" + activated +
                 ", credential=" + credential +
+                ", account=" + account +
                 '}';
     }
 }

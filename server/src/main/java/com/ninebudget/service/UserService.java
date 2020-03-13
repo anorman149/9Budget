@@ -30,6 +30,8 @@ import java.util.UUID;
 public class UserService {
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
+    private static final long PASSWORD_REST_TIMEOUT = 300; //In secs, 5 mins
+
     @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
@@ -64,25 +66,46 @@ public class UserService {
                 });
     }
 
-    public Optional<ApplicationUser> completePasswordReset(String newPassword, String key) {
+    /**
+     * Will Reset the User's password if it is not expired
+     *
+     * @param newPassword - New Password for User
+     * @param key - Reset Key stored in the DB
+     * @return - User if password is reset
+     */
+    public Optional<ApplicationUserDto> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
+
+        Instant most = Instant.now().plusSeconds(PASSWORD_REST_TIMEOUT);
+        Instant least = Instant.now().minusSeconds(PASSWORD_REST_TIMEOUT);
+
         return applicationUserRepository.findOneByResetKey(key)
-                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+                .filter(user -> user.getResetDate().isAfter(least) && user.getResetDate().isBefore(most))
                 .map(user -> {
                     user.getCredential().setPassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
-                    return user;
+                    return applicationUserMapper.toDto(user);
                 });
     }
 
-    public Optional<ApplicationUser> requestPasswordReset(String mail) {
+    /**
+     * Allows a User's account to have their Password reset
+     *
+     * Will find by email and then check if they are active
+     *
+     * @param mail - email to check against
+     * @return - User if exists
+     */
+    public Optional<ApplicationUserDto> requestPasswordReset(String mail) {
+        log.debug("Reset user password requested for: {}", mail);
+
         return applicationUserRepository.findOneByEmailIgnoreCase(mail)
                 .filter(ApplicationUser::getActivated)
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
                     user.setResetDate(Instant.now());
-                    return user;
+                    return applicationUserMapper.toDto(user);
                 });
     }
 

@@ -101,6 +101,12 @@ public class MailService {
     public void sendPasswordResetMail(ApplicationUserDto user) throws IOException {
         log.debug("Sending password reset email to '{}'", user.getEmail());
 
-        sendEmailFromTemplate(user, "/templates/mail/passwordResetEmail", "9Budget Password Reset");
+        sendEmailFromTemplate(user, "/templates/mail/passwordResetEmail.html", "9Budget Password Reset Request");
+    }
+
+    public void sendCompleteResetMail(ApplicationUserDto user) throws IOException {
+        log.debug("Sending password complete reset email to '{}'", user.getEmail());
+
+        sendEmailFromTemplate(user, "/templates/mail/completePasswordResetEmail.html", "9Budget User Password Reset");
     }
 }
