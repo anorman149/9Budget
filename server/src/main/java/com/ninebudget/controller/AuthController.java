@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -46,6 +47,7 @@ public class AuthController implements AuthOperations {
         //Create Cookie and place in Response for others to use
         HttpCookie cookie = ResponseCookie.from("token", authToken.getToken())
                 .path("/")
+                .maxAge(Duration.ofSeconds(Token.AUTH_TOKEN_EXPIRE_TIME))
 //                .secure(true) //TODO uncomment when SSL is setup
                 .build();
 

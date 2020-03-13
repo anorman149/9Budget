@@ -52,7 +52,7 @@ export class BudgetComponent implements OnInit {
           }
         }
 
-        this.messageService.add({ summary: 'Budgets Found', severity: 'success', sticky: false })
+        this.messageService.add({ summary: 'Budgets Loaded', severity: 'success', sticky: false })
       },
       error => this.messageService.add({ summary: 'Failed to Load Budgets: ' + error, severity: 'error', sticky: false })
     );

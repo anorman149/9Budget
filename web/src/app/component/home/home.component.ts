@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../service/authentication.service';
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-home',
@@ -15,14 +14,9 @@ export class HomeComponent implements OnInit {
   private showAccount = false;
   private showAPI = false;
 
-  constructor(private authenticationService: AuthenticationService,
-              private messageService: MessageService) {
+  constructor(private authenticationService: AuthenticationService) {}
 
-  }
-
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   hideAll() {
     this.showBudgets = false;
