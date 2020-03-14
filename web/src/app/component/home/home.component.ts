@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../service/authentication.service';
+import {api} from "../../../environments/environment";
+import {Keepalive} from "@ng-idle/keepalive";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -13,10 +16,17 @@ export class HomeComponent implements OnInit {
   private showTransactions = false;
   private showAccount = false;
   private showAPI = false;
+  private isLoggedIn = true;
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Check if logged in, if not send to login page
+    if (!this.authenticationService.isLoggedIn()) {
+      this.isLoggedIn = false;
+    }
+  }
 
   hideAll() {
     this.showBudgets = false;

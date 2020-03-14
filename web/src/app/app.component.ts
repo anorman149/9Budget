@@ -16,19 +16,12 @@ export class AppComponent {
   private idleState;
   private timedOut = false;
   private lastPing?: Date = null;
-  private isLoggedIn = true;
 
   constructor(private authenticationService: AuthenticationService,
               private messageService: MessageService,
               private idle: Idle,
               private keepalive: Keepalive,
               private router: Router) {
-
-    // Check if logged in, if not send to login page
-    if (!this.authenticationService.isLoggedIn()) {
-      this.isLoggedIn = false;
-      this.router.navigate([api.auth.urlLogin]);
-    }
 
     // Sets an idle timeout
     idle.setIdle(authentication.idleTime);
