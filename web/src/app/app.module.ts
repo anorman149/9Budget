@@ -34,6 +34,8 @@ import {CookieService} from 'ngx-cookie-service';
 import {BudgetDetailComponent} from './component/budget-detail/budget-detail.component';
 import {UserService} from './service/user.service';
 import { ForgetpasswordComponent } from './component/forgetpassword/forgetpassword.component';
+import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
+
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { ForgetpasswordComponent } from './component/forgetpassword/forgetpasswo
     BudgetNewComponent,
     BudgetDetailComponent,
     ForgetpasswordComponent,
+    ResetpasswordComponent
+
   ],
   imports: [
     BrowserModule,

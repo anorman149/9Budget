@@ -9,6 +9,8 @@ import {BudgetNewComponent} from './component/budget-new/budget-new.component';
 import {InstitutionComponent} from "./component/institution/institution.component";
 import {ForgetpasswordComponent} from "./component/forgetpassword/forgetpassword.component";
 import {HomeComponent} from "./component/home/home.component";
+import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
+
 
 const routes: Routes = [
   { path: 'budgets',
@@ -48,6 +50,13 @@ const routes: Routes = [
     component: ForgetpasswordComponent
     // no AuthGuard
   },
+
+  //Addding new routing for forget password page
+  { path: 'resetpassword/:id',
+    component: ResetpasswordComponent
+    // no AuthGuard
+  },
+
   // Otherwise redirect to Home
   {
     path: '**',

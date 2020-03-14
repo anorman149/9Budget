@@ -114,7 +114,7 @@ public class MailService {
 
         ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
         String uriString = builder.toUriString();
-        uriString = uriString.replace("api/v1/mail", "forgetPassword");
+        uriString = uriString.replace("api/v1/users/password/reset", "resetpassword/" + user.getResetKey());
         URI newUri = URI.create(uriString);
 
         sendEmailFromTemplate(user, "/templates/mail/passwordResetEmail.html", "9Budget Password Reset Request", newUri);

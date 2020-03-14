@@ -13,6 +13,8 @@ export interface IUser {
   lastModifiedDate?: Date;
   credential?: ICredential;
   accountId?: uuid;
+  resetKey?: string;
+  activationKey?: string;
 }
 
 export class User implements IUser {
@@ -27,6 +29,8 @@ export class User implements IUser {
     public lastModifiedBy?: string,
     public lastModifiedDate?: Date,
     public credential?: ICredential,
-    public accountId?: uuid
+    public accountId?: uuid,
+    public resetKey?: string,
+    public activationKey?: string
   ) {}
 }
