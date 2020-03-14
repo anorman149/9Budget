@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,18 +69,23 @@ public class MailService {
 
             Transport.send(message);
             log.debug("Sent email to User '{}'", to);
-        }  catch (MailException | MessagingException e) {
+        } catch (MailException | MessagingException e) {
             log.warn("Email could not be sent to user '{}'", to, e);
         }
     }
 
-    public void sendEmailFromTemplate(ApplicationUserDto user, String templateName, String subject) throws IOException {
-        if (user.getEmail() == null) {
-            log.debug("Email doesn't exist for user '{}'", user.getId());
-            return;
-        }
+    public void sendEmailFromTemplate(ApplicationUserDto user, String templateName, String subject) throws MailException {
+        String content;
+        try {
+            if (user.getEmail() == null) {
+                log.warn("Email doesn't exist for user '{}'", user.getId());
+                throw new Exception("Email doesn't exist for user");
+            }
 
-        String content = IOUtils.toString(getClass().getResourceAsStream(templateName), StandardCharsets.UTF_8);
+            content = IOUtils.toString(getClass().getResourceAsStream(templateName), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new com.ninebudget.model.MailException("Mail could not be delivered: " + e.getMessage(), e);
+        }
 
         Map<String, String> values = new HashMap<>();
         values.put("name", user.getFirstName());
@@ -92,19 +96,19 @@ public class MailService {
         sendEmail(user.getEmail(), subject, message);
     }
 
-    public void sendActivationEmail(ApplicationUserDto user) throws IOException {
+    public void sendActivationEmail(ApplicationUserDto user) throws MailException {
         log.debug("Sending activation email to '{}'", user.getEmail());
 
         sendEmailFromTemplate(user, "/templates/mail/activationEmail.html", "9Budget Account Activation");
     }
 
-    public void sendPasswordResetMail(ApplicationUserDto user) throws IOException {
+    public void sendPasswordResetMail(ApplicationUserDto user) throws MailException {
         log.debug("Sending password reset email to '{}'", user.getEmail());
 
         sendEmailFromTemplate(user, "/templates/mail/passwordResetEmail.html", "9Budget Password Reset Request");
     }
 
-    public void sendCompleteResetMail(ApplicationUserDto user) throws IOException {
+    public void sendCompleteResetMail(ApplicationUserDto user) throws MailException {
         log.debug("Sending password complete reset email to '{}'", user.getEmail());
 
         sendEmailFromTemplate(user, "/templates/mail/completePasswordResetEmail.html", "9Budget User Password Reset");

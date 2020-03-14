@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -67,7 +66,7 @@ public class UserController implements UserOperations {
             mailService.sendActivationEmail(user);
 
             uri = new URI(String.valueOf(user.getId()));
-        } catch (URISyntaxException | IOException e) {
+        } catch (URISyntaxException | MailException e) {
             //Remove User since there was an error
             userService.delete(user.getId());
 
@@ -112,7 +111,7 @@ public class UserController implements UserOperations {
         try{
             //Send Password Reset Email
             mailService.sendPasswordResetMail(user.get());
-        } catch (IOException e) {
+        } catch (MailException e) {
             throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "FATAL", "Could not send email to Reset Password");
         }
 
@@ -132,7 +131,7 @@ public class UserController implements UserOperations {
         try{
             //Send Password Reset Email
             mailService.sendCompleteResetMail(user.get());
-        } catch (IOException e) {
+        } catch (MailException e) {
             log.warn("Could not send Password Rest Email to User: ", e);
         }
 
