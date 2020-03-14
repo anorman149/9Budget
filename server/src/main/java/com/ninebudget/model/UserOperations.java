@@ -27,10 +27,7 @@ public interface UserOperations {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> delete(@ValidUUID @PathVariable UUID id) throws ServiceException;
 
-    @RequestMapping(value = "/users/activate/{key}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/users/activate/{key}")
     ResponseEntity<Void> activate(@PathVariable String key) throws ServiceException;
 
     @RequestMapping(value = "/users/password/reset",

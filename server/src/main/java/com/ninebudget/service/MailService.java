@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +76,7 @@ public class MailService {
         }
     }
 
-    public void sendEmailFromTemplate(ApplicationUserDto user, String templateName, String subject) throws MailException {
+    public void sendEmailFromTemplate(ApplicationUserDto user, String templateName, String subject, URI uri) throws MailException {
         String content;
         try {
             if (user.getEmail() == null) {
@@ -89,7 +91,7 @@ public class MailService {
 
         Map<String, String> values = new HashMap<>();
         values.put("name", user.getFirstName());
-        values.put("url", user.getFirstName());
+        values.put("url", uri.toString());
 
         String message = StringSubstitutor.replace(content, values, "{", "}");
 
@@ -99,18 +101,30 @@ public class MailService {
     public void sendActivationEmail(ApplicationUserDto user) throws MailException {
         log.debug("Sending activation email to '{}'", user.getEmail());
 
-        sendEmailFromTemplate(user, "/templates/mail/activationEmail.html", "9Budget Account Activation");
+        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
+        String uriString = builder.toUriString();
+        uriString = uriString.replace("mail", "users/activate/" + user.getActivationKey());
+        URI newUri = URI.create(uriString);
+
+        sendEmailFromTemplate(user, "/templates/mail/activationEmail.html", "9Budget Account Activation", newUri);
     }
 
     public void sendPasswordResetMail(ApplicationUserDto user) throws MailException {
         log.debug("Sending password reset email to '{}'", user.getEmail());
 
-        sendEmailFromTemplate(user, "/templates/mail/passwordResetEmail.html", "9Budget Password Reset Request");
+        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
+        String uriString = builder.toUriString();
+        uriString = uriString.replace("api/v1/mail", "forgetPassword");
+        URI newUri = URI.create(uriString);
+
+        sendEmailFromTemplate(user, "/templates/mail/passwordResetEmail.html", "9Budget Password Reset Request", newUri);
     }
 
     public void sendCompleteResetMail(ApplicationUserDto user) throws MailException {
         log.debug("Sending password complete reset email to '{}'", user.getEmail());
 
-        sendEmailFromTemplate(user, "/templates/mail/completePasswordResetEmail.html", "9Budget User Password Reset");
+        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentRequestUri();
+
+        sendEmailFromTemplate(user, "/templates/mail/completePasswordResetEmail.html", "9Budget User Password Reset", builder.build().toUri());
     }
 }

@@ -26,6 +26,9 @@ public class ApplicationUserDto implements Serializable {
     @Size(max = 20)
     private String resetKey;
 
+    @Size(max = 20)
+    private String activationKey;
+
     private boolean activated = false;
 
     private CredentialDto credential;
@@ -104,6 +107,14 @@ public class ApplicationUserDto implements Serializable {
         this.resetKey = resetKey;
     }
 
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
+
     @Override
     public String toString() {
         return "ApplicationUserDto{" +
@@ -113,6 +124,7 @@ public class ApplicationUserDto implements Serializable {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", resetKey='" + resetKey + '\'' +
+                ", activationKey='" + activationKey + '\'' +
                 ", activated=" + activated +
                 ", credential=" + credential +
                 ", account=" + account +
