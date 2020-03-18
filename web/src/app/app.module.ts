@@ -27,7 +27,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AccountDetailComponent } from './component/account-detail/account-detail.component';
 import { TransactionComponent } from './component/transaction/transaction.component';
 import { InstitutionComponent } from './component/institution/institution.component';
-import { InstitutionCreateComponent } from './component/institution-create/institution-create.component';
 import { SwaggerComponent } from './component/swagger/swagger.component';
 import { BudgetNewComponent } from './component/budget-new/budget-new.component';
 import {CookieService} from 'ngx-cookie-service';
@@ -47,7 +46,6 @@ import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.co
     AccountDetailComponent,
     TransactionComponent,
     InstitutionComponent,
-    InstitutionCreateComponent,
     SwaggerComponent,
     BudgetNewComponent,
     BudgetDetailComponent,
