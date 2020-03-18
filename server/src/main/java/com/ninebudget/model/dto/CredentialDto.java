@@ -1,12 +1,10 @@
 package com.ninebudget.model.dto;
 
 import com.ninebudget.model.Constants;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,36 +27,6 @@ public class CredentialDto implements Serializable {
 
     @NotNull
     private String custom;
-
-    private int failedLoginAttempts;
-
-    private LocalDateTime lastFailedLogin;
-
-    private LocalDateTime lockedOutUntil;
-
-    public int getFailedLoginAttempts() {
-        return failedLoginAttempts;
-    }
-
-    public void setFailedLoginAttempts(int failedLoginAttempts) {
-        this.failedLoginAttempts = failedLoginAttempts;
-    }
-
-    public LocalDateTime getLastFailedLogin() {
-        return lastFailedLogin;
-    }
-
-    public void setLastFailedLogin(LocalDateTime lastFailedLogin) {
-        this.lastFailedLogin = lastFailedLogin;
-    }
-
-    public LocalDateTime getLockedOutUntil() {
-        return lockedOutUntil;
-    }
-
-    public void setLockedOutUntil(LocalDateTime lockedOutUntil) {
-        this.lockedOutUntil = lockedOutUntil;
-    }
 
     public UUID getId() {
         return id;
