@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {Budget, IBudget} from '../model/budget';
 import {PrimaryService} from '../model/primary-service';
 import {api} from '../../environments/environment';
@@ -35,5 +35,13 @@ export class BudgetService implements PrimaryService {
 
   public update(budget: Budget) {
     return this.http.post<Budget>(api.url + api.budget.url, budget);
+  }
+
+  public delete(budget: Budget) {
+    let httpParams = new HttpParams().set('id', String(budget.id));
+
+    let options = { params: httpParams };
+
+    return this.http.delete<Budget>(api.url + api.budget.url, options);
   }
 }

@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IBudget} from '../../model/budget';
 import {BudgetService} from '../../service/budget.service';
-import {BudgetTiming} from '../../model/budget-timing.model';
 import {MessageService} from "primeng/api";
 
 @Component({
@@ -31,12 +30,21 @@ export class BudgetDetailComponent implements OnInit {
     this.budget.amount = this.budgetDetailForm.get('amount').value;
     this.budgetService.update(this.budget).subscribe(
       data => {
-        console.log('Budget Updated');
         this.messageService.add({ summary: 'Budget Updated', severity: 'success', sticky: false })
       },
       error => {
-        console.log('Budget Failed to update: ' + error);
         this.messageService.add({ summary: 'Budget Failed to update: ' + error, severity: 'error', sticky: false })
+      }
+    );
+  }
+
+  delete(){
+    this.budgetService.delete(this.budget).subscribe(
+      data => {
+        this.messageService.add({ summary: 'Budget Deleted', severity: 'success', sticky: false })
+      },
+      error => {
+        this.messageService.add({ summary: 'Budget Failed to Delete: ' + error, severity: 'error', sticky: false })
       }
     );
   }

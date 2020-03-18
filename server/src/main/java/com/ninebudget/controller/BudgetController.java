@@ -94,6 +94,8 @@ public class BudgetController implements BudgetOperations {
 
         budgetService.delete(id);
 
+        log.debug("Budget Deleted : {}", id);
+
         return ResponseEntity.noContent().build();
     }
 }

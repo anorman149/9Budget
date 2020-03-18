@@ -5,10 +5,7 @@ import com.ninebudget.validator.uuid.ValidUUID;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -40,9 +37,9 @@ public interface BudgetOperations {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<BudgetDto> create(@Valid @RequestBody BudgetDto budget) throws ServiceException;
 
-    @RequestMapping(value = "/budgets/{id}",
+    @RequestMapping(value = "/budgets",
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@ValidUUID @PathVariable UUID id) throws ServiceException;
+    ResponseEntity<Void> delete(@ValidUUID @RequestParam UUID id) throws ServiceException;
 }
