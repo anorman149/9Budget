@@ -1,5 +1,8 @@
 import { Moment } from 'moment';
 import {ICategory} from './category';
+import {IInstitutionAccount} from "./institution-account";
+import {IBudget} from "./budget";
+import {IAccount} from "./account";
 
 export interface ITransaction {
   id?: number;
@@ -7,8 +10,9 @@ export interface ITransaction {
   date?: Moment;
   description?: string;
   category?: ICategory;
-  budgetId?: number;
-  institutionAccountId?: number;
+  budget?: IBudget;
+  institutionAccount?: IInstitutionAccount;
+  account?: IAccount;
 }
 
 export class Transaction implements ITransaction {
@@ -18,7 +22,8 @@ export class Transaction implements ITransaction {
     public date?: Moment,
     public description?: string,
     public category?: ICategory,
-    public budgetId?: number,
-    public institutionAccountId?: number
+    public budget?: IBudget,
+    public institutionAccount?: IInstitutionAccount,
+    public account?: IAccount
   ) {}
 }

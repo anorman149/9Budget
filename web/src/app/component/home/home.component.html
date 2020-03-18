@@ -26,14 +26,9 @@
         <app-budget></app-budget>
       </div>
 
-      <!--Dashboard Section-->
-      <div *ngIf="showDashboard">
-
-      </div>
-
       <!--Transaction Section-->
       <div *ngIf="showTransactions">
-
+        <app-transaction></app-transaction>
       </div>
 
       <!--Account Section-->
@@ -47,10 +42,6 @@
       </div>
     </div>
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed">
-      <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showDashboard = true;">
-        <clr-icon class="is-highlight" clrVerticalNavIcon shape="home"></clr-icon>
-        Dashboard
-      </a>
       <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showBudgets = true;">
         <clr-icon class="is-success" clrVerticalNavIcon shape="dollar"></clr-icon>
         Budgets
