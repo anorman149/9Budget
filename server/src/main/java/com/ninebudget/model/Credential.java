@@ -42,7 +42,7 @@ public class Credential implements Serializable {
     private String custom;
 
     @Column(name = "failedLoginCount")
-    private int failedLoginCount;
+    private Integer failedLoginCount;
 
     @Column(name = "lastFailedLogin")
     private LocalDateTime lastFailedLogin;
