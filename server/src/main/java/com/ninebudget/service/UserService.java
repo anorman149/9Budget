@@ -3,6 +3,7 @@ package com.ninebudget.service;
 import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.Credential;
 import com.ninebudget.model.InvalidUsernameOrPasswordException;
+import com.ninebudget.model.dto.AccountDto;
 import com.ninebudget.model.dto.ApplicationUserDto;
 import com.ninebudget.model.dto.CredentialDto;
 import com.ninebudget.model.mapper.AccountMapper;
@@ -181,7 +182,12 @@ public class UserService {
         applicationUser.setResetKey(RandomUtil.generateResetKey());
         applicationUser.setActivationKey(RandomUtil.generateActivationKey());
         applicationUser.setResetDate(Instant.now());
-        applicationUser.setAccount(accountMapper.toEntity(applicationUserDTO.getAccount()));
+
+        /*
+           Grab account
+         */
+        AccountDto accountDto = getAccount(applicationUserDTO);
+        applicationUser.setAccount(accountMapper.toEntity(accountDto));
 
         //User is only activated once they respond to email
         applicationUser.setActivated(false);
@@ -217,5 +223,31 @@ public class UserService {
         if (user.isPresent() && user.get().getAccount().getId().toString().equals(principal.getUsername())) {
             applicationUserRepository.deleteById(id);
         }
+    }
+
+    /**
+     * Need to set account
+     *
+     * Try grabbing account object from user passed in first
+     * If that doesn't exist, try currently logged in account.
+     * If that doesn't work, last resort is null
+     *
+     * @param applicationUserDTO
+     * @return AccountDto
+     */
+    private AccountDto getAccount(ApplicationUserDto applicationUserDTO){
+        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //Grab account from passed in User
+        if(applicationUserDTO.getAccount() != null){
+            return new AccountDto(applicationUserDTO.getAccount().getId());
+        }
+
+        //Grab by currently logged in User
+        if(principal != null){
+            return new AccountDto(UUID.fromString(principal.getUsername()));
+        }
+
+        return null;
     }
 }

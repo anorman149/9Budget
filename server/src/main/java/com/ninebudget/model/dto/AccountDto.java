@@ -8,6 +8,13 @@ import java.util.UUID;
 public class AccountDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public AccountDto() {
+    }
+
+    public AccountDto(UUID id) {
+        this.id = id;
+    }
+
     private UUID id;
 
     @NotNull
