@@ -129,8 +129,10 @@ public class AuthController implements AuthOperations {
 
                 return false;
             }
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
