@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {User} from '../../model/user';
 import {Credential} from '../../model/credential';
 import {api} from '../../../environments/environment';
-import {BudgetService} from "../../service/budget.service";
 
 @Component({
   selector: 'app-login',
@@ -19,8 +18,7 @@ export class LoginComponent implements OnInit {
   private errorMessage: string;
 
   constructor(private authenticationService: AuthenticationService,
-              private router: Router,
-              private messageService: MessageService) {
+              private router: Router) {
 
 
   }
