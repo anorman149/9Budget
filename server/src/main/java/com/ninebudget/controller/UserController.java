@@ -54,7 +54,7 @@ public class UserController implements UserOperations {
             Check against Application User ID, as it shouldn't have one
          */
         if(applicationUser.getId() != null){
-            throw new ServiceException(HttpStatus.BAD_REQUEST.toString(), "FATAL", "User cannot have an ID already");
+            throw new ServiceException(HttpStatus.BAD_REQUEST, "FATAL", "User cannot have an ID already");
         }
 
         //Create User
@@ -70,7 +70,7 @@ public class UserController implements UserOperations {
             //Remove User since there was an error
             userService.delete(user.getId());
 
-            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "FATAL", "Could not send email for User to Activate");
+            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "FATAL", "Could not send email for User to Activate");
         }
 
         return ResponseEntity.created(uri).body(user);
@@ -92,7 +92,7 @@ public class UserController implements UserOperations {
         Optional<ApplicationUser> user = userService.activateRegistration(key);
 
         if (!user.isPresent()) {
-            throw new ServiceException(HttpStatus.NOT_FOUND.toString(), "FATAL", "No User was found for this activation key");
+            throw new ServiceException(HttpStatus.NOT_FOUND, "FATAL", "No User was found for this activation key");
         }
 
         return ResponseEntity.ok().build();
@@ -105,14 +105,14 @@ public class UserController implements UserOperations {
         Optional<ApplicationUserDto> user = userService.requestPasswordReset(applicationUser.getEmail());
 
         if (!user.isPresent()) {
-            throw new ServiceException(HttpStatus.NOT_FOUND.toString(), "FATAL", "Could not Allow User to reset password");
+            throw new ServiceException(HttpStatus.NOT_FOUND, "FATAL", "Could not Allow User to reset password");
         }
 
         try{
             //Send Password Reset Email
             mailService.sendPasswordResetMail(user.get());
         } catch (MailException e) {
-            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "FATAL", "Could not send email to Reset Password");
+            throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "FATAL", "Could not send email to Reset Password");
         }
 
         return ResponseEntity.ok().build();
@@ -125,7 +125,7 @@ public class UserController implements UserOperations {
         Optional<ApplicationUserDto> user = userService.completePasswordReset(applicationUser.getCredential().getPassword(), applicationUser.getResetKey());
 
         if (!user.isPresent()) {
-            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Allow User to reset password");
+            throw new ServiceException(HttpStatus.FORBIDDEN, "FATAL", "Could not Allow User to reset password");
         }
 
         try{

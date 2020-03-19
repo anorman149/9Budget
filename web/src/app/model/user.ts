@@ -1,5 +1,6 @@
 import {ICredential} from './credential';
 import {v4 as uuid} from 'uuid';
+import { Moment } from 'moment';
 
 export interface IUser {
   id?: any;
@@ -15,6 +16,10 @@ export interface IUser {
   accountId?: uuid;
   resetKey?: string;
   activationKey?: string;
+  locked?: boolean;
+  lastFailedLogin?: Moment;
+  lockedOutUntil?: Moment;
+  failedLoginAttempts?: number;
 }
 
 export class User implements IUser {
@@ -31,6 +36,10 @@ export class User implements IUser {
     public credential?: ICredential,
     public accountId?: uuid,
     public resetKey?: string,
-    public activationKey?: string
+    public activationKey?: string,
+    public locked?: boolean,
+    public lastFailedLogin?: Moment,
+    public lockedOutUntil?: Moment,
+    public failedLoginAttempts?: number
   ) {}
 }

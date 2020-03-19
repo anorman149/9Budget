@@ -3,7 +3,6 @@ export interface ICredential {
   username?: string;
   password?: string;
   custom?: string;
-  institutionAccountId?: number;
 }
 
 export class Credential implements ICredential {
@@ -11,7 +10,6 @@ export class Credential implements ICredential {
     public id?: number,
     public username?: string,
     public password?: string,
-    public custom?: string,
-    public institutionAccountId?: number
+    public custom?: string
   ) {}
 }

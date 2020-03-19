@@ -2,6 +2,7 @@ package com.ninebudget.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -45,7 +46,24 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
 
     @NotNull
     @Column(nullable = false)
+    @ColumnDefault("false")
     private boolean activated = false;
+
+    @NotNull
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean locked = false;
+
+    @NotNull
+    @Column(name = "failed_login_attempts", nullable = false)
+    @ColumnDefault("0")
+    private Integer failedLoginAttempts = 0;
+
+    @Column(name = "last_failed_login")
+    private Instant lastFailedLogin = null;
+
+    @Column(name = "locked_out_until")
+    private Instant lockedOutUntil = null;
 
     @Size(max = 20)
     @Column(name = "activation_key", length = 20)
@@ -156,6 +174,38 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
         this.phone = phone;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public Instant getLastFailedLogin() {
+        return lastFailedLogin;
+    }
+
+    public void setLastFailedLogin(Instant lastFailedLogin) {
+        this.lastFailedLogin = lastFailedLogin;
+    }
+
+    public Instant getLockedOutUntil() {
+        return lockedOutUntil;
+    }
+
+    public void setLockedOutUntil(Instant lockedOutUntil) {
+        this.lockedOutUntil = lockedOutUntil;
+    }
+
+    public Integer getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(Integer failedLoginAttemptsSinceLockout) {
+        this.failedLoginAttempts = failedLoginAttemptsSinceLockout;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -181,6 +231,10 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", activated=" + activated +
+                ", locked=" + locked +
+                ", failedLoginAttemptsSinceLockout=" + failedLoginAttempts +
+                ", lastFailedLogin=" + lastFailedLogin +
+                ", lockedOutUntil=" + lockedOutUntil +
                 ", activationKey='" + activationKey + '\'' +
                 ", resetKey='" + resetKey + '\'' +
                 ", resetDate=" + resetDate +

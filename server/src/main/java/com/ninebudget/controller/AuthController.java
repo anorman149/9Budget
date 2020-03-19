@@ -2,8 +2,6 @@ package com.ninebudget.controller;
 
 import com.ninebudget.model.*;
 import com.ninebudget.model.dto.ApplicationUserDto;
-import com.ninebudget.model.dto.CredentialDto;
-import com.ninebudget.service.CredentialService;
 import com.ninebudget.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -22,40 +21,76 @@ import java.util.Optional;
 public class AuthController implements AuthOperations {
     private static final Logger log = LogManager.getLogger(BudgetController.class);
 
+    private static final int lockAttempts = 3;
+    private static final long lockedOutMins = 30;
+
     @Autowired
     private JWTToken jwtToken;
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private CredentialService credentialService;
-
     @Override
-    public ResponseEntity<OAuthToken> login(ApplicationUserDto user) throws ServiceException {
+    public ResponseEntity<Object> login(ApplicationUserDto user) throws ServiceException {
         OAuthToken authToken;
-        Optional<ApplicationUserDto> dbUser;
+        Optional<ApplicationUserDto> dbUser = Optional.empty();
         try {
+            //Grab User from DB
             dbUser = userService.findOneByCredential(user.getCredential());
 
-            if (isUserLockedOut(dbUser.get().getCredential())) {
-                throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Account locked");
-            }
+            //Check Password is correct
+            userService.checkPassword(user.getCredential().getPassword(), dbUser.get().getCredential().getPassword());
 
-            boolean isPasswordValid = checkIfPasswordIsCorrect(user, dbUser);
-
-            if (isPasswordValid) {
-                resetFailedLoginsAndContinue(dbUser.get().getCredential());
-            } else {
-                saveFailedLoginAttempt(dbUser);
+            /*
+                Check if locked out, if so, don't authorize
+                and increase lock out attempt
+             */
+            if(checkIfLocked(dbUser.get())){
+                throw new InvalidUsernameOrPasswordException();
             }
 
             authToken = new OAuthToken(dbUser.get());
 
             authToken.setToken(jwtToken.provide(authToken));
+        } catch(InvalidUsernameOrPasswordException ie){
+            /*
+               Username or password has been used...
+               Need to log and save attempt
+
+               Check if User was found in Database first, basically means
+               password was wrong and not Username
+             */
+            HttpStatus status = HttpStatus.FORBIDDEN;
+            if(dbUser.isPresent()){
+                int attempt = dbUser.get().getFailedLoginAttempts();
+                int currentAttempt = attempt +1;
+                dbUser.get().setFailedLoginAttempts(currentAttempt);
+                dbUser.get().setLastFailedLogin(Instant.now());
+
+                //If the User has attempted more than configured times, lock it
+                if(currentAttempt >= lockAttempts){
+                    dbUser.get().setLocked(true);
+                    /*
+                        Resetting the timer on the locked out time
+
+                        Each time the user tries in the time, it will reset it
+                     */
+                    dbUser.get().setLockedOutUntil(Instant.now().plus(lockedOutMins, ChronoUnit.MINUTES));
+
+                    //Change status to locked
+                    status = HttpStatus.LOCKED;
+                }
+
+                //Save updates to DB
+                userService.save(dbUser.get());
+
+                log.error("User: " + dbUser.get().getCredential().getUsername() + " failed to login...Attempt: " + currentAttempt);
+            }
+
+            return ResponseEntity.status(status).body(new ServiceException(status, "FATAL", "Could not Authenticate: " + ie.getMessage()));
         } catch (Exception e) {
             log.error("Error while logging in", e);
-            throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Could not Authenticate: " + e.getMessage());
+            throw new ServiceException(HttpStatus.FORBIDDEN, "FATAL", "Could not Authenticate: " + e.getMessage());
         }
 
         //Create Cookie and place in Response for others to use
@@ -72,46 +107,30 @@ public class AuthController implements AuthOperations {
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(authToken);
     }
 
-    private boolean isUserLockedOut(CredentialDto userCredentials) {
-        return userMetFailureThreshold(userCredentials) && LocalDateTime.now().isBefore(userCredentials.getLockedOutUntil());
-    }
+    public boolean checkIfLocked(ApplicationUserDto applicationUser){
+        /*
+            Check to see if locked is true, if so
+            then check to see if we have passed the locked out
+            time, if so, they are not locked anymore; update database
 
-    private boolean checkIfPasswordIsCorrect(ApplicationUserDto user, Optional<ApplicationUserDto> dbUser) throws Exception {
-        return userService.checkPassword(user.getCredential().getPassword(), dbUser.get().getCredential().getPassword());
-    }
+            if not, they are locked
+         */
+        if(applicationUser.isLocked()){
+            //Means we have passed the locked out time
+            if(Instant.now().isAfter(applicationUser.getLockedOutUntil())){
+                //Update User so they are not locked anymore
+                applicationUser.setFailedLoginAttempts(0);
+                applicationUser.setLastFailedLogin(null);
+                applicationUser.setLocked(false);
+                applicationUser.setLockedOutUntil(null);
 
-    private void resetFailedLoginsAndContinue(CredentialDto userCredentials) {
-        userCredentials.setFailedLoginCount(0);
-        credentialService.save(userCredentials);
-    }
+                //Save updates to DB
+                userService.save(applicationUser);
 
-    private void saveFailedLoginAttempt(Optional<ApplicationUserDto> dbUser) throws ServiceException {
-        CredentialDto userCredentials = dbUser.get().getCredential();
-        if (userMetFailureThreshold(userCredentials)) {
-            resetFailedLoginCount(userCredentials);
-            lockAccountTemporarily(userCredentials);
-        } else {
-            incrementFailedLoginCount(userCredentials);
-            lockAccountTemporarily(userCredentials);
+                return false;
+            }
         }
-        throw new ServiceException(HttpStatus.FORBIDDEN.toString(), "FATAL", "Failed login");
-    }
 
-    private boolean userMetFailureThreshold(CredentialDto userCredentials) {
-        return userCredentials.getFailedLoginCount() == 3;
-    }
-
-    private void resetFailedLoginCount(CredentialDto userCredentials) {
-        userCredentials.setFailedLoginCount(1);
-    }
-
-    private void incrementFailedLoginCount(CredentialDto userCredentials) {
-        userCredentials.setFailedLoginCount(userCredentials.getFailedLoginCount() + 1);
-    }
-
-    private void lockAccountTemporarily(CredentialDto userCredentials) {
-        userCredentials.setLastFailedLogin(LocalDateTime.now());
-        userCredentials.setLockedOutUntil(LocalDateTime.now().plusMinutes(30));
-        credentialService.save(userCredentials);
+        return true;
     }
 }

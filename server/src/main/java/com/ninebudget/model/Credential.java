@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -40,15 +39,6 @@ public class Credential implements Serializable {
 
     @Column(name = "custom")
     private String custom;
-
-    @Column(name = "failedLoginCount")
-    private Integer failedLoginCount;
-
-    @Column(name = "lastFailedLogin")
-    private LocalDateTime lastFailedLogin;
-
-    @Column(name = "lockedOutUntil")
-    private LocalDateTime lockedOutUntil;
 
     @OneToOne(mappedBy = "credential")
     @JsonIgnore
@@ -126,30 +116,6 @@ public class Credential implements Serializable {
         this.applicationUser = applicationUser;
     }
 
-    public Integer getFailedLoginCount() {
-        return failedLoginCount;
-    }
-
-    public void setFailedLoginCount(Integer failedLoginCount) {
-        this.failedLoginCount = failedLoginCount;
-    }
-
-    public LocalDateTime getLastFailedLogin() {
-        return lastFailedLogin;
-    }
-
-    public void setLastFailedLogin(LocalDateTime lastFailedLogin) {
-        this.lastFailedLogin = lastFailedLogin;
-    }
-
-    public LocalDateTime getLockedOutUntil() {
-        return lockedOutUntil;
-    }
-
-    public void setLockedOutUntil(LocalDateTime lockedOutUntil) {
-        this.lockedOutUntil = lockedOutUntil;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -173,9 +139,6 @@ public class Credential implements Serializable {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", custom='" + custom + '\'' +
-                ", failedLoginCount=" + failedLoginCount +
-                ", lastFailedLogin=" + lastFailedLogin +
-                ", lockedOutUntil=" + lockedOutUntil +
                 ", institutionAccount=" + institutionAccount +
                 ", applicationUser=" + applicationUser +
                 '}';

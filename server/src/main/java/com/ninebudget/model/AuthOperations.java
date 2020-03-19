@@ -16,5 +16,5 @@ public interface AuthOperations {
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<OAuthToken> login(@Valid @RequestBody ApplicationUserDto user) throws ServiceException;
+    ResponseEntity<Object> login(@Valid @RequestBody ApplicationUserDto user) throws ServiceException;
 }

@@ -1,7 +1,9 @@
 package com.ninebudget.model;
 
+import org.springframework.http.HttpStatus;
+
 public class ServiceException extends Exception{
-    private String type;
+    private HttpStatus status;
     private String severity;
     private String description;
 
@@ -12,18 +14,18 @@ public class ServiceException extends Exception{
         super(cause);
     }
 
-    public ServiceException(String type, String severity, String description) {
-        this.type = type;
+    public ServiceException(HttpStatus status, String severity, String description) {
+        this.status = status;
         this.severity = severity;
         this.description = description;
     }
 
-    public String getType() {
-        return type;
+    public HttpStatus getStatus() {
+        return status;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 
     public String getSeverity() {

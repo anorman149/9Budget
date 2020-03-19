@@ -2,6 +2,7 @@ package com.ninebudget.service;
 
 import com.ninebudget.model.ApplicationUser;
 import com.ninebudget.model.Credential;
+import com.ninebudget.model.InvalidUsernameOrPasswordException;
 import com.ninebudget.model.dto.ApplicationUserDto;
 import com.ninebudget.model.dto.CredentialDto;
 import com.ninebudget.model.mapper.AccountMapper;
@@ -134,19 +135,19 @@ public class UserService {
         //Grab credential from DB
         Optional<CredentialDto> loaded = credentialService.findOneByUsername(credential.getUsername());
 
-        Optional<ApplicationUserDto> test=  loaded.map(credentialDto -> applicationUserRepository.findOneByCredential(credentialMapper.toEntity(credentialDto))
+        return loaded.map(credentialDto -> applicationUserRepository.findOneByCredential(credentialMapper.toEntity(credentialDto))
                 .map(applicationUserMapper::toDto)).orElse(null);
-
-        return test;
     }
 
-    public boolean checkPassword(String givenPass, String passToCheck) throws Exception{
-        // Check to see if the Passwords match, if not, error
-        if (!passwordEncoder.matches(givenPass, passToCheck)) {
-            return false;
-        }
+    public void checkPassword(String givenPass, String passToCheck) throws InvalidUsernameOrPasswordException {
+        /*
+            Check to see if the Passwords match
 
-        return true;
+            If not, error
+         */
+        if (!passwordEncoder.matches(givenPass, passToCheck)) {
+            throw new InvalidUsernameOrPasswordException();
+        }
     }
 
     private boolean removeNonActivatedUser(ApplicationUser existingApplicationUser) {
@@ -195,35 +196,20 @@ public class UserService {
     }
 
     /**
-     * Update all information for a specific user, and return the modified user.
+     * Save an Application User.
      *
-     * @return updated user.
+     * @param applicationUserDto the entity to save.
+     * @return the persisted entity.
      */
-//    public Optional<ApplicationUserDto> updateUser(ApplicationUserDto applicationUserDTO) {
-//        return Optional.of(applicationUserRepository
-//            .findById(applicationUserDTO.getId()))
-//            .filter(Optional::isPresent)
-//            .map(Optional::get)
-//            .map(user -> {
-//                user.getCredential().setUsername(applicationUserDTO.getCredential().getUsername().toLowerCase());
-//                user.setFirstName(applicationUserDTO.getFirstName());
-//                user.setLastName(applicationUserDTO.getLastName());
-//
-//                if (applicationUserDTO.getEmail() != null) {
-//                    user.setEmail(applicationUserDTO.getEmail().toLowerCase());
-//                }
-//
-//                user.setActivated(applicationUserDTO.isActivated());
-//
-//                log.debug("Changed Information for User: {}", user);
-//
-//                return user;
-//            })
-//            .map(ApplicationUserDto::new);
-//    }
+    public ApplicationUserDto save(ApplicationUserDto applicationUserDto) {
+        log.debug("Request to save Application User : {}", applicationUserDto);
+        ApplicationUser applicationUser = applicationUserMapper.toEntity(applicationUserDto);
+        applicationUser = applicationUserRepository.save(applicationUser);
+        return applicationUserMapper.toDto(applicationUser);
+    }
 
     public void delete(UUID id) {
-        log.debug("Request to delete AccountUser : {}", id);
+        log.debug("Request to delete Application User : {}", id);
         User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         //Only delete if User has access

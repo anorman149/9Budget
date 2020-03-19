@@ -3,6 +3,7 @@ package com.ninebudget.model.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.UUID;
 
 public class ApplicationUserDto implements Serializable {
@@ -29,7 +30,15 @@ public class ApplicationUserDto implements Serializable {
     @Size(max = 20)
     private String activationKey;
 
+    private boolean locked;
+
+    private Instant lastFailedLogin;
+
+    private Instant lockedOutUntil;
+
     private boolean activated = false;
+
+    private Integer failedLoginAttempts = 0;
 
     private CredentialDto credential;
 
@@ -115,6 +124,38 @@ public class ApplicationUserDto implements Serializable {
         this.activationKey = activationKey;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public Instant getLastFailedLogin() {
+        return lastFailedLogin;
+    }
+
+    public void setLastFailedLogin(Instant lastFailedLogin) {
+        this.lastFailedLogin = lastFailedLogin;
+    }
+
+    public Instant getLockedOutUntil() {
+        return lockedOutUntil;
+    }
+
+    public void setLockedOutUntil(Instant lockedOutUntil) {
+        this.lockedOutUntil = lockedOutUntil;
+    }
+
+    public Integer getFailedLoginAttempts() {
+        return failedLoginAttempts;
+    }
+
+    public void setFailedLoginAttempts(Integer failedLoginAttempts) {
+        this.failedLoginAttempts = failedLoginAttempts;
+    }
+
     @Override
     public String toString() {
         return "ApplicationUserDto{" +
@@ -125,7 +166,11 @@ public class ApplicationUserDto implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", resetKey='" + resetKey + '\'' +
                 ", activationKey='" + activationKey + '\'' +
+                ", locked=" + locked +
+                ", lastFailedLogin=" + lastFailedLogin +
+                ", lockedOutUntil=" + lockedOutUntil +
                 ", activated=" + activated +
+                ", failedLoginAttemptsSinceLockout=" + failedLoginAttempts +
                 ", credential=" + credential +
                 ", account=" + account +
                 '}';

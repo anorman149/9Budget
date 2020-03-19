@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {User} from '../../model/user';
 import {Credential} from '../../model/credential';
 import {api} from '../../../environments/environment';
+import {BudgetService} from "../../service/budget.service";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   private errorMessage: string;
 
   constructor(private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private messageService: MessageService) {
 
 
   }
@@ -29,12 +31,6 @@ export class LoginComponent implements OnInit {
       username: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(8)])
     });
-
-    /*
-      Check if account is Locked, if so, throw toast
-      and don't allow login
-     */
-    // TODO
   }
 
   submit() {
@@ -52,15 +48,13 @@ export class LoginComponent implements OnInit {
         this.router.navigate([api.home.url]);
       },
       error =>  {
-        /*
-          If error, throw Toast and do not route
-
-          If login Attempts are greater than 3,
-          lock account and reset password
-         */
-        // TODO
-        this.errorActive = 'active';
         this.errorMessage = 'Username or Password is incorrect';
+        this.errorActive = 'active';
+
+        if(error == 'Locked'){
+          //Means the account is locked
+          this.errorMessage += ': Account Locked; try again in 30 minutes';
+        }
       }
     );
   }

@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,12 +28,6 @@ public class CredentialDto implements Serializable {
 
     @NotNull
     private String custom;
-
-    private int failedLoginCount;
-
-    private LocalDateTime lastFailedLogin;
-
-    private LocalDateTime lockedOutUntil;
 
     public UUID getId() {
         return id;
@@ -66,30 +59,6 @@ public class CredentialDto implements Serializable {
 
     public void setCustom(String custom) {
         this.custom = custom;
-    }
-
-    public int getFailedLoginCount() {
-        return failedLoginCount;
-    }
-
-    public void setFailedLoginCount(int failedLoginCount) {
-        this.failedLoginCount = failedLoginCount;
-    }
-
-    public LocalDateTime getLastFailedLogin() {
-        return lastFailedLogin;
-    }
-
-    public void setLastFailedLogin(LocalDateTime lastFailedLogin) {
-        this.lastFailedLogin = lastFailedLogin;
-    }
-
-    public LocalDateTime getLockedOutUntil() {
-        return lockedOutUntil;
-    }
-
-    public void setLockedOutUntil(LocalDateTime lockedOutUntil) {
-        this.lockedOutUntil = lockedOutUntil;
     }
 
     @Override
