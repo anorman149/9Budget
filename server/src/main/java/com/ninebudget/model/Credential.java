@@ -126,11 +126,11 @@ public class Credential implements Serializable {
         this.applicationUser = applicationUser;
     }
 
-    public int getFailedLoginCount() {
+    public Integer getFailedLoginCount() {
         return failedLoginCount;
     }
 
-    public void setFailedLoginCount(int failedLoginCount) {
+    public void setFailedLoginCount(Integer failedLoginCount) {
         this.failedLoginCount = failedLoginCount;
     }
 
