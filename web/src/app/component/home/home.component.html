@@ -14,9 +14,10 @@
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <a href="javascript:void(0);" clrDropdownItem (click)="hideAll(); showAPI = true;">API</a>
+          <a href="javascript:void(0);" clrDropdownItem (click)="hideAll(); showAdduser = true;">Add user</a>
           <a href="javascript:void(0);" (click)="logout()" clrDropdownItem>Log out</a>
         </clr-dropdown-menu>
-      </clr-dropdown>
+      </clr-dropdown>    <!--adding it here -->
     </div>
   </header>
   <div class="content-container">
@@ -25,6 +26,16 @@
       <div *ngIf="showBudgets">
         <app-budget></app-budget>
       </div>
+
+      <!--Dashboard Section-->
+      <div *ngIf="showDashboard">
+      </div>
+
+      <!--Institution Section-->
+      <div *ngIf="showInstitution">
+        <app-institution></app-institution>
+      </div>
+
 
       <!--Transaction Section-->
       <div *ngIf="showTransactions">
@@ -36,10 +47,17 @@
         <app-account></app-account>
       </div>
 
+
       <!--API Section-->
       <div *ngIf="showAPI">
         <app-swagger></app-swagger>
       </div>
+
+      <!--Add User Section-->
+      <div *ngIf="showAdduser">
+        <app-adduser></app-adduser>
+      </div>
+
     </div>
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed">
       <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showBudgets = true;">
@@ -47,12 +65,17 @@
         Budgets
       </a>
       <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showTransactions = true;">
-        <clr-icon class="is-warning" clrVerticalNavIcon shape="bank"></clr-icon>
+        <clr-icon class="is-warning" clrVerticalNavIcon shape="piggy-bank"></clr-icon>
         Transactions
       </a>
       <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showAccount = true;">
         <clr-icon class="is-error" clrVerticalNavIcon shape="user"></clr-icon>
         Account
+      </a>
+      <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showInstitution = true;">
+        <clr-icon class="is-warning" clrVerticalNavIcon shape="bank"></clr-icon>
+        Institution
+
       </a>
     </clr-vertical-nav>
   </div>

@@ -1,0 +1,43 @@
+<div class="center">
+  <form class="login" [formGroup]="addUserForm" (ngSubmit)="submit()">
+    <section class="title">
+      <clr-icon size="26" shape="coin-bag"></clr-icon>
+      9Budget
+      <h3 class="welcome">Add user?</h3>
+      <p> Welcome to add user function which allow you to add additonal user(s) to your account</p>
+    </section>
+    <div class="center">
+      <clr-input-container>
+        <label class="clr-sr-only">Username</label>
+        <input type="text" name="username" clrInput placeholder="Username" formControlName="username" required/>
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Password</label>
+        <input type="password" name="password" clrPassword placeholder="Password" formControlName="password"
+               minlength="8"
+               required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'">Password must be at least 8 characters</clr-control-error>
+        <clr-control-helper>Password must be 8 characters</clr-control-helper>
+      </clr-password-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input type="text" name="email" clrInput placeholder="Email" formControlName="email" required/>
+      </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">First name</label>
+        <input type="text" name="firstName" clrInput placeholder="First name" formControlName="firstName" required/>
+      </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Last name</label>
+        <input type="text" name="lastName" clrInput placeholder="Last name" formControlName="lastName" required/>
+      </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Phone number</label>
+        <input type="text" name="phone" clrInput placeholder="Phone number" formControlName="phone" required/>
+      </clr-input-container>
+      <button type="submit" class="btn btn-primary" [disabled]="!addUserForm.valid">Add</button>
+    </div>
+  </form>
+</div>
+

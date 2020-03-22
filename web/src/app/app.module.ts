@@ -34,6 +34,7 @@ import {BudgetDetailComponent} from './component/budget-detail/budget-detail.com
 import {UserService} from './service/user.service';
 import { ForgetpasswordComponent } from './component/forgetpassword/forgetpassword.component';
 import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
+import { AdduserComponent } from './component/adduser/adduser.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.co
     BudgetNewComponent,
     BudgetDetailComponent,
     ForgetpasswordComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    AdduserComponent
   ],
   imports: [
     BrowserModule,

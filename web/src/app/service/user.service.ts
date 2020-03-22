@@ -30,7 +30,7 @@ export class UserService implements PrimaryService {
   }
 
   public create(user: IUser) {
-    return this.http.put<IUser>(api.url + api.user.url, user);
+    return this.http.post<IUser>(api.url + api.user.url, user);
   }
 
   public update(user: IUser) {

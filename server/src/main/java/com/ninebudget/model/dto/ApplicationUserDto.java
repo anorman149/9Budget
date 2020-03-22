@@ -21,8 +21,8 @@ public class ApplicationUserDto implements Serializable {
     @Size(min = 5, max = 254)
     private String email;
 
-    @Size(min = 11, max = 20)
-    private String phone;
+    @Size(min = 10, max = 20)
+    private String phone; //phone number have 10digit big guy :D
 
     @Size(max = 20)
     private String resetKey;

@@ -7,6 +7,7 @@ export interface IUser {
   firstName?: string;
   lastName?: string;
   email?: string;
+  phone?: string; //panit
   activated?: boolean;
   createdBy?: string;
   createdDate?: Date;
@@ -28,6 +29,7 @@ export class User implements IUser {
     public firstName?: string,
     public lastName?: string,
     public email?: string,
+    public  phone?: string,
     public activated?: boolean,
     public createdBy?: string,
     public createdDate?: Date,

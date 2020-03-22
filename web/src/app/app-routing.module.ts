@@ -10,6 +10,8 @@ import {InstitutionComponent} from "./component/institution/institution.componen
 import {ForgetpasswordComponent} from "./component/forgetpassword/forgetpassword.component";
 import {HomeComponent} from "./component/home/home.component";
 import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
+import {AdduserComponent} from "./component/adduser/adduser.component";
+
 
 
 const routes: Routes = [
@@ -46,6 +48,12 @@ const routes: Routes = [
     component: InstitutionComponent,
     canActivate: [AuthGuard]
   },
+
+  { path: 'adduser',
+    component: AdduserComponent,
+    canActivate: [AuthGuard]
+  },
+
   { path: 'forgetpassword',
     component: ForgetpasswordComponent
     // no AuthGuard

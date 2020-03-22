@@ -26,9 +26,13 @@ const transactionAPI = {
   url: '/transactions'
 };
 
+
 const userAPI = {
   url: '/users'
 };
+
+const institutionAPI = {
+  url: '/institutions'};
 
 const accountAPI = {
   url: '/accounts'
@@ -47,6 +51,8 @@ const swagger = {
   url:  defaultURL.url + '/v2/api-docs?group=public-api'
 };
 
+
+
 export const authentication = {
   idleTimeout: 90, // 3 Minutes
   idleTime: 90, // 3 Minutes
@@ -60,7 +66,9 @@ export const api = {
   account: accountAPI,
   auth: authAPI,
   home: homeAPI,
-  swagger: swagger.url
+  swagger: swagger.url,
+  institution: institutionAPI, //Panit added
+
 };
 
 export const storage = {

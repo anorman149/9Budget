@@ -16,7 +16,10 @@ export class HomeComponent implements OnInit {
   private showTransactions = false;
   private showAccount = false;
   private showAPI = false;
+  private showAdduser = false; //Panit add
   private isLoggedIn = true;
+  private showInstitution = false;
+
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router) {}
@@ -34,6 +37,8 @@ export class HomeComponent implements OnInit {
     this.showTransactions = false;
     this.showAccount = false;
     this.showAPI = false;
+    this.showAdduser = false; //Panit
+    this.showInstitution = false;
   }
 
   logout() {

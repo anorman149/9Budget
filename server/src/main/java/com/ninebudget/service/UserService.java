@@ -192,8 +192,8 @@ public class UserService {
         //User is only activated once they respond to email
         applicationUser.setActivated(false);
 
-        applicationUser.setCreatedBy(applicationUserDTO.getAccount().getName());
-        applicationUser.setLastModifiedBy(applicationUserDTO.getAccount().getName());
+        applicationUser.setCreatedBy(applicationUserDTO.getCredential().getUsername());
+        applicationUser.setLastModifiedBy(applicationUserDTO.getCredential().getUsername());
 
         applicationUserRepository.save(applicationUser);
         log.debug("Created Information for Application User: {}", applicationUser);
