@@ -11,6 +11,7 @@ import {ForgetpasswordComponent} from "./component/forgetpassword/forgetpassword
 import {HomeComponent} from "./component/home/home.component";
 import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
 import {AdduserComponent} from "./component/adduser/adduser.component";
+import {AccountRegisterComponent} from "./component/account-register/account-register.component";
 
 
 
@@ -39,6 +40,10 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'register',
+    component: AccountRegisterComponent
   },
   {
     path: 'login',

@@ -1,0 +1,66 @@
+<div class="login-wrapper" xmlns="http://www.w3.org/1999/html">
+  <form class="login" [formGroup]="SignUpForm" (ngSubmit)="submit()">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      <clr-icon size="26" shape="coin-bag"></clr-icon>
+      9Budget
+      <p> Please Complete to create your account </p>
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <label class="clr-sr-only">First Name</label>
+        <input type="text" name="firstname" clrInput placeholder="FirstName" formControlName="firstname" required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label class="clr-sr-only">Last Name</label>
+        <input type="text" name="lastname" clrInput placeholder="LastName" formControlName="lastname" required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+      </clr-input-container>
+
+
+      <clr-input-container>
+        <label class="clr-sr-only">Username</label>
+        <input type="text" name="username" clrInput placeholder="Username" formControlName="username" required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+      </clr-input-container>
+
+
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input type="email" name="email" clrInput placeholder="Email" formControlName="email"
+               pattern="[a-zA-Z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+        <clr-control-error *clrIfError="'pattern'"> Enter Correct Email Address</clr-control-error>
+      </clr-input-container>
+
+      <clr-input-container>
+        <label class="clr-sr-only">Phone Number</label>
+        <input type="tel" name="phone" clrInput placeholder="Phone Number" formControlName="phone"
+               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" maxlength="12" required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+        <clr-control-error *clrIfError="'pattern'"> (Format: XXX-XXX-XXXX)</clr-control-error>
+        <clr-control-error *clrIfError="'maxlength'"> Please Enter Correct Phone Number</clr-control-error>
+
+      </clr-input-container>
+
+
+      <clr-password-container>
+        <label class="clr-sr-only">Password</label>
+        <input type="password" name="password" clrPassword placeholder="Password" formControlName="password"
+               minlength="8"
+               required/>
+        <clr-control-error *clrIfError="'required'">This field is required</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'">Password must be at least 8 characters</clr-control-error>
+        <clr-control-helper>Password must be 8 characters</clr-control-helper>
+      </clr-password-container>
+
+      <div class="error {{errorActive}}">
+        {{errorMessage}}
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!SignUpForm.valid">SignUp</button>
+      <a [routerLink]="['/login']" class="signup">Already have an account? Sign in</a>
+    </div>
+  </form>
+</div>
