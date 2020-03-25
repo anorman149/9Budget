@@ -21,11 +21,13 @@ public class TransactionDto implements Serializable {
 
     private CategoryDto category;
 
-    private BudgetDto budget;
+    private UUID budgetID;
+
+    private String budgetName;
 
     private InstitutionAccountDto institutionAccount;
 
-    private AccountDto account;
+    private UUID accountID;
 
     public UUID getId() {
         return id;
@@ -67,12 +69,20 @@ public class TransactionDto implements Serializable {
         this.category = category;
     }
 
-    public BudgetDto getBudget() {
-        return budget;
+    public UUID getBudgetID() {
+        return budgetID;
     }
 
-    public void setBudget(BudgetDto budget) {
-        this.budget = budget;
+    public void setBudgetID(UUID budgetID) {
+        this.budgetID = budgetID;
+    }
+
+    public String getBudgetName() {
+        return budgetName;
+    }
+
+    public void setBudgetName(String budgetName) {
+        this.budgetName = budgetName;
     }
 
     public InstitutionAccountDto getInstitutionAccount() {
@@ -83,12 +93,12 @@ public class TransactionDto implements Serializable {
         this.institutionAccount = institutionAccount;
     }
 
-    public AccountDto getAccount() {
-        return account;
+    public UUID getAccountID() {
+        return accountID;
     }
 
-    public void setAccount(AccountDto account) {
-        this.account = account;
+    public void setAccountID(UUID accountID) {
+        this.accountID = accountID;
     }
 
     @Override
@@ -120,9 +130,10 @@ public class TransactionDto implements Serializable {
                 ", date='" + date + '\'' +
                 ", description='" + description + '\'' +
                 ", category=" + category +
-                ", budget=" + budget +
+                ", budgetID=" + budgetID +
+                ", budgetName='" + budgetName + '\'' +
                 ", institutionAccount=" + institutionAccount +
-                ", account=" + account +
+                ", accountID=" + accountID +
                 '}';
     }
 }

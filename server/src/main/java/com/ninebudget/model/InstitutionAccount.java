@@ -39,12 +39,12 @@ public class InstitutionAccount extends AbstractAuditingEntity implements Serial
     @Column(name = "balance", precision = 21, scale = 2, nullable = false)
     private BigDecimal balance;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JoinColumn
     private Account account;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn
     private Credential credential;
 
     @OneToMany(mappedBy = "institutionAccount", cascade = {CascadeType.ALL})

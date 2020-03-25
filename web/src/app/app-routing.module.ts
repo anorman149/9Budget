@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {BudgetComponent} from './component/budget/budget.component';
-import {AccountComponent} from './component/account/account.component';
 import {AuthGuard} from './security/auth-guard';
 import {LoginComponent} from './component/login/login.component';
 import {SwaggerComponent} from './component/swagger/swagger.component';
@@ -12,8 +11,6 @@ import {HomeComponent} from "./component/home/home.component";
 import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
 import {AdduserComponent} from "./component/adduser/adduser.component";
 import {AccountRegisterComponent} from "./component/account-register/account-register.component";
-
-
 
 const routes: Routes = [
   { path: 'budgets',
@@ -26,10 +23,6 @@ const routes: Routes = [
   },
   { path: 'api',
     component: SwaggerComponent,
-    canActivate: [AuthGuard]
-  },
-  { path: 'accounts',
-    component: AccountComponent,
     canActivate: [AuthGuard]
   },
   { path: '',
@@ -64,7 +57,7 @@ const routes: Routes = [
     // no AuthGuard
   },
 
-  //Addding new routing for forget password page
+  //Adding new routing for forget password page
   { path: 'resetpassword/:id',
     component: ResetpasswordComponent
     // no AuthGuard

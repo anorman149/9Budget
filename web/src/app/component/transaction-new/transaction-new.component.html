@@ -1,0 +1,46 @@
+<form class="login" [formGroup]="transactionNewForm" (ngSubmit)="submit()">
+  <div>
+
+    <clr-select-container>
+      <label for="category">Category</label>
+      <select clrSelect id="category" required formControlName="category">
+        <option *ngFor="let category of keys(categoryType)" [ngValue]="category">{{categoryType[category]}}</option>
+      </select>
+    </clr-select-container>
+
+    <clr-select-container>
+      <label for="budget">Budget</label>
+      <select clrSelect id="budget" required formControlName="budget">
+        <option *ngFor="let budget of budgets" [ngValue]="budgets.indexOf(budget)">{{budget.name}}</option>
+      </select>
+    </clr-select-container>
+
+    <clr-select-container>
+      <label for="institutionAccount">Institution Account</label>
+      <select clrSelect id="institutionAccount" required formControlName="institutionAccount">
+        <option *ngFor="let account of institutionAccounts" [ngValue]="institutionAccounts.indexOf(account)">{{account.name}}</option>
+      </select>
+    </clr-select-container>
+
+    <clr-date-container>
+      <label for="date">Date</label>
+      <input type="date" id="date" clrDate formControlName="date"/>
+    </clr-date-container>
+
+    <clr-input-container>
+      <label for="description">Description</label>
+      <input clrInput type="text" id="description" required formControlName="description"/>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-input-container>
+
+    <clr-input-container>
+      <label for="amount">Amount</label>
+      $<input clrInput type="text" id="amount" required formControlName="amount"/>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-input-container>
+
+    <div>
+      <button type="submit" class="btn btn-success-outline" [disabled]="!transactionNewForm.valid">Create</button>
+    </div>
+  </div>
+</form>

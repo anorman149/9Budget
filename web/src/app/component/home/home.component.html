@@ -27,26 +27,15 @@
         <app-budget></app-budget>
       </div>
 
-      <!--Dashboard Section-->
-      <div *ngIf="showDashboard">
-      </div>
-
       <!--Institution Section-->
       <div *ngIf="showInstitution">
         <app-institution></app-institution>
       </div>
 
-
       <!--Transaction Section-->
       <div *ngIf="showTransactions">
         <app-transaction></app-transaction>
       </div>
-
-      <!--Account Section-->
-      <div *ngIf="showAccount">
-        <app-account></app-account>
-      </div>
-
 
       <!--API Section-->
       <div *ngIf="showAPI">
@@ -68,14 +57,9 @@
         <clr-icon class="is-warning" clrVerticalNavIcon shape="piggy-bank"></clr-icon>
         Transactions
       </a>
-      <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showAccount = true;">
-        <clr-icon class="is-error" clrVerticalNavIcon shape="user"></clr-icon>
-        Account
-      </a>
       <a clrVerticalNavLink href="javascript:void(0);" (click)="hideAll(); showInstitution = true;">
         <clr-icon class="is-warning" clrVerticalNavIcon shape="bank"></clr-icon>
         Institution
-
       </a>
     </clr-vertical-nav>
   </div>

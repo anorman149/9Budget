@@ -17,15 +17,16 @@ import java.util.UUID;
 public interface TransactionMapper extends EntityMapper<TransactionDto, Transaction> {
 
     @Mapping(source = "category", target = "category")
-    @Mapping(source = "budget", target = "budget")
-    @Mapping(source = "account", target = "account")
+    @Mapping(source = "budget.id", target = "budgetID")
+    @Mapping(source = "budget.name", target = "budgetName")
+    @Mapping(source = "account.id", target = "accountID")
     @Mapping(source = "institutionAccount", target = "institutionAccount")
     @Mapping(target = "date", expression = "java(transaction.getDate().toString())")
     TransactionDto toDto(Transaction transaction);
 
     @Mapping(source = "category", target = "category")
-    @Mapping(source = "budget", target = "budget")
-    @Mapping(source = "account", target = "account")
+    @Mapping(source = "budgetID", target = "budget.id")
+    @Mapping(source = "accountID", target = "account.id")
     @Mapping(source = "institutionAccount", target = "institutionAccount")
     @Mapping(target = "date", expression = "java(Instant.parse(transactionDto.getDate()))")
     Transaction toEntity(TransactionDto transactionDto);

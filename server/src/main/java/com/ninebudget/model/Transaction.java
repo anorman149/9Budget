@@ -40,7 +40,7 @@ public class Transaction implements Serializable {
     @JoinColumn()
     private Category category;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JsonIgnoreProperties("transactions")
     private Budget budget;
 
@@ -48,7 +48,7 @@ public class Transaction implements Serializable {
     @JsonIgnoreProperties("transactions")
     private InstitutionAccount institutionAccount;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne()
     @JsonIgnoreProperties("transactions")
     private Account account;
 

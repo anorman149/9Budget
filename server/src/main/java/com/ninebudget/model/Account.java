@@ -45,9 +45,9 @@ public class Account implements Serializable {
     @JsonIgnore
     private List<Budget> budgets;
 
-    @OneToOne(mappedBy = "account", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     @JsonIgnore
-    private InstitutionAccount institutionAccount;
+    private List<InstitutionAccount> institutionAccount;
 
     @OneToMany(mappedBy = "account", cascade = {CascadeType.ALL})
     @JsonIgnore
@@ -135,17 +135,20 @@ public class Account implements Serializable {
         this.budgets = budgets;
     }
 
-    public InstitutionAccount getInstitutionAccount() {
+    public List<InstitutionAccount> getInstitutionAccount() {
         return institutionAccount;
     }
 
-    public Account institutionAccount(InstitutionAccount institutionAccount) {
+    public void setInstitutionAccount(List<InstitutionAccount> institutionAccount) {
         this.institutionAccount = institutionAccount;
-        return this;
     }
 
-    public void setInstitutionAccount(InstitutionAccount institutionAccount) {
-        this.institutionAccount = institutionAccount;
+    public List<Institution> getInstitutions() {
+        return institutions;
+    }
+
+    public void setInstitutions(List<Institution> institutions) {
+        this.institutions = institutions;
     }
 
     public List<Transaction> getTransactions() {
@@ -182,6 +185,8 @@ public class Account implements Serializable {
                 ", category=" + category +
                 ", budgets=" + budgets +
                 ", institutionAccount=" + institutionAccount +
+                ", transactions=" + transactions +
+                ", institutions=" + institutions +
                 '}';
     }
 }

@@ -44,7 +44,7 @@ public class Credential implements Serializable {
     @JsonIgnore
     private InstitutionAccount institutionAccount;
 
-    @OneToOne(mappedBy = "credential")
+    @OneToOne(mappedBy = "credential", fetch = FetchType.LAZY)
     @JsonIgnore
     private ApplicationUser applicationUser;
 

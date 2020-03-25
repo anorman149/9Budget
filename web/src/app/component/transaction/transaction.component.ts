@@ -10,6 +10,7 @@ import {TransactionService} from "../../service/transaction.service";
 })
 export class TransactionComponent implements OnInit {
   transactions?: ITransaction[];
+  transactionNewDisplay = false;
 
   constructor(private transactionService: TransactionService,
               private messageService: MessageService) {}

@@ -32,7 +32,12 @@ const userAPI = {
 };
 
 const institutionAPI = {
-  url: '/institutions'};
+  url: '/institutions'
+};
+
+const institutionAccountAPI = {
+  url: '/institution-accounts'
+};
 
 const accountAPI = {
   url: '/accounts'
@@ -67,8 +72,8 @@ export const api = {
   auth: authAPI,
   home: homeAPI,
   swagger: swagger.url,
-  institution: institutionAPI, //Panit added
-
+  institution: institutionAPI,
+  institutionAccount: institutionAccountAPI
 };
 
 export const storage = {

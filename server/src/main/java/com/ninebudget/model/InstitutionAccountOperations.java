@@ -16,11 +16,11 @@ import java.util.UUID;
 
 @Validated
 public interface InstitutionAccountOperations {
-    @RequestMapping(value = "/accounts/{id}/institution-accounts",
+    @RequestMapping(value = "/institution-accounts",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<InstitutionAccountDto>> getAll(@ValidUUID @PathVariable UUID id) throws ServiceException;
+    ResponseEntity<List<InstitutionAccountDto>> getAll() throws ServiceException;
 
     @RequestMapping(value = "/institution-accounts/{id}",
             method = RequestMethod.GET,

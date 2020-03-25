@@ -7,7 +7,6 @@ import {AppComponent} from './app.component';
 import {BudgetComponent} from './component/budget/budget.component';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {BudgetService} from './service/budget.service';
-import {AccountComponent} from './component/account/account.component';
 import {AccountService} from './service/account.service';
 import {AuthenticationService} from './service/authentication.service';
 import {ErrorInterceptor} from './interceptor/error-interceptor';
@@ -36,13 +35,12 @@ import { ForgetpasswordComponent } from './component/forgetpassword/forgetpasswo
 import {ResetpasswordComponent} from "./component/resetpassword/resetpassword.component";
 import { AdduserComponent } from './component/adduser/adduser.component';
 import {AccountRegisterComponent} from "./component/account-register/account-register.component";
-
+import { TransactionNewComponent } from "./component/transaction-new/transaction-new.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     BudgetComponent,
-    AccountComponent,
     HomeComponent,
     LoginComponent,
     AccountDetailComponent,
@@ -54,8 +52,8 @@ import {AccountRegisterComponent} from "./component/account-register/account-reg
     ForgetpasswordComponent,
     ResetpasswordComponent,
     AdduserComponent,
-    AccountRegisterComponent
-
+    AccountRegisterComponent,
+    TransactionNewComponent
   ],
   imports: [
     BrowserModule,

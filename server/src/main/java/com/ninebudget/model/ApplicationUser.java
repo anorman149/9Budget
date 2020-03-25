@@ -82,8 +82,8 @@ public class ApplicationUser extends AbstractAuditingEntity implements Serializa
     @JoinColumn
     private Account account;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(unique = true)
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn
     private Credential credential;
 
     public UUID getId() {
